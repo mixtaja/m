@@ -5,459 +5,158 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>mixtaja</title>
   <style>
-    :root {
-      --primary: #4CAF50;
-      --primary-2: #2f8f34;
-      --danger: #e74c3c;
-      --bg: #f4f4f9;
-      --card-bg: #ffffff;
-      --text: #232323;
-      --muted: #6b7280;
-      --input-bg: #fff;
-      --input-border: #d1d5db;
-      --soft: #eef2f7;
-      --shadow: 0 10px 30px rgba(0,0,0,.08);
-      --shadow-2: 0 6px 18px rgba(0,0,0,.08);
-      --radius: 16px;
+    :root{
+      --primary:#4CAF50;
+      --primary-2:#2f8f34;
+      --danger:#e74c3c;
+      --warning:#f59e0b;
+      --bg:#f4f4f9;
+      --card-bg:#ffffff;
+      --text:#232323;
+      --muted:#6b7280;
+      --input-bg:#fff;
+      --input-border:#d1d5db;
+      --soft:#eef2f7;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --shadow-2:0 6px 18px rgba(0,0,0,.08);
+      --radius:18px;
     }
 
-    body.dark-mode {
-      --primary: #25D366;
-      --primary-2: #1ea64f;
-      --danger: #ff6b6b;
-      --bg: #0f1115;
-      --card-bg: #171a21;
-      --text: #e8eaf0;
-      --muted: #a6adbb;
-      --input-bg: #11151b;
-      --input-border: #2a3140;
-      --soft: #0f131a;
-      --shadow: 0 12px 34px rgba(0,0,0,.35);
-      --shadow-2: 0 6px 18px rgba(0,0,0,.28);
+    body.dark-mode{
+      --primary:#25D366;
+      --primary-2:#1ea64f;
+      --danger:#ff6b6b;
+      --warning:#ffb020;
+      --bg:#0f1115;
+      --card-bg:#171a21;
+      --text:#e8eaf0;
+      --muted:#a6adbb;
+      --input-bg:#11151b;
+      --input-border:#2a3140;
+      --soft:#0f131a;
+      --shadow:0 12px 34px rgba(0,0,0,.35);
+      --shadow-2:0 6px 18px rgba(0,0,0,.28);
     }
 
-    * { box-sizing: border-box; }
-    html, body { min-height: 100%; }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      transition: background-color .25s ease, color .25s ease;
+    *{box-sizing:border-box}
+    html,body{min-height:100%}
+    body{
+      margin:0;
+      font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      transition:background-color .25s ease,color .25s ease;
     }
-
-    a { color: inherit; }
-
-    .hidden { display: none !important; }
-
-    .wrap {
-      width: min(100%, 1100px);
-      margin: 0 auto;
-      padding: 16px;
+    a{color:inherit}
+    .hidden{display:none !important}
+    .wrap{width:min(100%,1100px);margin:0 auto;padding:16px}
+    .card{
+      background:var(--card-bg);
+      border:1px solid var(--input-border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow)
     }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--input-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+    .container{width:min(100%,680px);margin:18px auto;padding:22px}
+    .top-fab{
+      position:fixed;top:12px;inset-inline-start:12px;z-index:60;
+      display:flex;gap:10px;align-items:center
     }
-
-    .container {
-      width: min(100%, 640px);
-      margin: 18px auto;
-      padding: 22px;
+    .icon-btn{
+      width:44px;height:44px;border:none;border-radius:50%;
+      background:var(--card-bg);color:var(--text);cursor:pointer;
+      box-shadow:var(--shadow-2);display:inline-flex;align-items:center;justify-content:center;
+      font-size:22px;line-height:1
     }
-
-    .top-fab {
-      position: fixed;
-      top: 12px;
-      inset-inline-start: 12px;
-      z-index: 50;
-      display: flex;
-      gap: 10px;
-      align-items: center;
+    .pill-btn{
+      border:none;border-radius:999px;padding:11px 16px;cursor:pointer;
+      background:var(--primary);color:#fff;font-weight:800;box-shadow:var(--shadow-2);
+      transition:transform .15s ease,opacity .15s ease,background .15s ease
     }
-
-    .icon-btn {
-      width: 44px;
-      height: 44px;
-      border: none;
-      border-radius: 50%;
-      background: var(--card-bg);
-      color: var(--text);
-      cursor: pointer;
-      box-shadow: var(--shadow-2);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      line-height: 1;
+    .pill-btn:hover,.icon-btn:hover{transform:translateY(-1px)}
+    .pill-btn:active,.icon-btn:active{transform:translateY(0)}
+    .secondary-btn{background:var(--soft);color:var(--text);border:1px solid var(--input-border)}
+    .danger-btn{background:var(--danger)}
+    .warning-btn{background:var(--warning)}
+    h1,h2,h3{margin:0 0 12px;text-align:center}
+    h1{color:var(--primary);font-size:2rem}
+    h2{color:var(--primary);font-size:1.35rem}
+    h3{color:var(--text);font-size:1.05rem}
+    .muted{color:var(--muted);font-size:.95rem}
+    .center{text-align:center}
+    .stack{display:grid;gap:10px}
+    .grid-2{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media (max-width:700px){.grid-2{grid-template-columns:1fr}.container{padding:16px}}
+    input,select,textarea{
+      width:100%;padding:12px 13px;border:1px solid var(--input-border);border-radius:12px;
+      background:var(--input-bg);color:var(--text);outline:none;font-size:15px
     }
-
-    .pill-btn {
-      border: none;
-      border-radius: 999px;
-      padding: 11px 16px;
-      cursor: pointer;
-      background: var(--primary);
-      color: white;
-      font-weight: 700;
-      box-shadow: var(--shadow-2);
-      transition: transform .15s ease, opacity .15s ease;
+    textarea{min-height:110px;resize:vertical}
+    .emoji-selector{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
+    .emoji-selector input[type="radio"]{display:none}
+    .emoji-selector label{
+      display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;
+      padding:0 10px;border-radius:12px;border:1px solid var(--input-border);background:var(--input-bg);
+      font-size:24px;cursor:pointer;transition:transform .15s ease,border-color .15s ease;background .15s ease;user-select:none
     }
-
-    .pill-btn:hover, .icon-btn:hover { transform: translateY(-1px); }
-    .pill-btn:active, .icon-btn:active { transform: translateY(0); }
-
-    .secondary-btn {
-      background: var(--soft);
-      color: var(--text);
-      border: 1px solid var(--input-border);
+    .emoji-selector input[type="radio"]:checked + label{border-color:var(--primary);transform:scale(1.06)}
+    .auth-card{margin-top:22px;padding:20px}
+    .auth-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:54px;height:54px;object-fit:contain;border-radius:14px;background:var(--soft);border:1px solid var(--input-border);padding:6px}
+    .brand-title{font-weight:900;font-size:1.15rem;color:var(--primary);letter-spacing:.4px}
+    .switch-link{cursor:pointer;color:var(--primary);text-align:center;font-weight:800;margin:4px 0 0}
+    .header-bar{
+      position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);
+      backdrop-filter:blur(10px);border-bottom:1px solid var(--input-border)
     }
-
-    .danger-btn { background: var(--danger); }
-    .support-btn { background: #25D366; color: white; }
-
-    h1, h2, h3 { margin: 0 0 12px; text-align: center; }
-    h1 { color: var(--primary); font-size: 2rem; }
-    h2 { color: var(--primary); font-size: 1.35rem; }
-    h3 { color: var(--text); font-size: 1.05rem; }
-
-    .muted { color: var(--muted); font-size: .95rem; }
-    .center { text-align: center; }
-    .stack { display: grid; gap: 10px; }
-    .grid-2 { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0,1fr)); }
-    @media (max-width: 700px) {
-      .grid-2 { grid-template-columns: 1fr; }
-      .container { padding: 16px; }
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px 13px;
-      border: 1px solid var(--input-border);
-      border-radius: 12px;
-      background: var(--input-bg);
-      color: var(--text);
-      outline: none;
-      font-size: 15px;
-    }
-
-    textarea { min-height: 110px; resize: vertical; }
-
-    .emoji-selector {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin-top: 6px;
-    }
-
-    .emoji-selector input[type="radio"] { display: none; }
-    .emoji-selector label {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 44px;
-      min-height: 44px;
-      padding: 0 10px;
-      border-radius: 12px;
-      border: 1px solid var(--input-border);
-      background: var(--input-bg);
-      font-size: 24px;
-      cursor: pointer;
-      transition: transform .15s ease, border-color .15s ease, background .15s ease;
-      user-select: none;
-    }
-    .emoji-selector input[type="radio"]:checked + label {
-      border-color: var(--primary);
-      transform: scale(1.06);
-    }
-
-    .auth-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .auth-header .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo {
-      width: 54px;
-      height: 54px;
-      object-fit: contain;
-      border-radius: 14px;
-      background: var(--soft);
-      border: 1px solid var(--input-border);
-      padding: 6px;
-    }
-
-    .auth-card {
-      margin-top: 22px;
-      padding: 20px;
-    }
-
-    .auth-actions {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .switch-link {
-      cursor: pointer;
-      color: var(--primary);
-      text-align: center;
-      font-weight: 700;
-      margin: 4px 0 0;
-    }
-
-    .header-bar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: color-mix(in srgb, var(--bg) 92%, transparent);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--input-border);
-    }
-
-    .header-inner {
-      width: min(100%, 1100px);
-      margin: 0 auto;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .header-right, .header-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .brand-title {
-      font-weight: 900;
-      font-size: 1.15rem;
-      color: var(--primary);
-      letter-spacing: .4px;
-    }
-
-    .page-grid {
-      display: grid;
-      grid-template-columns: 290px 1fr;
-      gap: 16px;
-      align-items: start;
-      margin-top: 16px;
-    }
-
-    @media (max-width: 900px) {
-      .page-grid { grid-template-columns: 1fr; }
-    }
-
-    .panel {
-      padding: 16px;
-    }
-
-    .section-list {
-      display: grid;
-      gap: 8px;
-    }
-
-    .section-chip {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      padding: 12px 13px;
-      border-radius: 12px;
-      background: var(--soft);
-      border: 1px solid var(--input-border);
-      cursor: pointer;
-      transition: transform .15s ease, border-color .15s ease;
-    }
-    .section-chip.active { border-color: var(--primary); }
-    .section-chip:hover { transform: translateY(-1px); }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: var(--primary);
-      color: white;
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .post-card, .comment-card, .admin-card {
-      padding: 14px;
-      border-radius: 14px;
-      background: var(--card-bg);
-      border: 1px solid var(--input-border);
-      box-shadow: var(--shadow-2);
-    }
-
-    .post-meta, .comment-meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-
-    .post-actions, .comment-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .tiny-btn {
-      width: auto;
-      padding: 7px 11px;
-      font-size: 12px;
-      border-radius: 10px;
-      box-shadow: none;
-    }
-
-    .reaction-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .reaction {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 42px;
-      min-height: 38px;
-      padding: 0 8px;
-      border-radius: 12px;
-      border: 1px solid var(--input-border);
-      background: var(--soft);
-      cursor: pointer;
-      user-select: none;
-      transition: transform .15s ease, border-color .15s ease;
-      font-size: 18px;
-    }
-
-    .reaction:hover { transform: translateY(-1px); }
-    .reaction.active { border-color: var(--primary); }
-
-    .split-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .split-row > * { flex: 1 1 auto; }
-
-    .list-stack { display: grid; gap: 12px; }
-
-    .divider {
-      height: 1px;
-      background: var(--input-border);
-      margin: 16px 0;
-    }
-
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    .footer-note {
-      text-align: center;
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 6px;
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-      z-index: 1000;
-    }
-
-    .modal-box {
-      width: min(100%, 520px);
-      max-height: 92vh;
-      overflow: auto;
-      padding: 18px;
-    }
-
-    .modal-box.large {
-      width: min(100%, 840px);
-    }
-
-    .table-like {
-      display: grid;
-      gap: 10px;
-    }
-
-    .user-row {
-      padding: 12px;
-      border: 1px solid var(--input-border);
-      border-radius: 12px;
-      background: var(--soft);
-      display: grid;
-      gap: 6px;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: fit-content;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-      background: color-mix(in srgb, var(--primary) 18%, transparent);
-      color: var(--primary);
-    }
-
-    .status-pill.pending { background: color-mix(in srgb, #f59e0b 18%, transparent); color: #d97706; }
-    .status-pill.blocked { background: color-mix(in srgb, var(--danger) 18%, transparent); color: var(--danger); }
-
-    .hint {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .small-input { padding: 10px 11px; border-radius: 10px; }
-    .w-auto { width: auto; }
+    .header-inner{width:min(100%,1100px);margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .header-left,.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .page-grid{display:grid;grid-template-columns:290px 1fr;gap:16px;align-items:start;margin-top:16px}
+    @media (max-width:900px){.page-grid{grid-template-columns:1fr}}
+    .panel{padding:16px}
+    .section-list{display:grid;gap:8px}
+    .section-chip{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 13px;border-radius:12px;background:var(--soft);border:1px solid var(--input-border);cursor:pointer;transition:transform .15s ease,border-color .15s ease}
+    .section-chip.active{border-color:var(--primary)}
+    .section-chip:hover{transform:translateY(-1px)}
+    .badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 9px;border-radius:999px;background:var(--primary);color:#fff;font-size:12px;font-weight:800;white-space:nowrap}
+    .post-card,.comment-card,.admin-card{padding:14px;border-radius:14px;background:var(--card-bg);border:1px solid var(--input-border);box-shadow:var(--shadow-2)}
+    .post-meta,.comment-meta{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+    .post-actions,.comment-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .tiny-btn{width:auto;padding:7px 11px;font-size:12px;border-radius:10px;box-shadow:none}
+    .reaction-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .reaction{display:inline-flex;align-items:center;justify-content:center;min-width:42px;min-height:38px;padding:0 8px;border-radius:12px;border:1px solid var(--input-border);background:var(--soft);cursor:pointer;user-select:none;transition:transform .15s ease,border-color .15s ease;font-size:18px}
+    .reaction:hover{transform:translateY(-1px)}
+    .reaction.active{border-color:var(--primary)}
+    .split-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .split-row>*{flex:1 1 auto}
+    .list-stack{display:grid;gap:12px}
+    .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+    .footer-note{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:14px;z-index:1000}
+    .modal-box{width:min(100%,520px);max-height:92vh;overflow:auto;padding:18px}
+    .modal-box.large{width:min(100%,880px)}
+    .user-row{padding:12px;border:1px solid var(--input-border);border-radius:12px;background:var(--soft);display:grid;gap:6px}
+    .status-pill{display:inline-flex;align-items:center;justify-content:center;width:fit-content;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary)}
+    .status-pill.pending{background:color-mix(in srgb,var(--warning) 18%,transparent);color:#d97706}
+    .status-pill.blocked{background:color-mix(in srgb,var(--danger) 18%,transparent);color:var(--danger)}
+    .hint{font-size:12px;color:var(--muted);margin-top:4px}
+    .small-input{padding:10px 11px;border-radius:10px}
+    .toast-host{position:fixed;bottom:14px;inset-inline-start:14px;z-index:2000;display:grid;gap:10px;pointer-events:none}
+    .toast{min-width:min(92vw,360px);max-width:360px;padding:14px 15px;border-radius:16px;color:#fff;box-shadow:0 16px 30px rgba(0,0,0,.22);pointer-events:auto;transform:translateY(8px);opacity:0;animation:toastIn .22s ease forwards;background:#334155}
+    .toast.success{background:#16a34a}.toast.error{background:#dc2626}.toast.info{background:#2563eb}.toast.warning{background:#ca8a04}
+    @keyframes toastIn{to{transform:translateY(0);opacity:1}}
+    .composer{padding:16px;border:1px solid var(--input-border);border-radius:18px;background:var(--card-bg);box-shadow:var(--shadow-2)}
+    .composer-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+    .feed-sort{display:flex;gap:8px;flex-wrap:wrap}
+    .mini-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px}
+    .support-menu{display:grid;gap:10px}
+    .support-link-btn{text-decoration:none;display:block;width:100%;text-align:center;padding:12px 14px;border-radius:12px;background:var(--soft);border:1px solid var(--input-border);font-weight:800}
   </style>
 </head>
 <body>
   <div class="top-fab">
     <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" title="تبديل الوضع">🌓</button>
-    <button class="pill-btn support-btn" onclick="openSupport()" title="الدعم">💬 الدعم</button>
+    <button class="pill-btn" onclick="openSupportModal()">💬 الدعم</button>
   </div>
 
   <div id="auth-section" class="wrap">
@@ -467,7 +166,7 @@
           <img src="logo1.png" alt="mixtaja" class="logo" onerror="this.style.display='none'" />
           <div>
             <div class="brand-title">mixtaja</div>
-            <div class="muted">تسجيل، أقسام، منشورات، تفاعل، إدارة</div>
+            <div class="muted">تسجيل، أقسام، بوستات، تفاعل، كوينز، إدارة</div>
           </div>
         </div>
       </div>
@@ -489,7 +188,6 @@
           <input type="tel" id="reg-phone" placeholder="رقم الهاتف" />
           <input type="email" id="reg-email" placeholder="البريد الإلكتروني" />
           <input type="password" id="reg-pass" placeholder="كلمة السر" />
-
           <select id="reg-country">
             <option value="">اختر الدولة...</option>
             <option value="مصر">مصر</option>
@@ -515,10 +213,8 @@
             <option value="جيبوتي">جيبوتي</option>
             <option value="جزر القمر">جزر القمر</option>
           </select>
-
           <input type="number" id="reg-age" placeholder="العمر" min="10" />
           <textarea id="reg-desc" placeholder="وصف عنك..."></textarea>
-
           <p class="center" style="margin: 8px 0 0;">اختر إيموجي البروفايل:</p>
           <div class="emoji-selector" id="reg-emoji">
             <input type="radio" name="emoji" id="e1" value="🤡"><label for="e1">🤡</label>
@@ -531,7 +227,6 @@
             <input type="radio" name="emoji" id="e8" value="⚽"><label for="e8">⚽</label>
             <input type="radio" name="emoji" id="e9" value="🌚" checked><label for="e9">🌚</label>
           </div>
-
           <button type="button" class="pill-btn" onclick="signup()">تسجيل</button>
           <p class="switch-link" onclick="toggleAuth()">لديك حساب بالفعل؟ تسجيل الدخول</p>
         </div>
@@ -544,9 +239,10 @@
       <div class="header-inner">
         <div class="header-right">
           <div class="brand-title">mixtaja</div>
+          <div class="mini-chip" id="header-coins-chip">🪙 0</div>
+          <div class="mini-chip" id="header-emoji-chip">🌚</div>
         </div>
         <div class="header-left">
-          <button class="pill-btn support-btn" onclick="openSupport()">💬 الدعم</button>
           <button class="icon-btn" id="user-emoji-btn" onclick="openSettings()" title="الإعدادات">🌚</button>
         </div>
       </div>
@@ -560,23 +256,34 @@
             <span class="badge" id="sections-count">0</span>
           </div>
           <div id="sections-list" class="section-list"></div>
-          <div class="footer-note">الاختيار بين الأقسام يتم من هنا</div>
+          <div class="footer-note">اختر قسمًا من القائمة</div>
         </div>
 
         <div class="stack">
           <div class="card panel">
             <div class="section-title">
-              <h3 id="current-section-title">اختر قسمًا</h3>
-              <span class="status-pill" id="current-section-badge">نشط</span>
-            </div>
-
-            <div class="stack">
-              <textarea id="new-post-text" placeholder="اكتب منشورك هنا... (حد أقصى 170 كلمة)"></textarea>
-              <div class="split-row">
-                <div class="hint" id="word-count-info">0 / 170 كلمة</div>
-                <div class="hint" id="post-approval-note">سيُرسل للموافقة قبل الظهور</div>
+              <h3>المنصة</h3>
+              <div class="feed-sort">
+                <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="setFeedMode('new')">الأحدث</button>
+                <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="setFeedMode('trending')">الرائج</button>
+                <button type="button" class="pill-btn tiny-btn" onclick="toggleComposer()">+ إضافة بوست</button>
               </div>
-              <button type="button" class="pill-btn" onclick="submitPost()">إرسال المنشور للموافقة</button>
+            </div>
+            <div id="new-user-banner" class="status-pill pending hidden" style="margin-bottom:10px;">حساب جديد — يظهر الرائج أولًا</div>
+            <div id="trending-box" class="hidden" style="margin-bottom:12px;"></div>
+            <div id="composer-box" class="composer hidden" style="margin-bottom:12px;">
+              <div class="composer-head">
+                <strong>كتابة بوست جديد</strong>
+                <button type="button" class="icon-btn" onclick="toggleComposer()" title="إغلاق">✕</button>
+              </div>
+              <div class="stack" style="margin-top:10px;">
+                <textarea id="new-post-text" placeholder="اكتب منشورك هنا... (حد أقصى 170 كلمة)"></textarea>
+                <div class="split-row">
+                  <div class="hint" id="word-count-info">0 / 170 كلمة</div>
+                  <div class="hint" id="post-approval-note">سيُرسل للموافقة قبل الظهور</div>
+                </div>
+                <button type="button" class="pill-btn" onclick="submitPost()">إرسال للموافقة</button>
+              </div>
             </div>
           </div>
 
@@ -592,10 +299,10 @@
 
       <div id="admin-dashboard" class="page-grid hidden">
         <div class="card panel">
-          <h3 style="color: var(--danger);">لوحة الكونسول</h3>
+          <h3 style="color:var(--danger);">لوحة الكونسول</h3>
           <div class="stack">
             <button type="button" class="pill-btn" onclick="showAdminView('sections')">إدارة الأقسام</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('users')">عرض المستخدمين والحظر</button>
+            <button type="button" class="pill-btn" onclick="showAdminView('users')">عرض المستخدمين والكوينز</button>
             <button type="button" class="pill-btn" onclick="showAdminView('posts')">المنشورات المعلقة</button>
             <button type="button" class="pill-btn" onclick="showAdminView('reports')">الإبلاغات</button>
           </div>
@@ -607,6 +314,7 @@
               <h3>إدارة الأقسام</h3>
               <button type="button" class="pill-btn tiny-btn" onclick="openSectionEditor()">+ قسم جديد</button>
             </div>
+            <div class="hint" style="margin-bottom:8px;">يمكنك تحديد مكسب الكوينز للقسم حسب التفاعلات والتعليقات.</div>
             <div id="admin-sections-list" class="list-stack"></div>
           </div>
 
@@ -649,11 +357,9 @@
         <input type="number" id="set-age" placeholder="العمر" />
         <textarea id="set-desc" placeholder="الوصف"></textarea>
         <input type="password" id="set-pass" placeholder="كلمة سر جديدة (اختياري)" />
-
         <p class="hint">الإيميل ورقم الهاتف لا يمكن تغييرهما.</p>
         <input type="email" disabled id="set-email-display" />
         <input type="tel" disabled id="set-phone-display" />
-
         <div class="grid-2">
           <button type="button" class="pill-btn" onclick="saveSettings()">حفظ التغييرات</button>
           <button type="button" class="pill-btn secondary-btn" onclick="closeSettings()">إغلاق</button>
@@ -674,6 +380,12 @@
         <input type="text" id="section-name" placeholder="اسم القسم" />
         <textarea id="section-desc" placeholder="وصف القسم"></textarea>
         <div class="grid-2">
+          <input type="number" id="section-coin-base" placeholder="كوينز أساسية" min="0" />
+          <input type="number" id="section-coin-react" placeholder="كوينز لكل تفاعل" min="0" />
+          <input type="number" id="section-coin-comment" placeholder="كوينز لكل تعليق" min="0" />
+          <input type="number" id="section-coin-bonus" placeholder="مكافأة النشر" min="0" />
+        </div>
+        <div class="grid-2">
           <button type="button" class="pill-btn" onclick="saveSection()">حفظ القسم</button>
           <button type="button" class="pill-btn secondary-btn" onclick="closeSectionModal()">إلغاء</button>
         </div>
@@ -684,12 +396,12 @@
   <div id="post-modal" class="modal hidden">
     <div class="modal-box card large">
       <div class="section-title">
-        <h2 style="margin:0;">إدارة المنشور</h2>
+        <h2 style="margin:0;">إدارة البوست</h2>
         <button type="button" class="icon-btn" onclick="closePostModal()">✕</button>
       </div>
       <div class="stack">
         <input type="hidden" id="post-edit-id" />
-        <textarea id="post-edit-text" placeholder="نص المنشور"></textarea>
+        <textarea id="post-edit-text" placeholder="نص البوست"></textarea>
         <div class="grid-2">
           <button type="button" class="pill-btn" onclick="savePostEdit()">حفظ</button>
           <button type="button" class="pill-btn secondary-btn" onclick="closePostModal()">إلغاء</button>
@@ -715,33 +427,39 @@
     </div>
   </div>
 
+  <div id="support-modal" class="modal hidden">
+    <div class="modal-box card">
+      <div class="section-title">
+        <h2 style="margin:0;">تواصل مع الدعم</h2>
+        <button type="button" class="icon-btn" onclick="closeSupportModal()">✕</button>
+      </div>
+      <div class="support-menu">
+        <a class="support-link-btn" href="https://wa.me/201124680211" target="_blank" rel="noopener noreferrer">واتساب الدعم</a>
+        <a class="support-link-btn" href="mailto:mixtaja.help@gmail.com">البريد الإلكتروني: mixtaja.help@gmail.com</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="dialog-modal" class="modal hidden">
+    <div class="modal-box card">
+      <div class="section-title">
+        <h2 id="dialog-title" style="margin:0;">رسالة</h2>
+        <button type="button" class="icon-btn" onclick="closeDialog()">✕</button>
+      </div>
+      <div id="dialog-body" class="stack"></div>
+      <div class="grid-2" style="margin-top:14px;">
+        <button type="button" class="pill-btn" id="dialog-confirm">موافق</button>
+        <button type="button" class="pill-btn secondary-btn" id="dialog-cancel">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-host" class="toast-host"></div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged,
-      updatePassword
-    } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDoc,
-      updateDoc,
-      deleteDoc,
-      collection,
-      addDoc,
-      getDocs,
-      onSnapshot,
-      query,
-      orderBy,
-      serverTimestamp,
-      where,
-      increment
-    } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, collection, addDoc, getDocs, onSnapshot, query, orderBy, serverTimestamp, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
 
     const firebaseConfig = {
@@ -757,13 +475,11 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    try { if (location.protocol !== "file:") getAnalytics(app); } catch (e) { console.warn(e); }
+    try { if (location.protocol !== 'file:') getAnalytics(app); } catch (e) { console.warn('Analytics disabled', e); }
 
-    const adminEmail = "0@gmail.com";
-    const supportPhone = "201124680211";
-    const allowedProfileEmojis = ["🤡", "♥", "😢", "😒", "😏", "❤️‍🔥", "🙈", "⚽", "🌚"];
-    const reactionOptions = ["😂", "♥", "😢", "👍🏻", "😍"];
-
+    const adminEmail = '0@gmail.com';
+    const allowedProfileEmojis = ['🤡','♥','😢','😒','😏','❤️‍🔥','🙈','⚽','🌚'];
+    const reactionOptions = ['😂','♥','😢','👍🏻','😍'];
     const $ = (id) => document.getElementById(id);
 
     const state = {
@@ -775,83 +491,119 @@
       posts: [],
       commentsMap: new Map(),
       users: [],
-      reports: []
+      reports: [],
+      feedMode: 'new',
+      composerOpen: false,
+      pendingDialog: null
     };
 
-    function openSupport() {
-      window.open(`https://wa.me/${supportPhone}`, "_blank", "noopener,noreferrer");
+    function toast(message, type = 'info', timeout = 2600) {
+      const host = $('toast-host');
+      const el = document.createElement('div');
+      el.className = `toast ${type}`;
+      el.textContent = message;
+      host.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(8px)';
+        setTimeout(() => el.remove(), 250);
+      }, timeout);
+    }
+
+    function openSupportModal(){ $('support-modal').classList.remove('hidden'); }
+    function closeSupportModal(){ $('support-modal').classList.add('hidden'); }
+    function closeDialog(){ $('dialog-modal').classList.add('hidden'); state.pendingDialog = null; }
+    function openDialog({title='رسالة', bodyHTML='', confirmText='موافق', cancelText='إلغاء', onConfirm=null}) {
+      $('dialog-title').textContent = title;
+      $('dialog-body').innerHTML = bodyHTML;
+      $('dialog-confirm').textContent = confirmText;
+      $('dialog-cancel').textContent = cancelText;
+      $('dialog-modal').classList.remove('hidden');
+      state.pendingDialog = onConfirm;
+      $('dialog-confirm').onclick = async () => {
+        try {
+          if (typeof state.pendingDialog === 'function') await state.pendingDialog();
+        } finally {
+          closeDialog();
+        }
+      };
+      $('dialog-cancel').onclick = () => closeDialog();
     }
 
     function getSelectedEmoji() {
       const selected = document.querySelector('input[name="emoji"]:checked');
-      return selected ? selected.value : "🌚";
+      return selected ? selected.value : '🌚';
     }
-
     function countWords(text) {
-      const t = (text || "").trim();
+      const t = (text || '').trim();
       if (!t) return 0;
       return t.split(/\s+/).filter(Boolean).length;
     }
-
-    function sanitizeWordsLimit(text, limit = 170) {
-      const words = (text || "").trim().split(/\s+/).filter(Boolean);
-      return words.slice(0, limit).join(" ");
+    function sanitizeWordsLimit(text, limitWords = 170) {
+      return (text || '').trim().split(/\s+/).filter(Boolean).slice(0, limitWords).join(' ');
     }
-
     function fmtTime(ts) {
       try {
-        if (!ts) return "";
+        if (!ts) return '';
         const d = ts?.toDate ? ts.toDate() : new Date(ts);
-        return new Intl.DateTimeFormat("ar-EG", {
-          dateStyle: "medium",
-          timeStyle: "short"
-        }).format(d);
-      } catch {
-        return "";
-      }
+        return new Intl.DateTimeFormat('ar-EG', { dateStyle: 'medium', timeStyle: 'short' }).format(d);
+      } catch { return ''; }
     }
-
     function escapeHTML(str) {
-      return String(str ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+      return String(str ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
     }
-
-    function showAuth(isSignup) {
-      if (isSignup) {
-        $('login-form').classList.add('hidden');
-        $('signup-form').classList.remove('hidden');
-      } else {
-        $('login-form').classList.remove('hidden');
-        $('signup-form').classList.add('hidden');
+    function canEditDelete(item) {
+      const user = auth.currentUser;
+      if (!user) return false;
+      if (user.email === adminEmail) return true;
+      return item?.uid === user.uid;
+    }
+    function findCommentById(id) {
+      for (const arr of state.commentsMap.values()) {
+        const found = arr.find(c => c.id === id);
+        if (found) return found;
       }
+      return null;
+    }
+    function calculateSectionCoins(section, post) {
+      const reactions = post?.reactions || {};
+      const reactionCount = Object.values(reactions).reduce((a, b) => a + Number(b || 0), 0);
+      const commentCount = Number(post?.commentsCount || 0);
+      const base = Number(section?.coinBase || 0);
+      const perReact = Number(section?.coinPerReaction || 0);
+      const perComment = Number(section?.coinPerComment || 0);
+      const bonus = Number(section?.coinBonus || 0);
+      return base + (reactionCount * perReact) + (commentCount * perComment) + bonus;
+    }
+    function getAccountAgeDays(userDoc) {
+      const createdAt = userDoc?.createdAt?.toDate ? userDoc.createdAt.toDate() : (userDoc?.createdAt ? new Date(userDoc.createdAt) : null);
+      if (!createdAt || isNaN(createdAt.getTime())) return 9999;
+      return Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
     }
 
-    window.toggleTheme = () => {
-      document.body.classList.toggle('dark-mode');
-    };
-
-    window.toggleAuth = () => {
-      $('login-form').classList.toggle('hidden');
-      $('signup-form').classList.toggle('hidden');
-    };
-
-    window.openSupport = openSupport;
-    window.closeSettings = () => $('settings-modal').classList.add('hidden');
+    window.toggleTheme = () => document.body.classList.toggle('dark-mode');
+    window.openSupportModal = openSupportModal;
+    window.closeSupportModal = closeSupportModal;
+    window.closeDialog = closeDialog;
+    window.toggleAuth = () => { $('login-form').classList.toggle('hidden'); $('signup-form').classList.toggle('hidden'); };
     window.openSettings = () => $('settings-modal').classList.remove('hidden');
-
+    window.closeSettings = () => $('settings-modal').classList.add('hidden');
     window.checkWordCount = (textarea) => {
       const info = $('word-count-info');
-      let txt = textarea.value || "";
-      const words = txt.trim() ? txt.trim().split(/\s+/).filter(Boolean) : [];
-      if (words.length > 170) {
-        textarea.value = sanitizeWordsLimit(txt, 170);
-      }
       const current = countWords(textarea.value);
-      info.textContent = `${current} / 170 كلمة`;
+      if (current > 170) textarea.value = sanitizeWordsLimit(textarea.value, 170);
+      info.textContent = `${countWords(textarea.value)} / 170 كلمة`;
+    };
+    window.setFeedMode = (mode) => { state.feedMode = mode; renderPosts(); };
+    window.toggleComposer = () => {
+      state.composerOpen = !state.composerOpen;
+      $('composer-box').classList.toggle('hidden', !state.composerOpen);
+      if (state.composerOpen) $('new-post-text').focus();
     };
 
     window.signup = async () => {
@@ -863,380 +615,198 @@
       const age = $('reg-age').value.trim();
       const desc = $('reg-desc').value.trim();
       const emoji = getSelectedEmoji();
-
-      if (!email || !pass || !name || !phone || !country || !age || !desc) {
-        alert("يرجى إكمال جميع البيانات!");
-        return;
-      }
-
-      if (!allowedProfileEmojis.includes(emoji)) {
-        alert("اختر إيموجي بروفايل صحيح.");
-        return;
-      }
-
+      if (!email || !pass || !name || !phone || !country || !age || !desc) { toast('يرجى إكمال جميع البيانات أولًا.', 'warning'); return; }
+      if (!allowedProfileEmojis.includes(emoji)) { toast('اختر إيموجي بروفايل صحيح.', 'warning'); return; }
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-        const user = userCredential.user;
-
-        await setDoc(doc(db, "users", user.uid), {
-          name,
-          phone,
-          email,
-          country,
-          age: Number(age),
-          description: desc,
-          emoji,
-          role: "user",
-          blocked: false,
-          createdAt: serverTimestamp()
+        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+        await setDoc(doc(db, 'users', cred.user.uid), {
+          name, phone, email, country, age: Number(age), description: desc,
+          emoji, role: 'user', blocked: false, coins: 0,
+          createdAt: serverTimestamp(), coinLog: []
         });
-
-        alert("تم التسجيل بنجاح!");
+        toast('تم التسجيل بنجاح.', 'success');
       } catch (error) {
-        console.error("Signup error:", error);
-        alert(error?.message || "حدث خطأ أثناء التسجيل");
+        console.error('Signup error:', error);
+        toast(error?.message || 'حدث خطأ أثناء التسجيل.', 'error', 3200);
       }
     };
 
     window.login = async () => {
       const email = $('login-email').value.trim();
       const pass = $('login-pass').value;
-
-      if (!email || !pass) {
-        alert("اكتب البريد الإلكتروني وكلمة السر.");
-        return;
-      }
-
-      try {
-        await signInWithEmailAndPassword(auth, email, pass);
-      } catch (error) {
-        console.error("Login error:", error);
-        alert("خطأ في تسجيل الدخول: تأكد من الإيميل وكلمة السر.");
-      }
+      if (!email || !pass) { toast('اكتب البريد الإلكتروني وكلمة السر.', 'warning'); return; }
+      try { await signInWithEmailAndPassword(auth, email, pass); toast('تم تسجيل الدخول.', 'success'); }
+      catch (error) { console.error('Login error:', error); toast('تعذر تسجيل الدخول. تأكد من البيانات.', 'error'); }
     };
-
-    window.logout = async () => {
-      try {
-        await signOut(auth);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    window.logout = async () => { try { await signOut(auth); toast('تم تسجيل الخروج.', 'info'); } catch (e) { console.error(e); } };
 
     window.saveSettings = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-
+      const user = auth.currentUser; if (!user) return;
       const newName = $('set-name').value.trim();
       const newAge = $('set-age').value.trim();
       const newDesc = $('set-desc').value.trim();
       const newPass = $('set-pass').value;
-
-      if (!newName || !newAge || !newDesc) {
-        alert("الاسم والعمر والوصف مطلوبون.");
-        return;
-      }
-
+      if (!newName || !newAge || !newDesc) { toast('الاسم والعمر والوصف مطلوبون.', 'warning'); return; }
       try {
-        await updateDoc(doc(db, "users", user.uid), {
-          name: newName,
-          age: Number(newAge),
-          description: newDesc
-        });
-
-        if (newPass) {
-          await updatePassword(user, newPass);
-        }
-
-        $('set-pass').value = "";
-        alert("تم حفظ الإعدادات!");
+        await updateDoc(doc(db, 'users', user.uid), { name: newName, age: Number(newAge), description: newDesc });
+        if (newPass) await updatePassword(user, newPass);
+        $('set-pass').value = '';
+        toast('تم حفظ الإعدادات.', 'success');
         closeSettings();
-      } catch (error) {
-        console.error("Save settings error:", error);
-        alert(error?.message || "خطأ أثناء حفظ الإعدادات");
-      }
+      } catch (error) { console.error(error); toast(error?.message || 'تعذر حفظ الإعدادات.', 'error'); }
     };
 
     window.submitPost = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      if (!state.currentSectionId) {
-        alert("اختر قسمًا أولاً.");
-        return;
-      }
-
+      const user = auth.currentUser; if (!user) return;
+      if (!state.currentSectionId) { toast('اختر قسمًا أولًا.', 'warning'); return; }
       const text = $('new-post-text').value.trim();
-      if (!text) {
-        alert("اكتب المنشور أولاً.");
-        return;
-      }
-
+      if (!text) { toast('اكتب المنشور أولًا.', 'warning'); return; }
       const cleaned = sanitizeWordsLimit(text, 170);
       try {
-        await addDoc(collection(db, "posts"), {
+        await addDoc(collection(db, 'posts'), {
           sectionId: state.currentSectionId,
-          sectionName: state.currentSection?.name || "",
+          sectionName: state.currentSection?.name || '',
           uid: user.uid,
           authorName: state.currentUserData?.name || user.email,
-          authorEmoji: state.currentUserData?.emoji || "🌚",
+          authorEmoji: state.currentUserData?.emoji || '🌚',
           text: cleaned,
           approved: user.email === adminEmail,
           rejected: false,
-          reactions: { "😂": 0, "♥": 0, "😢": 0, "👍🏻": 0, "😍": 0 },
+          reactions: { '😂': 0, '♥': 0, '😢': 0, '👍🏻': 0, '😍': 0 },
           reactionUsers: {},
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
           commentsCount: 0,
           reportsCount: 0,
-          deleted: false
+          deleted: false,
+          coinsAwarded: 0
         });
-        $('new-post-text').value = "";
-        $('word-count-info').textContent = "0 / 170 كلمة";
-        alert(user.email === adminEmail ? "تم نشر المنشور." : "تم إرسال المنشور للموافقة.");
-      } catch (error) {
-        console.error(error);
-        alert(error?.message || "تعذر إنشاء المنشور");
-      }
+        $('new-post-text').value = '';
+        $('word-count-info').textContent = '0 / 170 كلمة';
+        toast(user.email === adminEmail ? 'تم نشر البوست مباشرة.' : 'تم إرسال البوست للموافقة.', 'success');
+        toggleComposer();
+      } catch (error) { console.error(error); toast(error?.message || 'تعذر إنشاء البوست.', 'error'); }
     };
 
     window.react = async (element, postId, emoji) => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const postRef = doc(db, "posts", postId);
+      const user = auth.currentUser; if (!user) return;
+      const ref = doc(db, 'posts', postId);
       try {
-        const postSnap = await getDoc(postRef);
-        if (!postSnap.exists()) return;
-        const data = postSnap.data();
+        const snap = await getDoc(ref); if (!snap.exists()) return;
+        const data = snap.data();
         const reactionUsers = data.reactionUsers || {};
-        const reactions = data.reactions || { "😂": 0, "♥": 0, "😢": 0, "👍🏻": 0, "😍": 0 };
+        const reactions = data.reactions || { '😂': 0, '♥': 0, '😢': 0, '👍🏻': 0, '😍': 0 };
         const current = reactionUsers[user.uid];
-        if (current === emoji) {
-          reactions[emoji] = Math.max(0, (reactions[emoji] || 0) - 1);
-          delete reactionUsers[user.uid];
-        } else {
-          if (current && reactions[current] > 0) reactions[current] -= 1;
-          reactions[emoji] = (reactions[emoji] || 0) + 1;
-          reactionUsers[user.uid] = emoji;
-        }
-        await updateDoc(postRef, { reactions, reactionUsers, updatedAt: serverTimestamp() });
-        element.classList.add('active');
-      } catch (e) {
-        console.error(e);
-      }
+        if (current === emoji) { reactions[emoji] = Math.max(0, Number(reactions[emoji] || 0) - 1); delete reactionUsers[user.uid]; }
+        else { if (current && reactions[current] > 0) reactions[current] -= 1; reactions[emoji] = Number(reactions[emoji] || 0) + 1; reactionUsers[user.uid] = emoji; }
+        await updateDoc(ref, { reactions, reactionUsers, updatedAt: serverTimestamp() });
+      } catch (e) { console.error(e); }
     };
 
     window.reportPost = async (postId) => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const reason = prompt("اكتب سبب الإبلاغ عن المنشور:");
-      if (!reason) return;
-      await addDoc(collection(db, "reports"), {
-        type: "post",
-        targetId: postId,
-        reporterId: user.uid,
-        reporterEmail: user.email,
-        reason,
-        createdAt: serverTimestamp(),
-        resolved: false
-      });
-      await updateDoc(doc(db, "posts", postId), { reportsCount: increment(1) });
-      alert("تم إرسال البلاغ.");
+      const user = auth.currentUser; if (!user) return;
+      openDialog({ title: 'الإبلاغ عن بوست', bodyHTML: '<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ..."></textarea>', confirmText: 'إرسال البلاغ', cancelText: 'إلغاء', onConfirm: async () => {
+        const reason = $('report-reason').value.trim(); if (!reason) { toast('اكتب سبب البلاغ.', 'warning'); return; }
+        await addDoc(collection(db, 'reports'), { type: 'post', targetId: postId, reporterId: user.uid, reporterEmail: user.email, reason, createdAt: serverTimestamp(), resolved: false });
+        await updateDoc(doc(db, 'posts', postId), { reportsCount: increment(1) });
+        toast('تم إرسال البلاغ.', 'success');
+      }});
     };
-
     window.reportComment = async (commentId) => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const reason = prompt("اكتب سبب الإبلاغ عن التعليق:");
-      if (!reason) return;
-      await addDoc(collection(db, "reports"), {
-        type: "comment",
-        targetId: commentId,
-        reporterId: user.uid,
-        reporterEmail: user.email,
-        reason,
-        createdAt: serverTimestamp(),
-        resolved: false
-      });
-      alert("تم إرسال البلاغ.");
+      const user = auth.currentUser; if (!user) return;
+      openDialog({ title: 'الإبلاغ عن تعليق', bodyHTML: '<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ..."></textarea>', confirmText: 'إرسال البلاغ', cancelText: 'إلغاء', onConfirm: async () => {
+        const reason = $('report-reason').value.trim(); if (!reason) { toast('اكتب سبب البلاغ.', 'warning'); return; }
+        await addDoc(collection(db, 'reports'), { type: 'comment', targetId: commentId, reporterId: user.uid, reporterEmail: user.email, reason, createdAt: serverTimestamp(), resolved: false });
+        await updateDoc(doc(db, 'comments', commentId), { reportsCount: increment(1) });
+        toast('تم إرسال البلاغ.', 'success');
+      }});
     };
 
-    window.editOwnPost = async (postId) => {
-      const post = state.posts.find(p => p.id === postId);
-      if (!post) return;
-      if (!canEditDelete(post)) return;
-      $('post-edit-id').value = postId;
-      $('post-edit-text').value = post.text || "";
-      $('post-modal').classList.remove('hidden');
-    };
-
-    window.deletePost = async (postId) => {
-      const post = state.posts.find(p => p.id === postId);
-      if (!post) return;
-      if (!canEditDelete(post)) return;
-      if (!confirm("حذف المنشور؟")) return;
-      await updateDoc(doc(db, "posts", postId), { deleted: true, deletedAt: serverTimestamp() });
-    };
-
-    window.savePostEdit = async () => {
-      const postId = $('post-edit-id').value;
-      const newText = $('post-edit-text').value.trim();
-      if (!postId || !newText) return;
-      await updateDoc(doc(db, "posts", postId), {
-        text: sanitizeWordsLimit(newText, 170),
-        updatedAt: serverTimestamp()
-      });
-      closePostModal();
-    };
-
+    window.editOwnPost = async (postId) => { const post = state.posts.find(p => p.id === postId); if (!post || !canEditDelete(post)) return; $('post-edit-id').value = postId; $('post-edit-text').value = post.text || ''; $('post-modal').classList.remove('hidden'); };
+    window.deletePost = async (postId) => { const post = state.posts.find(p => p.id === postId); if (!post || !canEditDelete(post)) return; openDialog({ title: 'حذف البوست', bodyHTML: '<p class="muted">هل تريد حذف هذا البوست؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await updateDoc(doc(db, 'posts', postId), { deleted: true, deletedAt: serverTimestamp() }); toast('تم حذف البوست.', 'success'); } }); };
+    window.savePostEdit = async () => { const postId = $('post-edit-id').value; const newText = $('post-edit-text').value.trim(); if (!postId || !newText) return; await updateDoc(doc(db, 'posts', postId), { text: sanitizeWordsLimit(newText, 170), updatedAt: serverTimestamp() }); closePostModal(); toast('تم تحديث البوست.', 'success'); };
     window.closePostModal = () => $('post-modal').classList.add('hidden');
 
-    window.editOwnComment = async (commentId) => {
-      const comment = findCommentById(commentId);
-      if (!comment) return;
-      if (!canEditDelete(comment, true)) return;
-      $('comment-edit-id').value = commentId;
-      $('comment-edit-text').value = comment.text || "";
-      $('comment-modal').classList.remove('hidden');
-    };
-
-    window.deleteComment = async (commentId) => {
-      const comment = findCommentById(commentId);
-      if (!comment) return;
-      if (!canEditDelete(comment, true)) return;
-      if (!confirm("حذف التعليق؟")) return;
-      await updateDoc(doc(db, "comments", commentId), { deleted: true, deletedAt: serverTimestamp() });
-    };
-
-    window.saveCommentEdit = async () => {
-      const id = $('comment-edit-id').value;
-      const newText = $('comment-edit-text').value.trim();
-      if (!id || !newText) return;
-      await updateDoc(doc(db, "comments", id), {
-        text: newText,
-        updatedAt: serverTimestamp()
-      });
-      closeCommentModal();
-    };
-
+    window.editOwnComment = async (commentId) => { const comment = findCommentById(commentId); if (!comment || !canEditDelete(comment)) return; $('comment-edit-id').value = commentId; $('comment-edit-text').value = comment.text || ''; $('comment-modal').classList.remove('hidden'); };
+    window.deleteComment = async (commentId) => { const comment = findCommentById(commentId); if (!comment || !canEditDelete(comment)) return; openDialog({ title: 'حذف التعليق', bodyHTML: '<p class="muted">هل تريد حذف هذا التعليق؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await updateDoc(doc(db, 'comments', commentId), { deleted: true, deletedAt: serverTimestamp() }); toast('تم حذف التعليق.', 'success'); } }); };
+    window.saveCommentEdit = async () => { const id = $('comment-edit-id').value; const newText = $('comment-edit-text').value.trim(); if (!id || !newText) return; await updateDoc(doc(db, 'comments', id), { text: newText, updatedAt: serverTimestamp() }); closeCommentModal(); toast('تم تحديث التعليق.', 'success'); };
     window.closeCommentModal = () => $('comment-modal').classList.add('hidden');
 
-    function canEditDelete(item, isComment = false) {
-      const user = auth.currentUser;
-      if (!user) return false;
-      if (user.email === adminEmail) return true;
-      return item?.uid === user.uid;
-    }
-
-    function findCommentById(id) {
-      for (const arr of state.commentsMap.values()) {
-        const found = arr.find(c => c.id === id);
-        if (found) return found;
-      }
-      return null;
-    }
-
     async function addComment(postId) {
-      const user = auth.currentUser;
-      if (!user) return;
-      const text = prompt("اكتب تعليقك:");
-      if (!text) return;
-      const clean = text.trim();
-      if (!clean) return;
-      await addDoc(collection(db, "comments"), {
-        postId,
-        uid: user.uid,
-        authorName: state.currentUserData?.name || user.email,
-        authorEmoji: state.currentUserData?.emoji || "🌚",
-        text: clean,
-        approved: true,
-        deleted: false,
-        reportsCount: 0,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      });
-      await updateDoc(doc(db, "posts", postId), { commentsCount: increment(1) });
+      const user = auth.currentUser; if (!user) return;
+      openDialog({ title: 'إضافة تعليق', bodyHTML: '<textarea id="new-comment-text" class="small-input" placeholder="اكتب تعليقك..."></textarea>', confirmText: 'نشر التعليق', cancelText: 'إلغاء', onConfirm: async () => {
+        const text = $('new-comment-text').value.trim(); if (!text) { toast('اكتب التعليق أولًا.', 'warning'); return; }
+        await addDoc(collection(db, 'comments'), { postId, uid: user.uid, authorName: state.currentUserData?.name || user.email, authorEmoji: state.currentUserData?.emoji || '🌚', text, approved: true, deleted: false, reportsCount: 0, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+        await updateDoc(doc(db, 'posts', postId), { commentsCount: increment(1) });
+        toast('تم نشر التعليق.', 'success');
+      }});
     }
-
     window.addComment = addComment;
 
     async function approvePost(postId, approved) {
-      await updateDoc(doc(db, "posts", postId), {
-        approved,
-        rejected: !approved,
-        updatedAt: serverTimestamp()
-      });
+      const post = state.posts.find(p => p.id === postId); if (!post) return;
+      await updateDoc(doc(db, 'posts', postId), { approved, rejected: !approved, updatedAt: serverTimestamp() });
+      if (approved) {
+        const section = state.sections.find(s => s.id === post.sectionId);
+        const coins = calculateSectionCoins(section, post);
+        if (coins > 0) {
+          await updateDoc(doc(db, 'users', post.uid), { coins: increment(coins), coinLog: arrayUnion({ type: 'earn', amount: coins, reason: `مكسب من قسم ${section?.name || ''}`, at: new Date().toISOString() }) });
+        }
+      }
+      toast(approved ? 'تمت الموافقة على البوست.' : 'تم رفض البوست.', 'success');
     }
+    window.approvePost = approvePost;
+
+    async function adjustCoins(userId, amount) {
+      const n = Number(amount);
+      if (!Number.isFinite(n) || n === 0) return;
+      await updateDoc(doc(db, 'users', userId), {
+        coins: increment(n),
+        coinLog: arrayUnion({ type: n > 0 ? 'add' : 'subtract', amount: n, reason: 'إدارة الأدمن', at: new Date().toISOString() })
+      });
+      toast(n > 0 ? `تمت إضافة ${n} كوينز.` : `تم سحب ${Math.abs(n)} كوينز.`, 'success');
+    }
+    window.adjustCoins = adjustCoins;
 
     async function blockUser(userId, blocked) {
-      await updateDoc(doc(db, "users", userId), { blocked });
-      if (auth.currentUser?.uid === userId && blocked) {
-        alert("تم حظرك.");
-        await signOut(auth);
-      }
+      await updateDoc(doc(db, 'users', userId), { blocked });
+      if (auth.currentUser?.uid === userId && blocked) { toast('تم حظرك من المنصة.', 'error', 3500); await signOut(auth); }
+      else toast(blocked ? 'تم حظر المستخدم.' : 'تم إلغاء الحظر.', 'success');
     }
+    window.blockUser = blockUser;
 
     function openSectionEditor(section = null) {
-      $('section-edit-id').value = section?.id || "";
-      $('section-name').value = section?.name || "";
-      $('section-desc').value = section?.description || "";
+      $('section-edit-id').value = section?.id || '';
+      $('section-name').value = section?.name || '';
+      $('section-desc').value = section?.description || '';
+      $('section-coin-base').value = section?.coinBase || 0;
+      $('section-coin-react').value = section?.coinPerReaction || 0;
+      $('section-coin-comment').value = section?.coinPerComment || 0;
+      $('section-coin-bonus').value = section?.coinBonus || 0;
       $('section-modal').classList.remove('hidden');
     }
-
-    function closeSectionModal() {
-      $('section-modal').classList.add('hidden');
-    }
-
+    function closeSectionModal(){ $('section-modal').classList.add('hidden'); }
     async function saveSection() {
       const id = $('section-edit-id').value.trim();
       const name = $('section-name').value.trim();
       const description = $('section-desc').value.trim();
-      const user = auth.currentUser;
-      if (!user || user.email !== adminEmail) return;
-      if (!name) {
-        alert("اكتب اسم القسم.");
-        return;
-      }
-      if (id) {
-        await updateDoc(doc(db, "sections", id), { name, description, updatedAt: serverTimestamp() });
-      } else {
-        await addDoc(collection(db, "sections"), { name, description, createdAt: serverTimestamp(), updatedAt: serverTimestamp(), active: true });
-      }
-      closeSectionModal();
+      const coinBase = Number($('section-coin-base').value || 0);
+      const coinPerReaction = Number($('section-coin-react').value || 0);
+      const coinPerComment = Number($('section-coin-comment').value || 0);
+      const coinBonus = Number($('section-coin-bonus').value || 0);
+      if (!name) { toast('اكتب اسم القسم.', 'warning'); return; }
+      if (id) await updateDoc(doc(db, 'sections', id), { name, description, coinBase, coinPerReaction, coinPerComment, coinBonus, updatedAt: serverTimestamp() });
+      else await addDoc(collection(db, 'sections'), { name, description, coinBase, coinPerReaction, coinPerComment, coinBonus, createdAt: serverTimestamp(), updatedAt: serverTimestamp(), active: true, postsCount: 0 });
+      closeSectionModal(); toast('تم حفظ القسم.', 'success');
     }
-
     async function deleteSection(sectionId) {
-      if (!confirm("حذف القسم؟")) return;
-      await deleteDoc(doc(db, "sections", sectionId));
+      openDialog({ title: 'حذف القسم', bodyHTML: '<p class="muted">هل تريد حذف القسم نهائيًا؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await deleteDoc(doc(db, 'sections', sectionId)); toast('تم حذف القسم.', 'success'); } });
     }
-
     window.openSectionEditor = openSectionEditor;
     window.closeSectionModal = closeSectionModal;
     window.saveSection = saveSection;
     window.deleteSection = deleteSection;
-    window.editSection = openSectionEditor;
-    window.approvePost = approvePost;
-    window.blockUser = blockUser;
-
-    window.showAdminView = (name) => {
-      document.querySelectorAll('.admin-view').forEach(el => el.classList.add('hidden'));
-      const target = $('admin-view-' + name);
-      if (target) target.classList.remove('hidden');
-    };
-
-    async function deleteAnyPost(postId) {
-      if (!confirm("حذف المنشور؟")) return;
-      await updateDoc(doc(db, "posts", postId), { deleted: true, deletedAt: serverTimestamp() });
-    }
-
-    async function deleteAnyComment(commentId) {
-      if (!confirm("حذف التعليق؟")) return;
-      await updateDoc(doc(db, "comments", commentId), { deleted: true, deletedAt: serverTimestamp() });
-    }
-
-    window.deleteAnyPost = deleteAnyPost;
-    window.deleteAnyComment = deleteAnyComment;
-    window.editAnyPost = window.editOwnPost;
-    window.editAnyComment = window.editOwnComment;
+    window.showAdminView = (name) => { document.querySelectorAll('.admin-view').forEach(el => el.classList.add('hidden')); const target = $('admin-view-' + name); if (target) target.classList.remove('hidden'); };
 
     function renderSections() {
       const list = $('sections-list');
@@ -1245,163 +815,94 @@
       $('sections-count').textContent = String(items.length);
       list.innerHTML = items.length ? '' : '<p class="muted center">لا توجد أقسام بعد.</p>';
       adminList.innerHTML = items.length ? '' : '<p class="muted center">لا توجد أقسام.</p>';
-
       items.forEach(sec => {
         const chip = document.createElement('div');
         chip.className = 'section-chip' + (state.currentSectionId === sec.id ? ' active' : '');
-        chip.innerHTML = `
-          <div>
-            <div style="font-weight:800;">${escapeHTML(sec.name || '')}</div>
-            <div class="muted" style="font-size:12px;">${escapeHTML(sec.description || '')}</div>
-          </div>
-          <span class="badge">${escapeHTML(String(sec.postsCount || 0))}</span>
-        `;
+        chip.innerHTML = `<div><div style="font-weight:800;">${escapeHTML(sec.name || '')}</div><div class="muted" style="font-size:12px;">${escapeHTML(sec.description || '')}</div></div><div style="display:flex;gap:6px;align-items:center;"><span class="badge">${escapeHTML(String(sec.postsCount || 0))}</span></div>`;
         chip.onclick = () => selectSection(sec.id);
         list.appendChild(chip);
-
         const row = document.createElement('div');
         row.className = 'user-row';
-        row.innerHTML = `
-          <div style="font-weight:800;">${escapeHTML(sec.name || '')}</div>
-          <div class="muted">${escapeHTML(sec.description || '')}</div>
-          <div class="split-row">
-            <button type="button" class="pill-btn tiny-btn secondary-btn">${escapeHTML(String(sec.postsCount || 0))} بوست</button>
-            <div class="split-row" style="justify-content:flex-end;">
-              <button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>
-              <button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>
-            </div>
-          </div>
-        `;
+        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(sec.name || '')}</div><div class="muted">${escapeHTML(sec.description || '')}</div><div class="muted">مكافأة القسم: ${Number(sec.coinBase || 0)} + ${Number(sec.coinPerReaction || 0)} / تفاعل + ${Number(sec.coinPerComment || 0)} / تعليق + ${Number(sec.coinBonus || 0)} ثابت</div><div class="split-row"><span class="status-pill">${escapeHTML(String(sec.postsCount || 0))} بوست</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div></div>`;
         row.querySelector('[data-edit]').onclick = () => openSectionEditor(sec);
         row.querySelector('[data-del]').onclick = () => deleteSection(sec.id);
         adminList.appendChild(row);
       });
     }
-
-    async function selectSection(sectionId) {
-      state.currentSectionId = sectionId;
-      state.currentSection = state.sections.find(s => s.id === sectionId) || null;
-      $('current-section-title').textContent = state.currentSection?.name || 'اختر قسمًا';
-      $('current-section-badge').textContent = state.currentSection?.name || 'نشط';
-      renderSections();
-      renderPosts();
+    async function selectSection(sectionId) { state.currentSectionId = sectionId; state.currentSection = state.sections.find(s => s.id === sectionId) || null; renderSections(); renderPosts(); }
+    function rankScore(post) { const r = post.reactions || {}; const react = Object.values(r).reduce((a, b) => a + Number(b || 0), 0); return react + Number(post.commentsCount || 0) * 1.5 + Number(post.reportsCount || 0) * -2; }
+    function renderTrendingBox(posts) {
+      const box = $('trending-box');
+      if (!box) return;
+      if (!posts.length) { box.innerHTML = ''; return; }
+      const top = [...posts].sort((a,b) => rankScore(b) - rankScore(a)).slice(0, 3);
+      box.className = '';
+      box.innerHTML = `<div class="section-title" style="margin-bottom:8px;"><h3>الأكثر رواجًا</h3><span class="badge">${top.length}</span></div><div class="list-stack">${top.map(p => `<div class="post-card" style="padding:12px;"><strong>${escapeHTML(p.authorName || '')} ${escapeHTML(p.authorEmoji || '🌚')}</strong><div class="muted" style="font-size:12px;margin-top:4px;">${escapeHTML(fmtTime(p.createdAt))}</div><div style="white-space:pre-wrap;line-height:1.7;margin-top:8px;">${escapeHTML((p.text || '').slice(0,120))}${(p.text || '').length>120 ? '…' : ''}</div></div>`).join('')}</div>`;
     }
-
     function renderPosts() {
       const list = $('posts-list');
-      const adminList = $('admin-posts-list');
-      const posts = state.posts.filter(p => !p.deleted && p.sectionId === state.currentSectionId && (p.approved || auth.currentUser?.email === adminEmail));
+      const visible = state.posts.filter(p => !p.deleted && p.sectionId === state.currentSectionId && (p.approved || auth.currentUser?.email === adminEmail));
+      const posts = [...visible].sort((a, b) => {
+        const ad = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+        const bd = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+        return bd - ad;
+      });
+      if (state.feedMode === 'trending') posts.sort((a,b) => rankScore(b) - rankScore(a));
       $('posts-count').textContent = String(posts.length);
-
       list.innerHTML = posts.length ? '' : '<p class="muted center">لا توجد منشورات في هذا القسم.</p>';
-      adminList.innerHTML = '';
-
+      const ageDays = getAccountAgeDays(state.currentUserData);
+      const newAccount = ageDays <= 7;
+      $('new-user-banner').classList.toggle('hidden', !newAccount);
+      renderTrendingBox(newAccount ? posts : []);
+      $('trending-box').classList.toggle('hidden', !newAccount && state.feedMode !== 'trending');
       posts.forEach(post => {
         const card = document.createElement('div');
         card.className = 'post-card';
         const isOwnerOrAdmin = canEditDelete(post);
-        const reactions = post.reactions || { "😂": 0, "♥": 0, "😢": 0, "👍🏻": 0, "😍": 0 };
-        card.innerHTML = `
-          <div class="post-meta">
-            <div>
-              <strong>${escapeHTML(post.authorName || '')} ${escapeHTML(post.authorEmoji || '🌚')}</strong>
-              <div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div>
-            </div>
-            <div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div>
-          </div>
-          <div class="post-text" style="line-height:1.8; white-space:pre-wrap;">${escapeHTML(post.text || '')}</div>
-          <div class="reaction-row"></div>
-          <div class="post-actions">
-            <button type="button" class="pill-btn tiny-btn secondary-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button>
-            <button type="button" class="pill-btn tiny-btn secondary-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>
-            ${isOwnerOrAdmin ? `<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>` : ''}
-            ${isOwnerOrAdmin ? `<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>` : ''}
-            ${auth.currentUser?.email === adminEmail && !post.approved ? `<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>` : ''}
-            ${auth.currentUser?.email === adminEmail ? `<button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>` : ''}
-          </div>
-          <div class="comments-area" style="margin-top:12px;"></div>
-        `;
-
+        const reactions = post.reactions || { '😂':0,'♥':0,'😢':0,'👍🏻':0,'😍':0 };
+        card.innerHTML = `<div class="post-meta"><div><strong>${escapeHTML(post.authorName || '')} ${escapeHTML(post.authorEmoji || '🌚')}</strong><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.8;">${escapeHTML(post.text || '')}</div><div class="reaction-row"></div><div class="post-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>' : ''}${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>' : ''}${auth.currentUser?.email === adminEmail && !post.approved ? '<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>' : ''}${auth.currentUser?.email === adminEmail ? '<button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>' : ''}</div><div class="comments-area" style="margin-top:12px;"></div>`;
         const reactionRow = card.querySelector('.reaction-row');
         reactionOptions.forEach(r => {
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'reaction';
-          btn.innerHTML = `${r} <span style="font-size:12px; opacity:.85; margin-inline-start:4px;">${Number(reactions[r] || 0)}</span>`;
+          btn.innerHTML = `${r} <span style="font-size:12px;opacity:.85;margin-inline-start:4px;">${Number(reactions[r] || 0)}</span>`;
           btn.onclick = () => react(btn, post.id, r);
           reactionRow.appendChild(btn);
         });
-
         card.querySelector('[data-comment]').onclick = () => addComment(post.id);
         card.querySelector('[data-report]').onclick = () => reportPost(post.id);
-        const editBtn = card.querySelector('[data-edit]');
-        if (editBtn) editBtn.onclick = () => editOwnPost(post.id);
-        const delBtn = card.querySelector('[data-del]');
-        if (delBtn) delBtn.onclick = () => deletePost(post.id);
-        const approveBtn = card.querySelector('[data-approve]');
-        if (approveBtn) approveBtn.onclick = () => approvePost(post.id, true);
-        const rejectBtn = card.querySelector('[data-reject]');
-        if (rejectBtn) rejectBtn.onclick = () => approvePost(post.id, false);
-
+        const editBtn = card.querySelector('[data-edit]'); if (editBtn) editBtn.onclick = () => editOwnPost(post.id);
+        const delBtn = card.querySelector('[data-del]'); if (delBtn) delBtn.onclick = () => deletePost(post.id);
+        const approveBtn = card.querySelector('[data-approve]'); if (approveBtn) approveBtn.onclick = () => approvePost(post.id, true);
+        const rejectBtn = card.querySelector('[data-reject]'); if (rejectBtn) rejectBtn.onclick = () => approvePost(post.id, false);
         const commentsArea = card.querySelector('.comments-area');
         const comments = state.commentsMap.get(post.id) || [];
-        comments.forEach(c => {
-          if (c.deleted) return;
-          const isOwnerOrAdminComment = canEditDelete(c, true);
-          const comment = document.createElement('div');
-          comment.className = 'comment-card';
-          comment.style.marginTop = '10px';
-          comment.innerHTML = `
-            <div class="comment-meta">
-              <div><strong>${escapeHTML(c.authorName || '')} ${escapeHTML(c.authorEmoji || '🌚')}</strong></div>
-              <div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(c.createdAt))}</div>
-            </div>
-            <div style="white-space:pre-wrap; line-height:1.7;">${escapeHTML(c.text || '')}</div>
-            <div class="comment-actions">
-              <button type="button" class="pill-btn tiny-btn secondary-btn" data-report-comment>إبلاغ</button>
-              ${isOwnerOrAdminComment ? `<button type="button" class="pill-btn tiny-btn" data-edit-comment>تعديل</button>` : ''}
-              ${isOwnerOrAdminComment ? `<button type="button" class="pill-btn tiny-btn danger-btn" data-del-comment>حذف</button>` : ''}
-            </div>
-          `;
-          comment.querySelector('[data-report-comment]').onclick = () => reportComment(c.id);
-          const editC = comment.querySelector('[data-edit-comment]');
-          if (editC) editC.onclick = () => editOwnComment(c.id);
-          const delC = comment.querySelector('[data-del-comment]');
-          if (delC) delC.onclick = () => deleteComment(c.id);
-          commentsArea.appendChild(comment);
+        comments.filter(c => !c.deleted).forEach(c => {
+          const row = document.createElement('div');
+          row.className = 'comment-card';
+          row.style.marginTop = '10px';
+          const canManage = canEditDelete(c);
+          row.innerHTML = `<div class="comment-meta"><div><strong>${escapeHTML(c.authorName || '')} ${escapeHTML(c.authorEmoji || '🌚')}</strong></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(c.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(c.text || '')}</div><div class="comment-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-report-comment>إبلاغ</button>${canManage ? '<button type="button" class="pill-btn tiny-btn" data-edit-comment>تعديل</button>' : ''}${canManage ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del-comment>حذف</button>' : ''}</div>`;
+          row.querySelector('[data-report-comment]').onclick = () => reportComment(c.id);
+          const ec = row.querySelector('[data-edit-comment]'); if (ec) ec.onclick = () => editOwnComment(c.id);
+          const dc = row.querySelector('[data-del-comment]'); if (dc) dc.onclick = () => deleteComment(c.id);
+          commentsArea.appendChild(row);
         });
-
         list.appendChild(card);
       });
-
-      // Admin pending posts view uses all unapproved posts
       const pending = state.posts.filter(p => !p.deleted && !p.approved);
       $('pending-posts-count').textContent = String(pending.length);
       $('admin-posts-list').innerHTML = pending.length ? '' : '<p class="muted center">لا توجد منشورات معلقة.</p>';
       pending.forEach(post => {
         const row = document.createElement('div');
         row.className = 'post-card';
-        row.innerHTML = `
-          <div class="post-meta">
-            <div>
-              <strong>${escapeHTML(post.authorName || '')} ${escapeHTML(post.authorEmoji || '🌚')}</strong>
-              <div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div>
-            </div>
-            <div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div>
-          </div>
-          <div style="white-space:pre-wrap; line-height:1.7;">${escapeHTML(post.text || '')}</div>
-          <div class="post-actions">
-            <button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>
-            <button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>
-            <button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>
-            <button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>
-          </div>
-        `;
+        row.innerHTML = `<div class="post-meta"><div><strong>${escapeHTML(post.authorName || '')} ${escapeHTML(post.authorEmoji || '🌚')}</strong><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(post.text || '')}</div><div class="post-actions"><button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div>`;
         row.querySelector('[data-approve]').onclick = () => approvePost(post.id, true);
         row.querySelector('[data-reject]').onclick = () => approvePost(post.id, false);
         row.querySelector('[data-edit]').onclick = () => editOwnPost(post.id);
-        row.querySelector('[data-del]').onclick = () => deleteAnyPost(post.id);
-        adminList.appendChild(row);
+        row.querySelector('[data-del]').onclick = () => deletePost(post.id);
+        $('admin-posts-list').appendChild(row);
       });
     }
 
@@ -1412,23 +913,13 @@
       state.users.forEach(u => {
         const row = document.createElement('div');
         row.className = 'user-row';
-        row.innerHTML = `
-          <div style="font-weight:800;">${escapeHTML(u.name || '')} ${escapeHTML(u.emoji || '🌚')}</div>
-          <div class="muted">${escapeHTML(u.email || '')}</div>
-          <div class="muted">${escapeHTML(u.phone || '')} — ${escapeHTML(u.country || '')} — ${escapeHTML(String(u.age || ''))}</div>
-          <div class="muted">${escapeHTML(u.description || '')}</div>
-          <div class="split-row">
-            <span class="status-pill ${u.blocked ? 'blocked' : ''}">${u.blocked ? 'محظور' : 'نشط'}</span>
-            <div class="split-row" style="justify-content:flex-end;">
-              <button type="button" class="pill-btn tiny-btn ${u.blocked ? 'secondary-btn' : 'danger-btn'}" data-block>${u.blocked ? 'إلغاء الحظر' : 'حظر'}</button>
-            </div>
-          </div>
-        `;
+        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(u.name || '')} ${escapeHTML(u.emoji || '🌚')}</div><div class="muted">${escapeHTML(u.email || '')}</div><div class="muted">${escapeHTML(u.phone || '')} — ${escapeHTML(u.country || '')} — ${escapeHTML(String(u.age || ''))}</div><div class="muted">${escapeHTML(u.description || '')}</div><div class="muted">🪙 الكوينز: <strong>${Number(u.coins || 0)}</strong></div><div class="split-row"><span class="status-pill ${u.blocked ? 'blocked' : ''}">${u.blocked ? 'محظور' : 'نشط'}</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn secondary-btn" data-add>+ كوينز</button><button type="button" class="pill-btn tiny-btn warning-btn" data-sub>- كوينز</button><button type="button" class="pill-btn tiny-btn ${u.blocked ? 'secondary-btn' : 'danger-btn'}" data-block>${u.blocked ? 'إلغاء الحظر' : 'حظر'}</button></div></div>`;
+        row.querySelector('[data-add]').onclick = () => openCoinDialog(u.id, u.name || u.email, 1);
+        row.querySelector('[data-sub]').onclick = () => openCoinDialog(u.id, u.name || u.email, -1);
         row.querySelector('[data-block]').onclick = () => blockUser(u.id, !u.blocked);
         list.appendChild(row);
       });
     }
-
     function renderReports() {
       const list = $('admin-reports-list');
       $('reports-count').textContent = String(state.reports.length);
@@ -1436,52 +927,34 @@
       state.reports.forEach(r => {
         const row = document.createElement('div');
         row.className = 'user-row';
-        row.innerHTML = `
-          <div style="font-weight:800;">نوع البلاغ: ${escapeHTML(r.type || '')}</div>
-          <div class="muted">السبب: ${escapeHTML(r.reason || '')}</div>
-          <div class="muted">من: ${escapeHTML(r.reporterEmail || '')}</div>
-          <div class="muted">الحالة: ${r.resolved ? 'تمت المعالجة' : 'مفتوح'}</div>
-        `;
+        row.innerHTML = `<div style="font-weight:800;">نوع البلاغ: ${escapeHTML(r.type || '')}</div><div class="muted">السبب: ${escapeHTML(r.reason || '')}</div><div class="muted">من: ${escapeHTML(r.reporterEmail || '')}</div><div class="muted">الحالة: ${r.resolved ? 'تمت المعالجة' : 'مفتوح'}</div>`;
         list.appendChild(row);
       });
     }
-
-    async function loadCurrentUserData(user) {
-      const ref = doc(db, 'users', user.uid);
-      const snap = await getDoc(ref);
-      if (!snap.exists()) return null;
-      return { id: user.uid, ...snap.data() };
+    function openCoinDialog(userId, userName, sign) {
+      const label = sign > 0 ? 'إضافة' : 'سحب';
+      openDialog({ title: `${label} كوينز`, bodyHTML: `<div class="stack"><p class="muted">${label} كوينز لحساب: <strong>${escapeHTML(userName)}</strong></p><input type="number" id="coin-amount" class="small-input" min="1" placeholder="اكتب العدد"></div>`, confirmText: label, cancelText: 'إلغاء', onConfirm: async () => { const amount = Number($('coin-amount').value || 0); if (!amount || amount <= 0) { toast('اكتب رقم صحيح.', 'warning'); return; } await adjustCoins(userId, sign * amount); } });
     }
-
+    async function loadCurrentUserData(user) { const snap = await getDoc(doc(db, 'users', user.uid)); return snap.exists() ? { id: user.uid, ...snap.data() } : null; }
     function attachRealtimeListeners() {
       onSnapshot(query(collection(db, 'sections'), orderBy('createdAt', 'asc')), (snap) => {
         state.sections = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        if (!state.currentSectionId && state.sections[0]) {
-          state.currentSectionId = state.sections[0].id;
-          state.currentSection = state.sections[0];
-          $('current-section-title').textContent = state.currentSection.name || 'اختر قسمًا';
-          $('current-section-badge').textContent = state.currentSection.name || 'نشط';
-        } else {
-          state.currentSection = state.sections.find(s => s.id === state.currentSectionId) || state.currentSection;
-          $('current-section-title').textContent = state.currentSection?.name || 'اختر قسمًا';
-          $('current-section-badge').textContent = state.currentSection?.name || 'نشط';
-        }
+        if (!state.currentSectionId && state.sections[0]) { state.currentSectionId = state.sections[0].id; state.currentSection = state.sections[0]; }
+        else state.currentSection = state.sections.find(s => s.id === state.currentSectionId) || state.currentSection;
         renderSections();
       });
-
       onSnapshot(query(collection(db, 'users'), orderBy('createdAt', 'desc')), (snap) => {
         state.users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         renderUsers();
+        const user = auth.currentUser;
+        if (user) {
+          const me = state.users.find(x => x.id === user.uid);
+          if (me) $('header-coins-chip').textContent = `🪙 ${Number(me.coins || 0)}`;
+        }
       });
-
-      onSnapshot(query(collection(db, 'reports'), orderBy('createdAt', 'desc')), (snap) => {
-        state.reports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderReports();
-      });
-
+      onSnapshot(query(collection(db, 'reports'), orderBy('createdAt', 'desc')), (snap) => { state.reports = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderReports(); });
       onSnapshot(query(collection(db, 'posts'), orderBy('createdAt', 'desc')), async (snap) => {
         state.posts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
         state.commentsMap.clear();
         const commentsSnap = await getDocs(query(collection(db, 'comments'), orderBy('createdAt', 'asc')));
         commentsSnap.docs.forEach(d => {
@@ -1489,82 +962,43 @@
           if (!state.commentsMap.has(c.postId)) state.commentsMap.set(c.postId, []);
           state.commentsMap.get(c.postId).push(c);
         });
-
-        // pending counts / render panels
-        if (state.currentSectionId) {
-          renderPosts();
-        } else {
-          $('posts-list').innerHTML = '<p class="muted center">اختر قسمًا لعرض المنشورات.</p>';
-        }
+        renderPosts();
       });
     }
-
     async function handleSignedInUser(user) {
       state.currentUser = user;
-      try {
-        const data = await loadCurrentUserData(user);
-        state.currentUserData = data;
-
-        if (data?.blocked) {
-          alert("تم حظرك من المنصة.");
-          await signOut(auth);
-          return;
-        }
-
-        $('auth-section').classList.add('hidden');
-        $('app-section').classList.remove('hidden');
-
-        $('user-emoji-btn').textContent = data?.emoji || '🌚';
-        $('set-name').value = data?.name || '';
-        $('set-age').value = data?.age || '';
-        $('set-desc').value = data?.description || '';
-        $('set-email-display').value = data?.email || user.email || '';
-        $('set-phone-display').value = data?.phone || '';
-
-        if (user.email === adminEmail) {
-          $('admin-dashboard').classList.remove('hidden');
-          $('user-dashboard').classList.add('hidden');
-          showAdminView('sections');
-        } else {
-          $('admin-dashboard').classList.add('hidden');
-          $('user-dashboard').classList.remove('hidden');
-          if (!state.currentSectionId && state.sections[0]) {
-            state.currentSectionId = state.sections[0].id;
-            state.currentSection = state.sections[0];
-          }
-          renderPosts();
-        }
-      } catch (error) {
-        console.error(error);
-        alert("تعذر تحميل بيانات الحساب.");
+      state.currentUserData = await loadCurrentUserData(user);
+      if (state.currentUserData?.blocked) { toast('تم حظرك من المنصة.', 'error', 3500); await signOut(auth); return; }
+      $('auth-section').classList.add('hidden');
+      $('app-section').classList.remove('hidden');
+      $('user-emoji-btn').textContent = state.currentUserData?.emoji || '🌚';
+      $('header-emoji-chip').textContent = state.currentUserData?.emoji || '🌚';
+      $('header-coins-chip').textContent = `🪙 ${Number(state.currentUserData?.coins || 0)}`;
+      $('set-name').value = state.currentUserData?.name || '';
+      $('set-age').value = state.currentUserData?.age || '';
+      $('set-desc').value = state.currentUserData?.description || '';
+      $('set-email-display').value = state.currentUserData?.email || user.email || '';
+      $('set-phone-display').value = state.currentUserData?.phone || '';
+      const isAdmin = user.email === adminEmail;
+      $('admin-dashboard').classList.toggle('hidden', !isAdmin);
+      $('user-dashboard').classList.toggle('hidden', isAdmin);
+      if (isAdmin) showAdminView('sections');
+      else {
+        if (!state.currentSectionId && state.sections[0]) { state.currentSectionId = state.sections[0].id; state.currentSection = state.sections[0]; }
+        $('composer-box').classList.add('hidden'); state.composerOpen = false; renderPosts();
       }
+      const ageDays = getAccountAgeDays(state.currentUserData);
+      $('new-user-banner').classList.toggle('hidden', ageDays > 7);
+      $('trending-box').classList.toggle('hidden', ageDays > 7 && state.feedMode !== 'trending');
     }
+    onAuthStateChanged(auth, async (user) => { if (user) await handleSignedInUser(user); else { $('auth-section').classList.remove('hidden'); $('app-section').classList.add('hidden'); closeSettings(); } });
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        await handleSignedInUser(user);
-      } else {
-        $('auth-section').classList.remove('hidden');
-        $('app-section').classList.add('hidden');
-        closeSettings();
-      }
-    });
-
-    // البداية
     attachRealtimeListeners();
-    showAuth(false);
     $('word-count-info').textContent = '0 / 170 كلمة';
-
-    // أدوات الإدارة من الكونسل
     window.manageSections = () => showAdminView('sections');
     window.viewUsers = () => showAdminView('users');
     window.approvePosts = () => showAdminView('posts');
     window.manageAllContent = () => showAdminView('reports');
-    window.deleteAnyComment = deleteAnyComment;
-    window.openSectionEditor = openSectionEditor;
-    window.closeSectionModal = closeSectionModal;
-    window.saveSection = saveSection;
-    window.showAdminView = window.showAdminView;
   </script>
 </body>
 </html>
