@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mixtaja</title>
+  <style>
+    :root {
+      --primary: #4CAF50;
+      --bg: #f4f4f9;
+      --card-bg: #ffffff;
+      --text: #333;
+      --input-bg: #fff;
+      --input-border: #ccc;
+    }
+
+    body.dark-mode {
+      --primary: #25D366;
+      --bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #e0e0e0;
+      --input-bg: #2c2c2c;
+      --input-border: #444;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      color: var(--primary);
+      margin-top: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 15px auto;
+      max-width: 120px;
+      height: auto;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid var(--input-border);
+      border-radius: 5px;
+      background-color: var(--input-bg);
+      color: var(--text);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      opacity: 0.92;
+    }
+
+    .emoji-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .emoji-selector label {
+      font-size: 24px;
+      cursor: pointer;
+      padding: 6px 8px;
+      display: inline-block;
+      transition: 0.2s;
+      border: 1px solid transparent;
+      border-radius: 8px;
+    }
+
+    .emoji-selector input[type="radio"] {
+      display: none;
+    }
+
+    .emoji-selector input[type="radio"]:checked + label {
+      transform: scale(1.12);
+      background: var(--input-bg);
+      border: 1px solid var(--primary);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-emoji {
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: auto;
+      padding: 0;
+      color: var(--text);
+    }
+
+    .btn-support {
+      background: #25D366;
+      width: auto;
+      padding: 8px 14px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .btn-theme {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      width: auto;
+      padding: 0;
+      color: var(--text);
+    }
+
+    .post-box {
+      border: 1px solid var(--input-border);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: var(--card-bg);
+    }
+
+    .reactions {
+      display: flex;
+      gap: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .reactions span {
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      z-index: 9999;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 420px;
+      color: var(--text);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    .mini-note {
+      font-size: 12px;
+      color: gray;
+      text-align: center;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div style="position: absolute; top: 10px; left: 10px; z-index: 10;">
+    <button class="btn-theme" onclick="toggleTheme()">🌓</button>
+  </div>
+
+  <div id="auth-section" class="container">
+    <img src="logo1.png" alt="mixtaja Logo" class="logo" />
+
+    <h1>mixtaja</h1>
+
+    <div style="text-align: center; margin-bottom: 15px;">
+      <a href="https://wa.me/201124680211" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+        <button class="btn-support" style="width: 100%;">💬 تواصل مع الدعم</button>
+      </a>
+    </div>
+
+    <div id="login-form">
+      <h2>تسجيل الدخول</h2>
+      <input type="email" id="login-email" placeholder="البريد الإلكتروني" required />
+      <input type="password" id="login-pass" placeholder="كلمة السر" required />
+      <button type="button" onclick="login()">دخول</button>
+      <p style="text-align: center; cursor: pointer; color: var(--primary);" onclick="toggleAuth()">ليس لديك حساب؟ إنشاء حساب</p>
+    </div>
+
+    <div id="signup-form" class="hidden">
+      <h2>إنشاء حساب</h2>
+      <input type="text" id="reg-name" placeholder="الاسم الكامل" required />
+      <input type="tel" id="reg-phone" placeholder="رقم الهاتف" required />
+      <input type="email" id="reg-email" placeholder="البريد الإلكتروني" required />
+      <input type="password" id="reg-pass" placeholder="كلمة السر" required />
+
+      <select id="reg-country" required>
+        <option value="">اختر الدولة...</option>
+        <option value="مصر">مصر</option>
+        <option value="السعودية">السعودية</option>
+        <option value="الإمارات">الإمارات</option>
+        <option value="المغرب">المغرب</option>
+        <option value="الجزائر">الجزائر</option>
+        <option value="الأردن">الأردن</option>
+      </select>
+
+      <input type="number" id="reg-age" placeholder="العمر" required min="10" />
+      <textarea id="reg-desc" placeholder="وصف عنك..." required></textarea>
+
+      <p style="text-align:center;">اختر إيموجي البروفايل:</p>
+      <div class="emoji-selector" id="reg-emoji">
+        <input type="radio" name="emoji" id="e1" value="🤡"><label for="e1">🤡</label>
+        <input type="radio" name="emoji" id="e2" value="♥"><label for="e2">♥</label>
+        <input type="radio" name="emoji" id="e3" value="😢"><label for="e3">😢</label>
+        <input type="radio" name="emoji" id="e4" value="😒"><label for="e4">😒</label>
+        <input type="radio" name="emoji" id="e5" value="😏"><label for="e5">😏</label>
+        <input type="radio" name="emoji" id="e6" value="❤️‍🔥"><label for="e6">❤️‍🔥</label>
+        <input type="radio" name="emoji" id="e7" value="🙈"><label for="e7">🙈</label>
+        <input type="radio" name="emoji" id="e8" value="⚽"><label for="e8">⚽</label>
+        <input type="radio" name="emoji" id="e9" value="🌚" checked><label for="e9">🌚</label>
+      </div>
+
+      <button type="button" onclick="signup()">تسجيل</button>
+      <p style="text-align: center; cursor: pointer; color: var(--primary);" onclick="toggleAuth()">لديك حساب بالفعل؟ تسجيل الدخول</p>
+    </div>
+  </div>
+
+  <div id="app-section" class="hidden">
+    <header>
+      <h2 style="margin: 0;">mixtaja</h2>
+      <div class="header-buttons">
+        <a href="https://wa.me/201124680211" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+          <button class="btn-support">الدعم</button>
+        </a>
+        <button class="btn-emoji" id="user-emoji-btn" onclick="openSettings()">🌚</button>
+      </div>
+    </header>
+
+    <div id="user-dashboard" class="container hidden">
+      <h3>الأقسام المتاحة</h3>
+      <div id="sections-list">
+        <p style="text-align:center; font-size:12px; color:gray;">(الأقسام ستظهر هنا)</p>
+      </div>
+
+      <hr style="border-color: var(--input-border);">
+
+      <h3>كتابة منشور جديد</h3>
+      <textarea id="new-post-text" placeholder="اكتب ما تفكر فيه (الحد الأقصى 170 كلمة)..." oninput="checkWordCount(this)"></textarea>
+      <p id="word-count-warning" style="color: red; font-size: 12px;" class="hidden">تجاوزت الحد الأقصى للكلمات (170)!</p>
+      <button type="button" onclick="submitPost()">إرسال للموافقة</button>
+
+      <hr style="border-color: var(--input-border);">
+
+      <h3>المنشورات</h3>
+      <div class="post-box">
+        <strong>أحمد 🌚</strong>
+        <p>هذا نص تجريبي لمنشور داخل التطبيق.</p>
+        <div class="reactions">
+          <span onclick="react(this)">😂</span>
+          <span onclick="react(this)">♥</span>
+          <span onclick="react(this)">😢</span>
+          <span onclick="react(this)">👍🏻</span>
+          <span onclick="react(this)">😍</span>
+        </div>
+        <div style="margin-top: 10px; display: flex; gap: 5px;">
+          <button type="button" style="width: auto; padding: 5px 15px; font-size: 12px;">تعليق</button>
+          <button type="button" style="width: auto; padding: 5px 15px; font-size: 12px; background: #e74c3c;">إبلاغ</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-dashboard" class="container hidden" style="border: 2px solid #e74c3c;">
+      <h2 style="color: #e74c3c;">لوحة تحكم الإدارة (الكونسول)</h2>
+      <button type="button" onclick="manageSections()">إدارة الأقسام (إنشاء/حذف)</button>
+      <button type="button" onclick="viewUsers()">عرض المستخدمين والحظر</button>
+      <button type="button" onclick="approvePosts()">المنشورات المعلقة للموافقة</button>
+      <button type="button" onclick="manageAllContent()">تعديل/حذف أي منشور أو تعليق</button>
+    </div>
+  </div>
+
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>الإعدادات</h2>
+      <input type="text" id="set-name" placeholder="الاسم" />
+      <input type="number" id="set-age" placeholder="العمر" />
+      <textarea id="set-desc" placeholder="الوصف"></textarea>
+      <input type="password" id="set-pass" placeholder="كلمة سر جديدة (اختياري)" />
+
+      <p style="font-size: 12px; color: gray;">الإيميل ورقم الهاتف لا يمكن تغييرهم.</p>
+      <input type="email" disabled id="set-email-display" />
+      <input type="tel" disabled id="set-phone-display" />
+
+      <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button type="button" onclick="saveSettings()">حفظ التغييرات</button>
+        <button type="button" style="background: gray;" onclick="closeSettings()">إغلاق</button>
+      </div>
+      <button type="button" style="background: #e74c3c; margin-top: 10px;" onclick="logout()">تسجيل الخروج</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+      updatePassword
+    } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA4v5XUIibX5UrL3h6hbLtbN6JRzYiGV5c",
+      authDomain: "mixtaja-36918.firebaseapp.com",
+      projectId: "mixtaja-36918",
+      storageBucket: "mixtaja-36918.firebasestorage.app",
+      messagingSenderId: "224832722617",
+      appId: "1:224832722617:web:301486a0af7e015cf56d68",
+      measurementId: "G-FCGMH3JE95"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let analytics = null;
+    try {
+      if (window.location.protocol !== "file:") {
+        analytics = getAnalytics(app);
+      }
+    } catch (e) {
+      console.warn("Analytics disabled:", e);
+    }
+
+    const $ = (id) => document.getElementById(id);
+
+    function getSelectedEmoji() {
+      const selected = document.querySelector('input[name="emoji"]:checked');
+      return selected ? selected.value : "🌚";
+    }
+
+    function showAlert(message) {
+      alert(message);
+    }
+
+    window.toggleTheme = () => {
+      document.body.classList.toggle('dark-mode');
+    };
+
+    window.toggleAuth = () => {
+      $('login-form').classList.toggle('hidden');
+      $('signup-form').classList.toggle('hidden');
+    };
+
+    window.openSettings = () => {
+      $('settings-modal').classList.remove('hidden');
+    };
+
+    window.closeSettings = () => {
+      $('settings-modal').classList.add('hidden');
+    };
+
+    window.checkWordCount = (textarea) => {
+      const text = (textarea.value || "").trim();
+      const warning = $('word-count-warning');
+
+      if (!text) {
+        warning.classList.add('hidden');
+        return;
+      }
+
+      const words = text.split(/\s+/).filter(Boolean);
+      if (words.length > 170) {
+        warning.classList.remove('hidden');
+        textarea.value = words.slice(0, 170).join(" ");
+      } else {
+        warning.classList.add('hidden');
+      }
+    };
+
+    window.signup = async () => {
+      const email = $('reg-email').value.trim();
+      const pass = $('reg-pass').value;
+      const name = $('reg-name').value.trim();
+      const phone = $('reg-phone').value.trim();
+      const country = $('reg-country').value;
+      const age = $('reg-age').value;
+      const desc = $('reg-desc').value.trim();
+      const emoji = getSelectedEmoji();
+
+      if (!email || !pass || !name || !phone || !country || !age || !desc) {
+        showAlert("يرجى إكمال جميع البيانات!");
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+          name,
+          phone,
+          email,
+          country,
+          age: Number(age),
+          description: desc,
+          emoji,
+          role: "user",
+          createdAt: new Date().toISOString()
+        });
+
+        showAlert("تم التسجيل بنجاح!");
+      } catch (error) {
+        console.error("Signup error:", error);
+        showAlert("حدث خطأ أثناء التسجيل: " + (error?.message || "Unknown error"));
+      }
+    };
+
+    window.login = async () => {
+      const email = $('login-email').value.trim();
+      const pass = $('login-pass').value;
+
+      if (!email || !pass) {
+        showAlert("اكتب البريد الإلكتروني وكلمة السر.");
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+      } catch (error) {
+        console.error("Login error:", error);
+        showAlert("خطأ في تسجيل الدخول: تأكد من الإيميل وكلمة السر.");
+      }
+    };
+
+    window.logout = async () => {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        $('auth-section').classList.add('hidden');
+        $('app-section').classList.remove('hidden');
+
+        if (user.email === "0@gmail.com") {
+          $('admin-dashboard').classList.remove('hidden');
+        } else {
+          $('admin-dashboard').classList.add('hidden');
+        }
+
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const userDoc = await getDoc(userRef);
+
+          if (userDoc.exists()) {
+            const data = userDoc.data();
+            $('user-emoji-btn').innerText = data.emoji || "🌚";
+            $('set-name').value = data.name || "";
+            $('set-age').value = data.age || "";
+            $('set-desc').value = data.description || "";
+            $('set-email-display').value = data.email || "";
+            $('set-phone-display').value = data.phone || "";
+          } else {
+            $('user-emoji-btn').innerText = "🌚";
+            $('set-email-display').value = user.email || "";
+            $('set-phone-display').value = "";
+          }
+        } catch (e) {
+          console.log("Error fetching user data", e);
+        }
+      } else {
+        $('auth-section').classList.remove('hidden');
+        $('app-section').classList.add('hidden');
+        closeSettings();
+      }
+    });
+
+    window.saveSettings = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const newName = $('set-name').value.trim();
+      const newAge = $('set-age').value;
+      const newDesc = $('set-desc').value.trim();
+      const newPass = $('set-pass').value;
+
+      try {
+        await updateDoc(doc(db, "users", user.uid), {
+          name: newName,
+          age: newAge ? Number(newAge) : null,
+          description: newDesc
+        });
+
+        if (newPass) {
+          await updatePassword(user, newPass);
+        }
+
+        showAlert("تم حفظ الإعدادات!");
+        closeSettings();
+      } catch (error) {
+        console.error("Save settings error:", error);
+        showAlert("خطأ: " + (error?.message || "Unknown error"));
+      }
+    };
+
+    window.react = (element) => {
+      element.style.transform = "scale(1.3)";
+      setTimeout(() => {
+        element.style.transform = "scale(1)";
+      }, 200);
+    };
+
+    window.submitPost = () => {
+      const text = $('new-post-text').value.trim();
+      if (!text) {
+        showAlert("اكتب المنشور أولاً.");
+        return;
+      }
+      showAlert("تم إرسال المنشور للموافقة (تجريبي).");
+      $('new-post-text').value = "";
+      $('word-count-warning').classList.add('hidden');
+    };
+
+    window.manageSections = () => showAlert("زر إدارة الأقسام تجريبي حالياً.");
+    window.viewUsers = () => showAlert("زر عرض المستخدمين تجريبي حالياً.");
+    window.approvePosts = () => showAlert("زر الموافقة على المنشورات تجريبي حالياً.");
+    window.manageAllContent = () => showAlert("زر إدارة المحتوى تجريبي حالياً.");
+  </script>
+</body>
+</html>
