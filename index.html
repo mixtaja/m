@@ -65,7 +65,7 @@
       width:44px;height:44px;border:none;border-radius:50%;
       background:var(--card-bg);color:var(--text);cursor:pointer;
       box-shadow:var(--shadow-2);display:inline-flex;align-items:center;justify-content:center;
-      font-size:22px;line-height:1
+      font-size:22px;line-height:1;overflow:hidden;
     }
     .pill-btn{
       border:none;border-radius:999px;padding:11px 16px;cursor:pointer;
@@ -148,7 +148,7 @@
     .composer{padding:16px;border:1px solid var(--input-border);border-radius:18px;background:var(--card-bg);box-shadow:var(--shadow-2)}
     .composer-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
     .feed-sort{display:flex;gap:8px;flex-wrap:wrap}
-    .mini-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px}
+    .mini-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px;overflow:hidden;}
     .support-menu{display:grid;gap:10px}
     .support-link-btn{text-decoration:none;display:block;width:100%;text-align:center;padding:12px 14px;border-radius:12px;background:var(--soft);border:1px solid var(--input-border);font-weight:800}
 
@@ -161,13 +161,9 @@
     .vip-panel{display:grid;gap:10px}
     .vip-price{font-size:18px;font-weight:900;color:#b8860b}
     .vip-header{display:flex;gap:14px;align-items:center}
-    .vip-avatar{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#fff7c2,#d4af37);box-shadow:inset 0 0 0 1px rgba(184,134,11,.25),0 10px 22px rgba(184,134,11,.18)}
+    .vip-avatar{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#fff7c2,#d4af37);box-shadow:inset 0 0 0 1px rgba(184,134,11,.25),0 10px 22px rgba(184,134,11,.18);overflow:hidden;}
     .vip-name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .vip-name-btn{border:none;border-radius:999px;padding:6px 10px;cursor:pointer;font-weight:900;background:linear-gradient(45deg,#b8860b,#ffd700);color:#111;box-shadow:0 8px 20px rgba(184,134,11,.18)}
-    .vip-feature-grid{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
-    @media (max-width:640px){.vip-feature-grid{grid-template-columns:1fr}}
-    .vip-feature{padding:12px 13px;border-radius:14px;background:color-mix(in srgb,var(--soft) 82%, #ffd700 18%);border:1px solid color-mix(in srgb,var(--input-border) 80%, #ffd700 20%);display:flex;gap:10px;align-items:flex-start}
-    .vip-feature .icon{font-size:18px;line-height:1.2}
     .vip-action-grid{display:grid;gap:10px}
     .vip-preview{padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(184,134,11,.12),rgba(255,215,0,.08));border:1px solid rgba(184,134,11,.25)}
     .vip-status-active{background:color-mix(in srgb,#16a34a 18%, transparent);color:#16a34a}
@@ -519,17 +515,18 @@
               <strong id="vipProfileName">اسم المستخدم</strong>
               <span class="status-pill" id="vipProfileStatus">غير مشترك</span>
             </div>
-            <div class="muted" id="vipProfileMeta">اضغط على زر VIP بجانب الاسم لعرض ملف العضو.</div>
-            <div class="hint" id="vipProfileCoinLine">رصيد الكوينز: 0</div>
+            <div class="muted" id="vipProfileMeta"></div>
+            <div class="hint" id="vipProfilePhone" style="font-weight:900;">رقم الهاتف: </div>
+            <div class="hint" id="vipProfileDesc" style="white-space:pre-wrap;">الوصف: </div>
           </div>
         </div>
 
-        <div class="admin-subcard">
-          <div class="section-title" style="margin-bottom:10px;">
-            <h3 style="margin:0;">مميزات VIP</h3>
-            <span class="badge">10</span>
-          </div>
-          <div class="vip-feature-grid" id="vipBenefitsList"></div>
+        <div class="admin-subcard" id="vipLinksCard">
+           <div class="section-title">
+              <h3 style="margin:0;">الروابط</h3>
+              <button type="button" id="addVipLinkBtn" class="pill-btn tiny-btn hidden" onclick="addVipLinkPrompt()">+ إضافة رابط</button>
+           </div>
+           <div id="vipLinksList" class="list-stack" style="margin-top:10px;"></div>
         </div>
 
         <div class="admin-subcard" id="vipActionCard">
@@ -556,6 +553,7 @@
   </div>
 
   <div id="toast-host" class="toast-host"></div>
+  <input type="file" id="vip-pic-input" class="hidden" accept="image/*">
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -631,28 +629,24 @@
       return Boolean(userData.vipActive || (expiry && expiry.getTime() > Date.now()));
     }
     
-    function getVipRemainingText(userData) {
-      const expiry = getVipExpiryDate(userData);
-      if (!expiry) return 'لا توجد مدة اشتراك محددة بعد.';
-      const diff = expiry.getTime() - Date.now();
-      if (diff <= 0) return 'انتهت العضوية.';
-      const days = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
-      return `يتبقى ${days} يوم${days === 1 ? '' : 'ًا'} على انتهاء العضوية`;
+    function renderUserAvatar(userId, fallbackEmoji) {
+       const u = state.users.find(x => x.id === userId);
+       if (u && isVipUser(u) && u.vipPicture) {
+          return `<img src="${u.vipPicture}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;display:inline-block;" alt="VIP">`;
+       }
+       return escapeHTML(fallbackEmoji || '🌚');
     }
-    
-    function getVipBenefits() {
-      return [
-        { icon: '👑', title: 'شارة ذهبية', text: 'اسمك يظهر بتمييز ذهبي واضح داخل البوستات.' },
-        { icon: '🪪', title: 'لوحة تعريف VIP', text: 'ملف خاص يعرض بياناتك وحالة اشتراكك بطريقة احترافية.' },
-        { icon: '🔥', title: 'ظهور أوضح', text: 'تمييز بصري يجعل حسابك أكثر لفتًا للانتباه.' },
-        { icon: '⚡', title: 'وصول أسرع', text: 'زر VIP بجانب الاسم يفتح ملفك مباشرة لأي مستخدم.' },
-        { icon: '🎯', title: 'واجهة احترافية', text: 'تصميم ذهبي متطور يعطي انطباعًا أقوى لحسابك.' },
-        { icon: '📌', title: 'تعريف مختصر', text: 'عرض الاسم والبريد والبلد والعمر والوصف بشكل منظم.' },
-        { icon: '🛡️', title: 'حالة موثوقة', text: 'يظهر تاريخ انتهاء العضوية بوضوح للمستخدم.' },
-        { icon: '💎', title: 'تمييز داخلي', text: 'بطاقة VIP خاصة داخل المنصة لتمييز الأعضاء المميزين.' },
-        { icon: '🎨', title: 'مظهر فاخر', text: 'ألوان ذهبية ولمسات لامعة تجعل حسابك أكثر أناقة.' },
-        { icon: '🚀', title: 'دعوة للاشتراك', text: 'كل عضو يشاهد المزايا قبل الاشتراك بشكل واضح ومقنع.' }
-      ];
+
+    function updateHeaderAvatar() {
+       const u = state.currentUserData;
+       if (!u) return;
+       if (isVipUser(u) && u.vipPicture) {
+           $('header-emoji-chip').innerHTML = `<img src="${u.vipPicture}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;vertical-align:middle;">`;
+           $('user-emoji-btn').innerHTML = `<img src="${u.vipPicture}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;vertical-align:middle;">`;
+       } else {
+           $('header-emoji-chip').textContent = u.emoji || '🌚';
+           $('user-emoji-btn').textContent = u.emoji || '🌚';
+       }
     }
     
     function renderVipPanel(targetUser = null) {
@@ -661,26 +655,43 @@
       const active = isVipUser(current);
       const name = current?.name || current?.email || 'مستخدم';
       const emoji = current?.emoji || '🌚';
-      const country = current?.country || 'غير محددة';
-      const age = current?.age || 'غير محدد';
-      const email = current?.email || '';
-      const phone = current?.phone || '';
+      const phone = current?.phone || 'غير متوفر';
       const desc = current?.description || 'لا يوجد وصف بعد.';
-      const roleLabel = active ? 'عضو VIP' : 'عضو عادي';
-      
-      $('vipProfileAvatar').textContent = emoji;
+      const vipPicture = current?.vipPicture;
+      const links = current?.vipLinks || [];
+
+      if (isMe && !active && vipPicture) {
+        updateDoc(doc(db, 'users', current.id), { vipPicture: null, vipLinks: [] });
+        current.vipPicture = null;
+        current.vipLinks = [];
+      }
+
+      if (active && vipPicture) {
+         $('vipProfileAvatar').innerHTML = `<img src="${vipPicture}" style="width:100%;height:100%;object-fit:cover;" />`;
+      } else {
+         $('vipProfileAvatar').textContent = emoji;
+      }
+
       $('vipProfileName').textContent = name;
       $('vipProfileStatus').textContent = active ? 'VIP نشط' : 'غير مشترك';
       $('vipProfileStatus').className = 'status-pill ' + (active ? 'vip-status-active' : 'vip-status-inactive');
-      $('vipProfileMeta').textContent = `${roleLabel} • ${getVipRemainingText(current)}`;
+      $('vipProfileMeta').textContent = active ? 'عضو VIP' : 'عضو عادي';
       
-      if (isMe || auth.currentUser?.email === adminEmail) {
-         $('vipProfileCoinLine').textContent = `البريد: ${email || 'غير متوفر'} • الهاتف: ${phone || 'غير متوفر'} • البلد: ${country} • العمر: ${age}`;
+      $('vipProfilePhone').textContent = `رقم الهاتف: ${phone}`;
+      $('vipProfileDesc').textContent = `الوصف:\n${desc}`;
+
+      const linksList = $('vipLinksList');
+      if (links.length > 0) {
+          linksList.innerHTML = links.map(l => `<a href="${escapeHTML(l)}" target="_blank" style="color:var(--primary);font-weight:bold;text-decoration:none;display:block;padding:8px;background:var(--soft);border-radius:8px;word-break:break-all;">${escapeHTML(l)}</a>`).join('');
       } else {
-         $('vipProfileCoinLine').textContent = `البلد: ${country} • العمر: ${age}`;
+          linksList.innerHTML = `<div class="muted">لا توجد روابط.</div>`;
       }
 
-      $('vipBenefitsList').innerHTML = getVipBenefits().map(item => `<div class="vip-feature"><div class="icon">${item.icon}</div><div><div style="font-weight:900;margin-bottom:4px;">${escapeHTML(item.title)}</div><div class="muted" style="font-size:13px;line-height:1.65;">${escapeHTML(item.text)}</div></div></div>`).join('');
+      if (isMe && active) {
+          $('addVipLinkBtn').classList.remove('hidden');
+      } else {
+          $('addVipLinkBtn').classList.add('hidden');
+      }
 
       const actionArea = $('vipActionArea');
       const topupWrap = $('coinTopupBoxWrap');
@@ -692,29 +703,24 @@
       if (!isMe) {
         $('vipActionCard').classList.add('hidden');
         topupWrap.classList.add('hidden');
+        $('vipLinksCard').classList.toggle('hidden', !active);
       } else {
+        $('vipLinksCard').classList.toggle('hidden', !active);
         $('vipActionCard').classList.remove('hidden');
         if (active) {
           topupWrap.classList.add('hidden');
           actionArea.innerHTML = `
-            <div class="vip-preview">
-              <div style="font-weight:900;font-size:18px;margin-bottom:6px;">أنت مشترك بالفعل في VIP</div>
-              <div class="muted" style="line-height:1.8;">${escapeHTML(desc)}</div>
-            </div>
             <div class="grid-2">
-              <div class="vip-preview"><div class="hint">نوع العضوية</div><div style="font-weight:900;">عضوية شهرية</div></div>
-              <div class="vip-preview"><div class="hint">الحالة</div><div style="font-weight:900;">${escapeHTML(getVipRemainingText(current))}</div></div>
+               <button type="button" class="pill-btn tiny-btn" onclick="triggerVipPicUpload()">تغيير الصورة (30 كوينز)</button>
             </div>
           `;
         } else {
           topupWrap.classList.remove('hidden');
           actionArea.innerHTML = `
             <div class="vip-preview">
-              <div style="font-weight:900;font-size:18px;margin-bottom:6px;">اشترك الآن لمدة شهر مقابل 100 كوينز</div>
-              <div class="muted" style="line-height:1.8;">${escapeHTML(desc)}</div>
+              <div style="font-weight:900;font-size:18px;margin-bottom:6px;">اشترك الآن لمدة 7 أيام مقابل 100 كوينز</div>
             </div>
-            <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()">اشترك VIP لمدة شهر - 100 كوينز</button>
-            <div class="hint">بعد الاشتراك ستتحول اللوحة تلقائيًا إلى وضع VIP مع إخفاء زر الشراء.</div>
+            <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()">اشترك VIP لمدة 7 أيام - 100 كوينز</button>
           `;
         }
       }
@@ -906,7 +912,7 @@
         return;
       }
       try {
-        const vipUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+        const vipUntil = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
         await updateDoc(doc(db, 'users', user.uid), {
           coins: increment(-100),
           vipUntil,
@@ -928,11 +934,108 @@
         $('header-coins-chip').textContent = `🪙 ${coins - 100}`;
         renderVipPanel(state.currentUserData);
         renderPosts();
-        toast('تم الاشتراك في VIP لمدة شهر.', 'success');
+        toast('تم الاشتراك في VIP لمدة 7 أيام.', 'success');
       } catch (err) {
         console.error(err);
         toast('تعذر الاشتراك في VIP.', 'error');
       }
+    };
+
+    window.addVipLinkPrompt = () => {
+      const user = state.currentUserData;
+      if (!user) return;
+      const links = user.vipLinks || [];
+      const maxFree = 2;
+      const extraCapacity = user.vipExtraCapacity || 0;
+      const maxAllowed = maxFree + extraCapacity;
+
+      if (links.length >= maxAllowed) {
+        openDialog({
+          title: 'زيادة عدد الروابط',
+          bodyHTML: '<p>لقد وصلت للحد الأقصى للروابط المتاحة. هل تريد إضافة مساحة لرابط جديد مقابل 50 كوينز؟</p>',
+          confirmText: 'شراء بـ 50 كوينز',
+          cancelText: 'إلغاء',
+          onConfirm: async () => {
+            if ((user.coins || 0) < 50) { toast('رصيدك غير كافٍ.', 'warning'); return; }
+            await updateDoc(doc(db, 'users', user.id), {
+              coins: increment(-50),
+              vipExtraCapacity: increment(1)
+            });
+            toast('تم زيادة المساحة! يمكنك الآن إضافة رابط جديد.', 'success');
+          }
+        });
+        return;
+      }
+
+      openDialog({
+        title: 'إضافة رابط',
+        bodyHTML: '<input type="url" id="new-vip-link" class="small-input" placeholder="https://..." style="width:100%;text-align:left;" dir="ltr">',
+        confirmText: 'إضافة',
+        cancelText: 'إلغاء',
+        onConfirm: async () => {
+          const url = $('new-vip-link').value.trim();
+          if (!url) { toast('أدخل رابطاً صحيحاً', 'warning'); return; }
+          await updateDoc(doc(db, 'users', user.id), {
+            vipLinks: arrayUnion(url)
+          });
+          toast('تم إضافة الرابط بنجاح', 'success');
+        }
+      });
+    };
+
+    window.triggerVipPicUpload = () => {
+       const user = state.currentUserData;
+       if (!user) return;
+       if ((user.coins || 0) < 30) {
+          toast('عذراً، يجب أن يكون لديك 30 كوينز لتغيير الصورة.', 'warning');
+          return;
+       }
+       $('vip-pic-input').click();
+    };
+
+    $('vip-pic-input').onchange = async (e) => {
+       const file = e.target.files[0];
+       if (!file) return;
+       const reader = new FileReader();
+       reader.onload = (event) => {
+           const img = new Image();
+           img.onload = () => {
+               const canvas = document.createElement('canvas');
+               const MAX_WIDTH = 250;
+               const MAX_HEIGHT = 250;
+               let width = img.width;
+               let height = img.height;
+               if (width > height) {
+                   if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+               } else {
+                   if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+               }
+               canvas.width = width;
+               canvas.height = height;
+               const ctx = canvas.getContext('2d');
+               ctx.drawImage(img, 0, 0, width, height);
+               const base64Pic = canvas.toDataURL('image/jpeg', 0.8);
+
+               openDialog({
+                 title: 'تأكيد تغيير الصورة',
+                 bodyHTML: `<div class="center"><img src="${base64Pic}" style="width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:10px;"><p>سيتم خصم 30 كوينز.</p></div>`,
+                 confirmText: 'تأكيد ودفع',
+                 cancelText: 'إلغاء',
+                 onConfirm: async () => {
+                    const user = state.currentUserData;
+                    if ((user.coins || 0) < 30) { toast('رصيد غير كافٍ', 'warning'); return; }
+                    await updateDoc(doc(db, 'users', user.id), {
+                       coins: increment(-30),
+                       vipPicture: base64Pic
+                    });
+                    toast('تم تغيير الصورة بنجاح', 'success');
+                 }
+               });
+           };
+           img.src = event.target.result;
+       };
+       reader.readAsDataURL(file);
+       e.target.value = '';
     };
 
     window.coinSent = async () => {
@@ -1154,14 +1257,16 @@
     }
     async function selectSection(sectionId) { state.currentSectionId = sectionId; state.currentSection = state.sections.find(s => s.id === sectionId) || null; renderSections(); renderPosts(); }
     function rankScore(post) { const r = post.reactions || {}; const react = Object.values(r).reduce((a, b) => a + Number(b || 0), 0); return react + Number(post.commentsCount || 0) * 1.5 + Number(post.reportsCount || 0) * -2; }
+    
     function renderTrendingBox(posts) {
       const box = $('trending-box');
       if (!box) return;
       if (!posts.length) { box.innerHTML = ''; return; }
       const top = [...posts].sort((a,b) => rankScore(b) - rankScore(a)).slice(0, 3);
       box.className = '';
-      box.innerHTML = `<div class="section-title" style="margin-bottom:8px;"><h3>الأكثر رواجًا</h3><span class="badge">${top.length}</span></div><div class="list-stack">${top.map(p => `<div class="post-card" style="padding:12px;"><strong>${escapeHTML(p.authorName || '')} ${escapeHTML(p.authorEmoji || '🌚')}</strong><div class="muted" style="font-size:12px;margin-top:4px;">${escapeHTML(fmtTime(p.createdAt))}</div><div style="white-space:pre-wrap;line-height:1.7;margin-top:8px;">${escapeHTML((p.text || '').slice(0,120))}${(p.text || '').length>120 ? '…' : ''}</div></div>`).join('')}</div>`;
+      box.innerHTML = `<div class="section-title" style="margin-bottom:8px;"><h3>الأكثر رواجًا</h3><span class="badge">${top.length}</span></div><div class="list-stack">${top.map(p => `<div class="post-card" style="padding:12px;"><strong>${escapeHTML(p.authorName || '')} ${renderUserAvatar(p.uid, p.authorEmoji)}</strong><div class="muted" style="font-size:12px;margin-top:4px;">${escapeHTML(fmtTime(p.createdAt))}</div><div style="white-space:pre-wrap;line-height:1.7;margin-top:8px;">${escapeHTML((p.text || '').slice(0,120))}${(p.text || '').length>120 ? '…' : ''}</div></div>`).join('')}</div>`;
     }
+    
     function renderPosts() {
       const list = $('posts-list');
       const visible = state.posts.filter(p => !p.deleted && p.sectionId === state.currentSectionId && (p.approved || auth.currentUser?.email === adminEmail));
@@ -1188,7 +1293,7 @@
         const authorIsVip = isVipUser(authorUser);
         const authorNameHtml = `<span style="color:${authorIsVip ? '#b8860b' : 'inherit'};font-weight:${authorIsVip ? '900' : '800'};">${escapeHTML(post.authorName || '')}</span>`;
         const vipButtonHtml = authorIsVip ? `<button type="button" class="vip-name-btn" data-vip-profile>VIP</button>` : '';
-        card.innerHTML = `<div class="post-meta"><div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">${authorNameHtml} ${escapeHTML(post.authorEmoji || '🌚')}${vipButtonHtml}</div><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.8;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">👁️ المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="reaction-row"></div><div class="post-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>' : ''}${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>' : ''}${auth.currentUser?.email === adminEmail && !post.approved ? '<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>' : ''}${auth.currentUser?.email === adminEmail ? '<button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>' : ''}</div><div class="comments-area" style="margin-top:12px;"></div>`;
+        card.innerHTML = `<div class="post-meta"><div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">${authorNameHtml} ${renderUserAvatar(post.uid, post.authorEmoji)}${vipButtonHtml}</div><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.8;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">👁️ المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="reaction-row"></div><div class="post-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>' : ''}${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>' : ''}${auth.currentUser?.email === adminEmail && !post.approved ? '<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>' : ''}${auth.currentUser?.email === adminEmail ? '<button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>' : ''}</div><div class="comments-area" style="margin-top:12px;"></div>`;
         const reactionRow = card.querySelector('.reaction-row');
         reactionOptions.forEach(r => {
           const btn = document.createElement('button');
@@ -1212,7 +1317,7 @@
           row.className = 'comment-card';
           row.style.marginTop = '10px';
           const canManage = canEditDelete(c);
-          row.innerHTML = `<div class="comment-meta"><div><strong>${escapeHTML(c.authorName || '')} ${escapeHTML(c.authorEmoji || '🌚')}</strong></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(c.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(c.text || '')}</div><div class="comment-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-report-comment>إبلاغ</button>${canManage ? '<button type="button" class="pill-btn tiny-btn" data-edit-comment>تعديل</button>' : ''}${canManage ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del-comment>حذف</button>' : ''}</div>`;
+          row.innerHTML = `<div class="comment-meta"><div><strong>${escapeHTML(c.authorName || '')} ${renderUserAvatar(c.uid, c.authorEmoji)}</strong></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(c.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(c.text || '')}</div><div class="comment-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-report-comment>إبلاغ</button>${canManage ? '<button type="button" class="pill-btn tiny-btn" data-edit-comment>تعديل</button>' : ''}${canManage ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del-comment>حذف</button>' : ''}</div>`;
           row.querySelector('[data-report-comment]').onclick = () => reportComment(c.id);
           const ec = row.querySelector('[data-edit-comment]'); if (ec) ec.onclick = () => editOwnComment(c.id);
           const dc = row.querySelector('[data-del-comment]'); if (dc) dc.onclick = () => deleteComment(c.id);
@@ -1226,7 +1331,7 @@
       allPosts.forEach(post => {
         const row = document.createElement('div');
         row.className = 'post-card';
-        row.innerHTML = `<div class="post-meta"><div><strong>${escapeHTML(post.authorName || '')} ${escapeHTML(post.authorEmoji || '🌚')}</strong><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">الحالة: ${post.approved ? 'موافق عليه' : 'معلّق'} — المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="post-actions"><button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div>`;
+        row.innerHTML = `<div class="post-meta"><div><strong>${escapeHTML(post.authorName || '')} ${renderUserAvatar(post.uid, post.authorEmoji)}</strong><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">الحالة: ${post.approved ? 'موافق عليه' : 'معلّق'} — المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="post-actions"><button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div>`;
         row.querySelector('[data-approve]').onclick = () => approvePost(post.id, true);
         row.querySelector('[data-reject]').onclick = () => approvePost(post.id, false);
         row.querySelector('[data-edit]').onclick = () => editOwnPost(post.id);
@@ -1242,12 +1347,13 @@
       state.users.forEach(u => {
         const row = document.createElement('div');
         row.className = 'user-row';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(u.name || '')} ${escapeHTML(u.emoji || '🌚')}</div><div class="muted">${escapeHTML(u.email || '')}</div><div class="muted">${escapeHTML(u.phone || '')} — ${escapeHTML(u.country || '')} — ${escapeHTML(String(u.age || ''))}</div><div class="muted">${escapeHTML(u.description || '')}</div><div class="muted">🪙 الكوينز: <strong>${Number(u.coins || 0)}</strong></div><div class="split-row"><span class="status-pill ${u.blocked ? 'blocked' : ''}">${u.blocked ? 'محظور' : 'نشط'}</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn secondary-btn" data-add>+ كوينز</button><button type="button" class="pill-btn tiny-btn warning-btn" data-sub>- كوينز</button><button type="button" class="pill-btn tiny-btn ${u.blocked ? 'secondary-btn' : 'danger-btn'}" data-block>${u.blocked ? 'إلغاء الحظر' : 'حظر'}</button></div></div>`;
+        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(u.name || '')} ${renderUserAvatar(u.id, u.emoji)}</div><div class="muted">${escapeHTML(u.email || '')}</div><div class="muted">${escapeHTML(u.phone || '')} — ${escapeHTML(u.country || '')} — ${escapeHTML(String(u.age || ''))}</div><div class="muted">${escapeHTML(u.description || '')}</div><div class="muted">🪙 الكوينز: <strong>${Number(u.coins || 0)}</strong></div><div class="split-row"><span class="status-pill ${u.blocked ? 'blocked' : ''}">${u.blocked ? 'محظور' : 'نشط'}</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn secondary-btn" data-add>+ كوينز</button><button type="button" class="pill-btn tiny-btn warning-btn" data-sub>- كوينز</button><button type="button" class="pill-btn tiny-btn ${u.blocked ? 'secondary-btn' : 'danger-btn'}" data-block>${u.blocked ? 'إلغاء الحظر' : 'حظر'}</button></div></div>`;
         row.querySelector('[data-add]').onclick = () => openCoinDialog(u.id, u.name || u.email, 1);
         row.querySelector('[data-sub]').onclick = () => openCoinDialog(u.id, u.name || u.email, -1);
         row.querySelector('[data-block]').onclick = () => blockUser(u.id, !u.blocked);
         list.appendChild(row);
       });
+      updateHeaderAvatar();
     }
 
     function renderComments() {
@@ -1265,7 +1371,7 @@
         const post = state.posts.find(p => p.id === c.postId);
         const row = document.createElement('div');
         row.className = 'admin-subcard';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(c.authorName || '')} ${escapeHTML(c.authorEmoji || '🌚')}</div><div class="muted">${escapeHTML(c.text || '')}</div><div class="muted">على بوست: ${escapeHTML(post?.text ? post.text.slice(0,80) : c.postId || '')}</div><div class="muted">${escapeHTML(fmtTime(c.createdAt))}</div>`;
+        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(c.authorName || '')} ${renderUserAvatar(c.uid, c.authorEmoji)}</div><div class="muted">${escapeHTML(c.text || '')}</div><div class="muted">على بوست: ${escapeHTML(post?.text ? post.text.slice(0,80) : c.postId || '')}</div><div class="muted">${escapeHTML(fmtTime(c.createdAt))}</div>`;
         list.appendChild(row);
       });
     }
@@ -1286,7 +1392,7 @@
       groups.forEach(({post, views}) => {
         const row = document.createElement('div');
         row.className = 'admin-subcard';
-        const viewers = views.slice(0, 8).map(v => `<span class="view-pill">${escapeHTML(v.viewerName || '')} ${escapeHTML(v.viewerEmoji || '🌚')}</span>`).join('');
+        const viewers = views.slice(0, 8).map(v => `<span class="view-pill">${escapeHTML(v.viewerName || '')} ${renderUserAvatar(v.uid, v.viewerEmoji)}</span>`).join('');
         row.innerHTML = `<div style="font-weight:800;">${escapeHTML(post?.text ? post.text.slice(0,110) : 'بوست بدون نص')}</div><div class="muted">عدد المشاهدات: ${views.length}</div><div class="viewers-list">${viewers || '<span class="muted">لا يوجد أسماء ظاهرة</span>'}</div>`;
         list.appendChild(row);
       });
@@ -1332,7 +1438,7 @@
         const user = auth.currentUser;
         if (user) {
           const me = state.users.find(x => x.id === user.uid);
-          if (me) { $('header-coins-chip').textContent = `🪙 ${Number(me.coins || 0)}`; state.currentUserData = me; }
+          if (me) { $('header-coins-chip').textContent = `🪙 ${Number(me.coins || 0)}`; state.currentUserData = me; updateHeaderAvatar(); }
         }
         renderPosts();
         if (!$('vip-modal').classList.contains('hidden')) renderVipPanel(state.currentUserData);
@@ -1360,8 +1466,7 @@
       if (state.currentUserData?.blocked) { toast('تم حظرك من المنصة.', 'error', 3500); await signOut(auth); return; }
       $('auth-section').classList.add('hidden');
       $('app-section').classList.remove('hidden');
-      $('user-emoji-btn').textContent = state.currentUserData?.emoji || '🌚';
-      $('header-emoji-chip').textContent = state.currentUserData?.emoji || '🌚';
+      updateHeaderAvatar();
       $('header-coins-chip').textContent = `🪙 ${Number(state.currentUserData?.coins || 0)}`;
       $('set-name').value = state.currentUserData?.name || '';
       $('set-age').value = state.currentUserData?.age || '';
