@@ -160,36 +160,18 @@
 .view-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px;margin:2px 6px 2px 0}
 .vip-panel{display:grid;gap:10px}
 .vip-price{font-size:18px;font-weight:900;color:#b8860b}
-.vip-badge-btn{
-  display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:none;border-radius:999px;
-  background:linear-gradient(135deg,#8a6400,#ffd966 55%,#fff1a8);color:#201400;font-weight:900;
-  box-shadow:0 8px 18px rgba(184,134,11,.25);cursor:pointer;white-space:nowrap
-}
-.vip-badge-btn:hover{transform:translateY(-1px)}
-.vip-mini-note{font-size:12px;color:#7a5b00;font-weight:700}
-.vip-hero{
-  padding:18px;border-radius:22px;border:1px solid rgba(255,215,0,.35);
-  background:linear-gradient(145deg,#2a1a00 0%,#6b4d00 35%,#b8860b 70%,#ffe38a 100%);
-  color:#fff7d0;box-shadow:0 18px 40px rgba(184,134,11,.25)
-}
-.vip-hero .muted,.vip-hero .hint{color:rgba(255,248,214,.82)}
-.vip-hero .vip-price{color:#fffbe3}
-.vip-feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.vip-header{display:flex;gap:14px;align-items:center}
+.vip-avatar{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#fff7c2,#d4af37);box-shadow:inset 0 0 0 1px rgba(184,134,11,.25),0 10px 22px rgba(184,134,11,.18)}
+.vip-name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.vip-name-btn{border:none;border-radius:999px;padding:6px 10px;cursor:pointer;font-weight:900;background:linear-gradient(45deg,#b8860b,#ffd700);color:#111;box-shadow:0 8px 20px rgba(184,134,11,.18)}
+.vip-feature-grid{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:640px){.vip-feature-grid{grid-template-columns:1fr}}
-.vip-feature{
-  padding:12px 13px;border-radius:16px;border:1px solid rgba(184,134,11,.25);
-  background:linear-gradient(180deg,#fff9d8 0%,#fff2b5 100%);color:#4a3500;box-shadow:0 10px 18px rgba(184,134,11,.10)
-}
-.vip-feature strong{display:block;margin-bottom:4px}
-.vip-active-chip{
-  display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;
-  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);font-weight:900
-}
-.vip-status-ok{color:#1f7a2e;font-weight:900}
-.vip-status-off{color:#a16207;font-weight:900}
-.vip-lock-note{
-  padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.16)
-}
+.vip-feature{padding:12px 13px;border-radius:14px;background:color-mix(in srgb,var(--soft) 82%, #ffd700 18%);border:1px solid color-mix(in srgb,var(--input-border) 80%, #ffd700 20%);display:flex;gap:10px;align-items:flex-start}
+.vip-feature .icon{font-size:18px;line-height:1.2}
+.vip-action-grid{display:grid;gap:10px}
+.vip-preview{padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(184,134,11,.12),rgba(255,215,0,.08));border:1px solid rgba(184,134,11,.25)}
+.vip-status-active{background:color-mix(in srgb,#16a34a 18%, transparent);color:#16a34a}
+.vip-status-inactive{background:color-mix(in srgb,#b8860b 18%, transparent);color:#b8860b}
 
 </style>
 </head>
@@ -522,21 +504,40 @@
   </div>
 
   
-<div id="vip-modal" class="modal hidden">
-    <div class="modal-box card">
+
+  <div id="vip-modal" class="modal hidden">
+    <div class="modal-box card large">
       <div class="section-title">
-        <h2 style="margin:0;">عضوية VIP</h2>
+        <h2 style="margin:0;">VIP — لوحة العضوية</h2>
         <button type="button" class="icon-btn" onclick="closeVipModal()">✕</button>
       </div>
+
       <div class="vip-panel">
-        <div class="admin-subcard">
-          <div class="muted">رصيدك الحالي</div>
-          <div class="vip-price" id="vipCoinsInfo">0 كوينز</div>
-          <div class="hint">الاشتراك الشهري يتطلب 100 كوينز، ويتم الخصم مباشرة بعد الاشتراك.</div>
-          <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()">اشترك VIP لمدة شهر - 100 كوينز</button>
+        <div class="admin-subcard vip-header">
+          <div class="vip-avatar" id="vipProfileAvatar">👑</div>
+          <div class="stack" style="gap:6px;">
+            <div class="vip-name-row">
+              <strong id="vipProfileName">اسم المستخدم</strong>
+              <span class="status-pill" id="vipProfileStatus">غير مشترك</span>
+            </div>
+            <div class="muted" id="vipProfileMeta">اضغط على زر VIP بجانب الاسم لعرض ملف العضو.</div>
+            <div class="hint" id="vipProfileCoinLine">رصيد الكوينز: 0</div>
+          </div>
         </div>
 
         <div class="admin-subcard">
+          <div class="section-title" style="margin-bottom:10px;">
+            <h3 style="margin:0;">مميزات VIP</h3>
+            <span class="badge">10</span>
+          </div>
+          <div class="vip-feature-grid" id="vipBenefitsList"></div>
+        </div>
+
+        <div class="admin-subcard" id="vipActionCard">
+          <div class="vip-action-grid" id="vipActionArea"></div>
+        </div>
+
+        <div class="admin-subcard hidden" id="coinTopupBoxWrap">
           <div class="section-title" style="margin-bottom:8px;">
             <h3 style="margin:0;">شحن الكوينز</h3>
             <button type="button" class="pill-btn tiny-btn" onclick="showCoinTopup()">+</button>
@@ -554,7 +555,9 @@
       </div>
     </div>
   </div>
+
   <div id="toast-host" class="toast-host"></div>
+
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -597,7 +600,8 @@
       viewedPostsCache: new Set(JSON.parse(localStorage.getItem('mixtajaViewedPosts') || '[]')),
       feedMode: 'new',
       composerOpen: false,
-      pendingDialog: null
+      pendingDialog: null,
+      vipProfileUserId: null
     };
 
     function toast(message, type = 'info', timeout = 2600) {
@@ -617,150 +621,104 @@
     function closeSupportModal(){ $('support-modal').classList.add('hidden'); }
     function closeDialog(){ $('dialog-modal').classList.add('hidden'); state.pendingDialog = null; }
 
-    const vipFeatures = [
-      { title: 'شارة ذهبية فاخرة', desc: 'تظهر بجانب اسمك في البوستات وتلفت الانتباه فورًا.' },
-      { title: 'أولوية الظهور', desc: 'يبرز محتواك قبل الحسابات العادية في القسم.' },
-      { title: 'موافقة أسرع', desc: 'يتم التعامل مع منشوراتك بتسريع واضح في المراجعة.' },
-      { title: 'لوحة بروفايل ذهبية', desc: 'صفحة ملف شخصية بتصميم VIP راقٍ ومميز.' },
-      { title: 'إحصاءات أوضح', desc: 'عرض أسرع لبيانات الحساب والاشتراك والرصيد.' },
-      { title: 'دعم أولوية', desc: 'طلبك يصل بشكل أوضح وأسرع لفريق الدعم.' },
-      { title: 'مكافآت أعلى', desc: 'فرصة أفضل للاستفادة من مزايا النشاط داخل المنصة.' },
-      { title: 'تمييز في التعليقات', desc: 'تظهر مشاركاتك بشكل أقوى وأكثر حضورًا.' },
-      { title: 'إحساس احترافي', desc: 'يمنح حسابك شكلًا احترافيًا يوحي بالثقة والقوة.' },
-      { title: 'عرض خاص للمميزات', desc: 'كل مميزاتك تظهر لك بوضوح داخل لوحة واحدة منظمة.' }
-    ];
-
-    function normalizeVipStatus(userData) {
-      const until = userData?.vipUntil ? new Date(userData.vipUntil) : null;
-      const hasDate = until instanceof Date && !isNaN(until.getTime());
-      const activeByDate = hasDate ? until.getTime() > Date.now() : false;
-      const activeByFlag = Boolean(userData?.vipActive || userData?.vip);
-      return {
-        active: Boolean(activeByFlag || activeByDate),
-        until: hasDate ? until : null
-      };
+    
+    function getVipExpiryDate(userData) {
+      if (!userData?.vipUntil) return null;
+      const d = new Date(userData.vipUntil);
+      return isNaN(d.getTime()) ? null : d;
     }
+    function isVipUser(userData) {
+      if (!userData) return false;
+      const expiry = getVipExpiryDate(userData);
+      return Boolean(userData.vipActive || (expiry && expiry.getTime() > Date.now()));
+    }
+    function getVipRemainingText(userData) {
+      const expiry = getVipExpiryDate(userData);
+      if (!expiry) return 'لا توجد مدة اشتراك محددة بعد.';
+      const diff = expiry.getTime() - Date.now();
+      if (diff <= 0) return 'انتهت العضوية.';
+      const days = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+      return `يتبقى ${days} يوم${days === 1 ? '' : 'ًا'} على انتهاء العضوية`;
+    }
+    function getVipBenefits() {
+      return [
+        { icon: '👑', title: 'شارة ذهبية', text: 'اسمك يظهر بتمييز ذهبي واضح داخل البوستات.' },
+        { icon: '🪪', title: 'لوحة تعريف VIP', text: 'ملف خاص يعرض بياناتك وحالة اشتراكك بطريقة احترافية.' },
+        { icon: '🔥', title: 'ظهور أوضح', text: 'تمييز بصري يجعل حسابك أكثر لفتًا للانتباه.' },
+        { icon: '⚡', title: 'وصول أسرع', text: 'زر VIP بجانب الاسم يفتح ملفك مباشرة لأي مستخدم.' },
+        { icon: '🎯', title: 'واجهة احترافية', text: 'تصميم ذهبي متطور يعطي انطباعًا أقوى لحسابك.' },
+        { icon: '📌', title: 'تعريف مختصر', text: 'عرض الاسم والبريد والبلد والعمر والوصف بشكل منظم.' },
+        { icon: '🛡️', title: 'حالة موثوقة', text: 'يظهر تاريخ انتهاء العضوية بوضوح للمستخدم.' },
+        { icon: '💎', title: 'تمييز داخلي', text: 'بطاقة VIP خاصة داخل المنصة لتمييز الأعضاء المميزين.' },
+        { icon: '🎨', title: 'مظهر فاخر', text: 'ألوان ذهبية ولمسات لامعة تجعل حسابك أكثر أناقة.' },
+        { icon: '🚀', title: 'دعوة للاشتراك', text: 'كل عضو يشاهد المزايا قبل الاشتراك بشكل واضح ومقنع.' }
+      ];
+    }
+    function renderVipPanel(targetUser = null) {
+      const current = targetUser || state.currentUserData || {};
+      const active = isVipUser(current);
+      const name = current?.name || current?.email || 'مستخدم';
+      const coins = Number(current?.coins || 0);
+      const emoji = current?.emoji || '🌚';
+      const country = current?.country || 'غير محددة';
+      const age = current?.age || 'غير محدد';
+      const email = current?.email || '';
+      const phone = current?.phone || '';
+      const desc = current?.description || 'لا يوجد وصف بعد.';
+      const roleLabel = active ? 'عضو VIP' : 'عضو عادي';
+      $('vipProfileAvatar').textContent = emoji;
+      $('vipProfileName').textContent = name;
+      $('vipProfileStatus').textContent = active ? 'VIP نشط' : 'غير مشترك';
+      $('vipProfileStatus').className = 'status-pill ' + (active ? 'vip-status-active' : 'vip-status-inactive');
+      $('vipProfileMeta').textContent = `${roleLabel} • ${getVipRemainingText(current)}`;
+      $('vipProfileCoinLine').textContent = `البريد: ${email || 'غير متوفر'} • الهاتف: ${phone || 'غير متوفر'} • البلد: ${country} • العمر: ${age}`;
+      $('vipBenefitsList').innerHTML = getVipBenefits().map(item => `<div class="vip-feature"><div class="icon">${item.icon}</div><div><div style="font-weight:900;margin-bottom:4px;">${escapeHTML(item.title)}</div><div class="muted" style="font-size:13px;line-height:1.65;">${escapeHTML(item.text)}</div></div></div>`).join('');
 
-    async function fetchUserById(uid) {
-      if (!uid) return null;
-      const cached = state.users.find(u => u.id === uid);
-      if (cached) return cached;
-      try {
-        const snap = await getDoc(doc(db, 'users', uid));
-        return snap.exists() ? { id: uid, ...snap.data() } : null;
-      } catch (err) {
-        console.warn('fetchUserById failed', err);
-        return null;
+      const actionArea = $('vipActionArea');
+      const topupWrap = $('coinTopupBoxWrap');
+      const myUser = state.currentUserData && state.currentUser?.uid === (current?.id || state.currentUser?.uid) ? state.currentUserData : current;
+      $('vipCoinsInfo').textContent = `${coins} كوينز`;
+      $('coinBalanceVip').textContent = String(coins);
+      $('transfer-from-number').value = '';
+      $('transfer-account-email').value = myUser?.email || state.currentUser?.email || '';
+
+      if (active) {
+        topupWrap.classList.add('hidden');
+        actionArea.innerHTML = `
+          <div class="vip-preview">
+            <div style="font-weight:900;font-size:18px;margin-bottom:6px;">أنت مشترك بالفعل في VIP</div>
+            <div class="muted" style="line-height:1.8;">${escapeHTML(desc)}</div>
+          </div>
+          <div class="grid-2">
+            <div class="vip-preview"><div class="hint">نوع العضوية</div><div style="font-weight:900;">عضوية شهرية</div></div>
+            <div class="vip-preview"><div class="hint">الحالة</div><div style="font-weight:900;">${escapeHTML(getVipRemainingText(current))}</div></div>
+          </div>
+        `;
+      } else {
+        topupWrap.classList.remove('hidden');
+        actionArea.innerHTML = `
+          <div class="vip-preview">
+            <div style="font-weight:900;font-size:18px;margin-bottom:6px;">اشترك الآن لمدة شهر مقابل 100 كوينز</div>
+            <div class="muted" style="line-height:1.8;">${escapeHTML(desc)}</div>
+          </div>
+          <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()">اشترك VIP لمدة شهر - 100 كوينز</button>
+          <div class="hint">بعد الاشتراك ستتحول اللوحة تلقائيًا إلى وضع VIP مع إخفاء زر الشراء.</div>
+        `;
       }
     }
-
-    function renderVipPanel(targetUserData = null) {
-      const target = targetUserData || state.currentUserData || {};
-      const status = normalizeVipStatus(target);
-      const isOwnProfile = !targetUserData || target.id === state.currentUser?.uid;
-      const currentStatus = normalizeVipStatus(state.currentUserData);
-      const coinCount = Number(state.currentUserData?.coins || 0);
-      const untilText = status.until ? fmtTime(status.until) : 'غير محدد';
-      const titleName = escapeHTML(target.name || target.email || 'مستخدم');
-      const titleEmoji = escapeHTML(target.emoji || '🌚');
-      const country = escapeHTML(target.country || 'غير محددة');
-      const desc = escapeHTML(target.description || 'لا يوجد وصف بعد.');
-      const age = escapeHTML(String(target.age || 'غير محدد'));
-      const email = escapeHTML(target.email || '—');
-      const phone = escapeHTML(target.phone || '—');
-      const featuresHTML = vipFeatures.map((f, i) => `<div class="vip-feature"><strong>${i + 1}. ${escapeHTML(f.title)}</strong><div class="muted">${escapeHTML(f.desc)}</div></div>`).join('');
-
-      $('vip-modal-title').textContent = isOwnProfile ? 'عضوية VIP' : 'ملف VIP';
-      $('vip-modal-body').innerHTML = `
-        <div class="vip-hero">
-          <div class="split-row" style="align-items:flex-start;">
-            <div>
-              <div class="vip-active-chip">${status.active ? '👑' : '✨'} ${status.active ? 'VIP مفعل' : 'VIP قبل الاشتراك'}</div>
-              <h3 style="margin:10px 0 6px;color:#fff7d0;font-size:1.45rem;">${titleName} ${titleEmoji}</h3>
-              <div class="muted">البريد: ${email}</div>
-              <div class="muted">رقم الهاتف: ${phone}</div>
-            </div>
-            <div class="center">
-              <div class="vip-price">${status.active ? 'اشتراك نشط' : `${coinCount} كوينز`}</div>
-              <div class="hint">${status.active ? `ينتهي في: ${untilText}` : 'الاشتراك الشهري: 100 كوينز'}</div>
-            </div>
-          </div>
-          <div style="margin-top:14px;" class="vip-lock-note">
-            <div class="split-row" style="align-items:flex-start;">
-              <div>
-                <div style="font-weight:900;font-size:1.02rem;">معلومات الحساب</div>
-                <div class="muted" style="margin-top:6px;line-height:1.8;">
-                  الدولة: ${country} — العمر: ${age}<br/>
-                  الوصف: ${desc}
-                </div>
-              </div>
-              <div class="center">
-                <div class="${status.active ? 'vip-status-ok' : 'vip-status-off'}">${status.active ? 'هذا الحساب VIP بالفعل' : 'هذا الحساب غير مشترك بعد'}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        ${!status.active ? `
-          <div class="admin-subcard" style="border-color:rgba(184,134,11,.3);background:linear-gradient(180deg,#fffdf3 0%,#fff7db 100%);">
-            <div class="section-title" style="margin-bottom:10px;">
-              <h3 style="margin:0;color:#7a5600;">قبل الاشتراك، هذه المميزات العشر</h3>
-              <span class="badge" style="background:#b8860b;color:#000;">10 مميزات</span>
-            </div>
-            <div class="vip-feature-grid">${featuresHTML}</div>
-            <div class="hint" style="margin-top:10px;color:#7a5600;font-weight:800;">الاشتراك الشهري يتطلب 100 كوينز ويتم الخصم مباشرة بعد التفعيل.</div>
-            ${isOwnProfile ? `
-              <div class="grid-2" style="margin-top:12px;">
-                <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()">اشترك VIP لمدة شهر - 100 كوينز</button>
-                <button type="button" class="pill-btn secondary-btn" onclick="showCoinTopup()">شحن الكوينز</button>
-              </div>
-            ` : ''}
-          </div>
-        ` : `
-          <div class="admin-subcard" style="border-color:rgba(184,134,11,.26);background:linear-gradient(180deg,#fff7d0 0%,#ffe8a0 100%);color:#4a3500;">
-            <div class="section-title" style="margin-bottom:10px;">
-              <h3 style="margin:0;color:#5b3d00;">مميزات الحساب VIP الحالية</h3>
-              <span class="badge" style="background:#ffd700;color:#4a3500;">مفعل</span>
-            </div>
-            <div class="vip-feature-grid">${featuresHTML}</div>
-            <div class="hint" style="margin-top:10px;color:#5b3d00;font-weight:800;">انتهاء الاشتراك: ${untilText}</div>
-          </div>
-        `}
-
-        ${isOwnProfile && status.active ? `
-          <div class="admin-subcard" style="border-color:rgba(184,134,11,.22);background:#fff8dc;">
-            <div class="section-title" style="margin-bottom:10px;">
-              <h3 style="margin:0;color:#7a5600;">ملخص اشتراكك</h3>
-              <span class="badge" style="background:#8a6400;color:#fff;">VIP</span>
-            </div>
-            <div class="muted" style="color:#7a5600;font-weight:800;">أنت مشترك بالفعل، لذلك تم إخفاء زر الشراء واستبداله بالمميزات والبيانات.</div>
-          </div>
-        ` : ''}
-
-        ${!isOwnProfile ? `
-          <div class="admin-subcard" style="border-color:rgba(184,134,11,.22);background:#fff8dc;">
-            <div class="muted" style="color:#7a5600;font-weight:800;">هذه لوحة عرض لملف العضوية فقط، والاشتراك يظهر من حالة الحساب الحالية.</div>
-          </div>
-        ` : ''}
-      `;
-      $('coinBalanceVip').textContent = String(Number(target?.coins || 0));
-      $('vipCoinsInfo').textContent = status.active ? 'VIP مفعل' : `${coinCount} كوينز`;
-      $('transfer-from-number').value = '';
-      $('transfer-account-email').value = state.currentUser?.email || target?.email || '';
-      $('coinTopupBox').classList.add('hidden');
+    function openVipModal(targetUserId = null) {
+      state.vipProfileUserId = targetUserId || (state.currentUser?.uid || null);
+      let targetUser = state.currentUserData || null;
+      if (targetUserId) {
+        targetUser = state.users.find(u => u.id === targetUserId) || targetUser;
+      }
+      renderVipPanel(targetUser);
       $('vip-modal').classList.remove('hidden');
-    }
-
-    function openVipModal() {
-      renderVipPanel(state.currentUserData);
-    }
-    async function openUserVipModal(uid) {
-      const userData = uid === state.currentUser?.uid ? state.currentUserData : await fetchUserById(uid);
-      renderVipPanel(userData || state.currentUserData);
     }
     function closeVipModal() { $('vip-modal').classList.add('hidden'); }
     function showCoinTopup() { $('coinTopupBox').classList.toggle('hidden'); }
     function openDialog({title='رسالة', bodyHTML='', confirmText='موافق', cancelText='إلغاء', onConfirm=null}) {
+
       $('dialog-title').textContent = title;
       $('dialog-body').innerHTML = bodyHTML;
       $('dialog-confirm').textContent = confirmText;
@@ -866,9 +824,13 @@
     window.closeSupportModal = closeSupportModal;
     window.closeDialog = closeDialog;
     window.openVipModal = openVipModal;
-    window.openUserVipModal = openUserVipModal;
     window.closeVipModal = closeVipModal;
     window.showCoinTopup = showCoinTopup;
+    window.openVipProfileModal = (userId) => openVipModal(userId);
+    window.openVipModal = openVipModal;
+    window.closeVipModal = closeVipModal;
+    window.showCoinTopup = showCoinTopup;
+    window.openVipProfileModal = (userId) => openVipModal(userId);
     window.toggleAuth = () => { $('login-form').classList.toggle('hidden'); $('signup-form').classList.toggle('hidden'); };
     window.openSettings = () => $('settings-modal').classList.remove('hidden');
     window.closeSettings = () => $('settings-modal').classList.add('hidden');
@@ -901,7 +863,6 @@
         await setDoc(doc(db, 'users', cred.user.uid), {
           name, phone, email, country, age: Number(age), description: desc,
           emoji, role: 'user', blocked: false, coins: 0,
-          vipActive: false, vip: false, vipUntil: null,
           createdAt: serverTimestamp(), coinLog: []
         });
         toast('تم التسجيل بنجاح.', 'success');
@@ -920,27 +881,25 @@
     };
     window.logout = async () => { try { await signOut(auth); toast('تم تسجيل الخروج.', 'info'); } catch (e) { console.error(e); } };
 
+    
     window.subscribeVip = async () => {
       const user = auth.currentUser;
       if (!user || !state.currentUserData) return;
-      const status = normalizeVipStatus(state.currentUserData);
-      if (status.active) {
-        toast('أنت مشترك بالفعل في VIP.', 'info');
-        renderVipPanel(state.currentUserData);
+      const coins = Number(state.currentUserData.coins || 0);
+      if (isVipUser(state.currentUserData)) {
+        toast('حسابك مشترك بالفعل في VIP.', 'info');
         return;
       }
-      const coins = Number(state.currentUserData.coins || 0);
       if (coins < 100) {
         toast('لا توجد 100 كوينز كافية للاشتراك.', 'warning');
         return;
       }
       try {
-        const until = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+        const vipUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
         await updateDoc(doc(db, 'users', user.uid), {
           coins: increment(-100),
-          vipUntil: until,
+          vipUntil,
           vipActive: true,
-          vip: true,
           vipPurchasedAt: serverTimestamp()
         });
         await addDoc(collection(db, 'vipSubscriptions'), {
@@ -950,14 +909,14 @@
           amount: 100,
           status: 'active',
           createdAt: serverTimestamp(),
-          expiresAt: until
+          expiresAt: vipUntil
         });
         state.currentUserData.coins = coins - 100;
+        state.currentUserData.vipUntil = vipUntil;
         state.currentUserData.vipActive = true;
-        state.currentUserData.vip = true;
-        state.currentUserData.vipUntil = until;
         $('header-coins-chip').textContent = `🪙 ${coins - 100}`;
         renderVipPanel(state.currentUserData);
+        renderPosts();
         toast('تم الاشتراك في VIP لمدة شهر.', 'success');
       } catch (err) {
         console.error(err);
@@ -966,6 +925,7 @@
     };
 
     window.coinSent = async () => {
+
       const user = auth.currentUser;
       if (!user || !state.currentUserData) return;
       const transferFromNumber = $('transfer-from-number').value.trim();
@@ -1215,9 +1175,11 @@
         card.className = 'post-card';
         const isOwnerOrAdmin = canEditDelete(post);
         const reactions = post.reactions || { '😂':0,'♥':0,'😢':0,'👍🏻':0,'😍':0 };
-        const postAuthorStatus = normalizeVipStatus(post.uid === state.currentUser?.uid ? state.currentUserData : state.users.find(u => u.id === post.uid));
-        const vipButton = postAuthorStatus.active ? `<button type="button" class="vip-badge-btn" data-vip-user title="عرض ملف VIP">👑 VIP</button>` : '';
-        card.innerHTML = `<div class="post-meta"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><strong>${escapeHTML(post.authorName || '')} ${escapeHTML(post.authorEmoji || '🌚')}</strong>${vipButton}</div><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div style="white-space:pre-wrap;line-height:1.8;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">👁️ المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="reaction-row"></div><div class="post-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>' : ''}${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>' : ''}${auth.currentUser?.email === adminEmail && !post.approved ? '<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>' : ''}${auth.currentUser?.email === adminEmail ? '<button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>' : ''}</div><div class="comments-area" style="margin-top:12px;"></div>`;
+        const authorUser = state.users.find(u => u.id === post.uid) || null;
+        const authorIsVip = isVipUser(authorUser);
+        const authorNameHtml = `<span style="color:${authorIsVip ? '#b8860b' : 'inherit'};font-weight:${authorIsVip ? '900' : '800'};">${escapeHTML(post.authorName || '')}</span>`;
+        const vipButtonHtml = authorIsVip ? `<button type="button" class="vip-name-btn" data-vip-profile>VIP</button>` : '';
+        card.innerHTML = `<div class="post-meta"><div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">${authorNameHtml} ${escapeHTML(post.authorEmoji || '🌚')}${vipButtonHtml}</div><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.8;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">👁️ المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="reaction-row"></div><div class="post-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>' : ''}${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>' : ''}${auth.currentUser?.email === adminEmail && !post.approved ? '<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>' : ''}${auth.currentUser?.email === adminEmail ? '<button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>' : ''}</div><div class="comments-area" style="margin-top:12px;"></div>`;
         const reactionRow = card.querySelector('.reaction-row');
         reactionOptions.forEach(r => {
           const btn = document.createElement('button');
@@ -1229,8 +1191,7 @@
         });
         card.querySelector('[data-comment]').onclick = () => addComment(post.id);
         card.querySelector('[data-report]').onclick = () => reportPost(post.id);
-        const vipBtn = card.querySelector('[data-vip-user]');
-        if (vipBtn) vipBtn.onclick = () => openUserVipModal(post.uid);
+        const vipBtn = card.querySelector('[data-vip-profile]'); if (vipBtn) vipBtn.onclick = () => openVipModal(post.uid);
         const editBtn = card.querySelector('[data-edit]'); if (editBtn) editBtn.onclick = () => editOwnPost(post.id);
         const delBtn = card.querySelector('[data-del]'); if (delBtn) delBtn.onclick = () => deletePost(post.id);
         const approveBtn = card.querySelector('[data-approve]'); if (approveBtn) approveBtn.onclick = () => approvePost(post.id, true);
@@ -1357,15 +1318,13 @@ function openCoinDialog(userId, userName, sign) {
       onSnapshot(query(collection(db, 'users'), orderBy('createdAt', 'desc')), (snap) => {
         state.users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         renderUsers();
-        if (auth.currentUser && state.currentUser?.uid !== auth.currentUser.uid) {
-          state.currentUserData = state.users.find(x => x.id === auth.currentUser.uid) || state.currentUserData;
-        }
-        renderPosts();
         const user = auth.currentUser;
         if (user) {
           const me = state.users.find(x => x.id === user.uid);
-          if (me) $('header-coins-chip').textContent = `🪙 ${Number(me.coins || 0)}`;
+          if (me) { $('header-coins-chip').textContent = `🪙 ${Number(me.coins || 0)}`; state.currentUserData = me; }
         }
+        renderPosts();
+        if (!$('vip-modal').classList.contains('hidden')) renderVipPanel(state.currentUserData);
       });
       onSnapshot(query(collection(db, 'reports'), orderBy('createdAt', 'desc')), (snap) => { state.reports = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderReports(); });
       onSnapshot(query(collection(db, 'coinRequests'), orderBy('createdAt', 'desc')), (snap) => { state.coinRequests = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderCoinRequests(); });
@@ -1408,6 +1367,7 @@ function openCoinDialog(userId, userName, sign) {
       const ageDays = getAccountAgeDays(state.currentUserData);
       $('new-user-banner').classList.toggle('hidden', ageDays > 7);
       $('trending-box').classList.toggle('hidden', ageDays > 7 && state.feedMode !== 'trending');
+      renderVipPanel(state.currentUserData);
     }
     onAuthStateChanged(auth, async (user) => { if (user) await handleSignedInUser(user); else { $('auth-section').classList.remove('hidden'); $('app-section').classList.add('hidden'); closeSettings(); } });
 
@@ -1417,7 +1377,8 @@ function openCoinDialog(userId, userName, sign) {
     window.viewUsers = () => showAdminView('users');
     window.approvePosts = () => showAdminView('posts');
     window.manageAllContent = () => showAdminView('reports');
-  
-</script>
+    window.refreshVipPanel = () => renderVipPanel(state.currentUserData || null);
+
+  </script>
 </body>
-</html>
+  </html>
