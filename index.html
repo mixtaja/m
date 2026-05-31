@@ -7,7 +7,6 @@
   <style>
     :root{
       --primary:#4CAF50;
-      --primary-2:#2f8f34;
       --danger:#e74c3c;
       --warning:#f59e0b;
       --bg:#f4f4f9;
@@ -19,12 +18,13 @@
       --soft:#eef2f7;
       --shadow:0 10px 30px rgba(0,0,0,.08);
       --shadow-2:0 6px 18px rgba(0,0,0,.08);
-      --radius:18px;
+      --radius:16px;
+      --gold1:#7a5600;
+      --gold2:#d4af37;
+      --gold3:#fff2b8;
     }
-
     body.dark-mode{
       --primary:#25D366;
-      --primary-2:#1ea64f;
       --danger:#ff6b6b;
       --warning:#ffb020;
       --bg:#0f1115;
@@ -37,46 +37,49 @@
       --shadow:0 12px 34px rgba(0,0,0,.35);
       --shadow-2:0 6px 18px rgba(0,0,0,.28);
     }
-
     *{box-sizing:border-box}
     html,body{min-height:100%}
     body{
       margin:0;
-      font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+      font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
       background:var(--bg);
       color:var(--text);
       transition:background-color .25s ease,color .25s ease;
     }
     a{color:inherit}
     .hidden{display:none !important}
-    .wrap{width:min(100%,1100px);margin:0 auto;padding:16px}
-    .card{
-      background:var(--card-bg);
-      border:1px solid var(--input-border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow)
-    }
-    .container{width:min(100%,680px);margin:18px auto;padding:22px}
-    .top-fab{
-      position:fixed;top:12px;inset-inline-start:12px;z-index:60;
-      display:flex;gap:10px;align-items:center
+    .wrap{width:min(100%,1180px);margin:0 auto;padding:16px}
+    .card{background:var(--card-bg);border:1px solid var(--input-border);border-radius:18px;box-shadow:var(--shadow)}
+    .container{width:min(100%,700px);margin:18px auto;padding:22px}
+    .top-fab{position:fixed;top:12px;inset-inline-start:12px;z-index:60;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .icon-btn,.pill-btn,.gold-btn,.ghost-btn,.tiny-btn,.support-btn,.vip-btn,.money-btn{
+      border:none;cursor:pointer;font-weight:800;transition:transform .15s ease,opacity .15s ease,background .15s ease,color .15s ease
     }
     .icon-btn{
-      width:44px;height:44px;border:none;border-radius:50%;
-      background:var(--card-bg);color:var(--text);cursor:pointer;
-      box-shadow:var(--shadow-2);display:inline-flex;align-items:center;justify-content:center;
-      font-size:22px;line-height:1
+      width:44px;height:44px;border-radius:50%;
+      background:var(--card-bg);color:var(--text);box-shadow:var(--shadow-2);
+      display:inline-flex;align-items:center;justify-content:center;font-size:22px;line-height:1
     }
-    .pill-btn{
-      border:none;border-radius:999px;padding:11px 16px;cursor:pointer;
-      background:var(--primary);color:#fff;font-weight:800;box-shadow:var(--shadow-2);
-      transition:transform .15s ease,opacity .15s ease,background .15s ease
+    .pill-btn,.support-btn,.money-btn,.ghost-btn,.tiny-btn,.vip-btn{
+      border-radius:999px;padding:11px 16px;box-shadow:var(--shadow-2)
     }
-    .pill-btn:hover,.icon-btn:hover{transform:translateY(-1px)}
-    .pill-btn:active,.icon-btn:active{transform:translateY(0)}
-    .secondary-btn{background:var(--soft);color:var(--text);border:1px solid var(--input-border)}
-    .danger-btn{background:var(--danger)}
-    .warning-btn{background:var(--warning)}
+    .pill-btn{background:var(--primary);color:#fff}
+    .support-btn{background:#25D366;color:#fff}
+    .ghost-btn{background:var(--soft);color:var(--text);border:1px solid var(--input-border)}
+    .tiny-btn{width:auto;padding:7px 11px;font-size:12px;box-shadow:none}
+    .money-btn{background:linear-gradient(135deg,#8b6508,#f7d66b);color:#291a00}
+    .vip-btn{
+      background:linear-gradient(135deg,var(--gold1),var(--gold2),var(--gold3),var(--gold2),var(--gold1));
+      color:#241700;
+      background-size:200% 200%;
+      animation: shimmer 4s linear infinite;
+      box-shadow:0 0 18px rgba(212,175,55,.18),var(--shadow-2);
+    }
+    @keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+    .danger-btn{background:var(--danger);color:#fff}
+    .warning-btn{background:var(--warning);color:#fff}
+    .icon-btn:hover,.pill-btn:hover,.support-btn:hover,.ghost-btn:hover,.vip-btn:hover,.money-btn:hover,.tiny-btn:hover{transform:translateY(-1px)}
+    .icon-btn:active,.pill-btn:active,.support-btn:active,.ghost-btn:active,.vip-btn:active,.money-btn:active,.tiny-btn:active{transform:translateY(0)}
     h1,h2,h3{margin:0 0 12px;text-align:center}
     h1{color:var(--primary);font-size:2rem}
     h2{color:var(--primary);font-size:1.35rem}
@@ -85,18 +88,20 @@
     .center{text-align:center}
     .stack{display:grid;gap:10px}
     .grid-2{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
-    @media (max-width:700px){.grid-2{grid-template-columns:1fr}.container{padding:16px}}
+    .grid-3{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media (max-width:700px){.grid-2,.grid-3{grid-template-columns:1fr}.container{padding:16px}}
     input,select,textarea{
       width:100%;padding:12px 13px;border:1px solid var(--input-border);border-radius:12px;
       background:var(--input-bg);color:var(--text);outline:none;font-size:15px
     }
     textarea{min-height:110px;resize:vertical}
+    .small-input{padding:10px 11px;border-radius:10px}
     .emoji-selector{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
     .emoji-selector input[type="radio"]{display:none}
     .emoji-selector label{
       display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;
       padding:0 10px;border-radius:12px;border:1px solid var(--input-border);background:var(--input-bg);
-      font-size:24px;cursor:pointer;transition:transform .15s ease,border-color .15s ease;background .15s ease;user-select:none
+      font-size:24px;cursor:pointer;user-select:none;transition:transform .15s ease,border-color .15s ease
     }
     .emoji-selector input[type="radio"]:checked + label{border-color:var(--primary);transform:scale(1.06)}
     .auth-card{margin-top:22px;padding:20px}
@@ -105,68 +110,87 @@
     .logo{width:54px;height:54px;object-fit:contain;border-radius:14px;background:var(--soft);border:1px solid var(--input-border);padding:6px}
     .brand-title{font-weight:900;font-size:1.15rem;color:var(--primary);letter-spacing:.4px}
     .switch-link{cursor:pointer;color:var(--primary);text-align:center;font-weight:800;margin:4px 0 0}
-    .header-bar{
-      position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);
-      backdrop-filter:blur(10px);border-bottom:1px solid var(--input-border)
-    }
-    .header-inner{width:min(100%,1100px);margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .header-left,.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    .page-grid{display:grid;grid-template-columns:290px 1fr;gap:16px;align-items:start;margin-top:16px}
-    @media (max-width:900px){.page-grid{grid-template-columns:1fr}}
+    .header-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--input-border)}
+    .header-inner{width:min(100%,1180px);margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .header-right,.header-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .brand-title{font-weight:900;font-size:1.15rem;color:var(--primary);letter-spacing:.4px}
+    .page-grid{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start;margin-top:16px}
+    @media (max-width:920px){.page-grid{grid-template-columns:1fr}}
     .panel{padding:16px}
     .section-list{display:grid;gap:8px}
-    .section-chip{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 13px;border-radius:12px;background:var(--soft);border:1px solid var(--input-border);cursor:pointer;transition:transform .15s ease,border-color .15s ease}
+    .section-chip{
+      display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 13px;border-radius:12px;
+      background:var(--soft);border:1px solid var(--input-border);cursor:pointer;transition:transform .15s ease,border-color .15s ease
+    }
     .section-chip.active{border-color:var(--primary)}
     .section-chip:hover{transform:translateY(-1px)}
     .badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 9px;border-radius:999px;background:var(--primary);color:#fff;font-size:12px;font-weight:800;white-space:nowrap}
-    .post-card,.comment-card,.admin-card{padding:14px;border-radius:14px;background:var(--card-bg);border:1px solid var(--input-border);box-shadow:var(--shadow-2)}
-    .post-meta,.comment-meta{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+    .post-card,.comment-card,.user-row{
+      padding:14px;border-radius:14px;background:var(--card-bg);border:1px solid var(--input-border);box-shadow:var(--shadow-2)
+    }
+    .post-meta,.comment-meta,.split-row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
     .post-actions,.comment-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .tiny-btn{width:auto;padding:7px 11px;font-size:12px;border-radius:10px;box-shadow:none}
     .reaction-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .reaction{display:inline-flex;align-items:center;justify-content:center;min-width:42px;min-height:38px;padding:0 8px;border-radius:12px;border:1px solid var(--input-border);background:var(--soft);cursor:pointer;user-select:none;transition:transform .15s ease,border-color .15s ease;font-size:18px}
+    .reaction{
+      display:inline-flex;align-items:center;justify-content:center;min-width:42px;min-height:38px;padding:0 8px;
+      border-radius:12px;border:1px solid var(--input-border);background:var(--soft);cursor:pointer;user-select:none;transition:transform .15s ease,border-color .15s ease;font-size:18px
+    }
     .reaction:hover{transform:translateY(-1px)}
     .reaction.active{border-color:var(--primary)}
-    .split-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-    .split-row>*{flex:1 1 auto}
     .list-stack{display:grid;gap:12px}
-    .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
     .footer-note{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:14px;z-index:1000}
-    .modal-box{width:min(100%,520px);max-height:92vh;overflow:auto;padding:18px}
-    .modal-box.large{width:min(100%,880px)}
-    .user-row{padding:12px;border:1px solid var(--input-border);border-radius:12px;background:var(--soft);display:grid;gap:6px}
-    .status-pill{display:inline-flex;align-items:center;justify-content:center;width:fit-content;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary)}
+    .status-pill{
+      display:inline-flex;align-items:center;justify-content:center;width:fit-content;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;
+      background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary)
+    }
     .status-pill.pending{background:color-mix(in srgb,var(--warning) 18%,transparent);color:#d97706}
     .status-pill.blocked{background:color-mix(in srgb,var(--danger) 18%,transparent);color:var(--danger)}
-    .hint{font-size:12px;color:var(--muted);margin-top:4px}
-    .small-input{padding:10px 11px;border-radius:10px}
+    .status-pill.vip{background:linear-gradient(135deg,#8b6508,#f7d66b);color:#291a00}
+    .gold-name{
+      background:linear-gradient(90deg,#6f4d00,#d4af37,#fff2b8,#b8860b,#6f4d00);
+      -webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900;
+      text-shadow:0 0 12px rgba(212,175,55,.18)
+    }
+    .vip-tag{
+      display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;
+      background:linear-gradient(135deg,#7a5600,#f0c96a);color:#241700;font-weight:900;font-size:12px;box-shadow:0 0 18px rgba(212,175,55,.18)
+    }
+    .profile-header,.gold-panel{
+      display:grid;gap:10px;padding:16px;border-radius:16px;border:1px solid color-mix(in srgb,var(--gold2) 35%,var(--input-border));
+      background:linear-gradient(180deg,color-mix(in srgb,var(--gold2) 10%,var(--card-bg)),var(--card-bg))
+    }
+    .profile-links,.support-menu,.visitor-list{display:grid;gap:10px}
+    .profile-link-btn,.support-link-btn,.visitor-pill,.feature-pill{
+      display:block;width:100%;text-align:center;padding:10px 12px;border-radius:12px;background:var(--soft);border:1px solid var(--input-border);font-weight:800;text-decoration:none
+    }
+    .visitor-pill,.feature-pill{display:inline-flex;width:fit-content;align-items:center;gap:6px}
+    .modal{
+      position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:14px;z-index:1000
+    }
+    .modal-box{width:min(100%,560px);max-height:92vh;overflow:auto;padding:18px}
+    .modal-box.large{width:min(100%,920px)}
     .toast-host{position:fixed;bottom:14px;inset-inline-start:14px;z-index:2000;display:grid;gap:10px;pointer-events:none}
-    .toast{min-width:min(92vw,360px);max-width:360px;padding:14px 15px;border-radius:16px;color:#fff;box-shadow:0 16px 30px rgba(0,0,0,.22);pointer-events:auto;transform:translateY(8px);opacity:0;animation:toastIn .22s ease forwards;background:#334155}
+    .toast{
+      min-width:min(92vw,380px);max-width:380px;padding:14px 15px;border-radius:16px;color:#fff;
+      box-shadow:0 16px 30px rgba(0,0,0,.22);pointer-events:auto;transform:translateY(8px);opacity:0;
+      animation:toastIn .22s ease forwards;background:#334155
+    }
     .toast.success{background:#16a34a}.toast.error{background:#dc2626}.toast.info{background:#2563eb}.toast.warning{background:#ca8a04}
     @keyframes toastIn{to{transform:translateY(0);opacity:1}}
     .composer{padding:16px;border:1px solid var(--input-border);border-radius:18px;background:var(--card-bg);box-shadow:var(--shadow-2)}
-    .composer-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
     .feed-sort{display:flex;gap:8px;flex-wrap:wrap}
     .mini-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px}
-    .support-menu{display:grid;gap:10px}
-    .support-link-btn{text-decoration:none;display:block;width:100%;text-align:center;padding:12px 14px;border-radius:12px;background:var(--soft);border:1px solid var(--input-border);font-weight:800}
-
-.vip-btn{background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;font-weight:900}
-.coin-box{display:flex;align-items:center;gap:6px}
-.table-like{display:grid;gap:10px}
-.admin-subcard{padding:14px;border:1px solid var(--input-border);border-radius:14px;background:var(--soft)}
-.request-meta,.viewers-list{display:grid;gap:6px}
-.view-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px;margin:2px 6px 2px 0}
-.vip-panel{display:grid;gap:10px}
-.vip-price{font-size:18px;font-weight:900;color:#b8860b}
-
-</style>
+    .support-menu a{text-decoration:none}
+    .pay-box{display:grid;gap:10px}
+    .help-line{padding:12px 14px;border-radius:12px;border:1px solid var(--input-border);background:var(--soft)}
+    .admin-toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+    .viewer-count-btn{width:auto;padding:6px 10px;font-size:12px;border-radius:10px}
+  </style>
 </head>
 <body>
   <div class="top-fab">
-    <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" title="تبديل الوضع">🌓</button>
-    <button class="pill-btn" onclick="openSupportModal()">💬 الدعم</button>
+    <button class="icon-btn" onclick="toggleTheme()" title="تبديل الوضع">🌓</button>
+    <button class="support-btn pill-btn" onclick="openSupportModal()">💬 الدعم</button>
   </div>
 
   <div id="auth-section" class="wrap">
@@ -176,7 +200,7 @@
           <img src="logo1.png" alt="mixtaja" class="logo" onerror="this.style.display='none'" />
           <div>
             <div class="brand-title">mixtaja</div>
-            <div class="muted">تسجيل، أقسام، بوستات، تفاعل، كوينز، إدارة</div>
+            <div class="muted">تسجيل، منشورات، VIP، كوينز، إدارة</div>
           </div>
         </div>
       </div>
@@ -225,8 +249,8 @@
           </select>
           <input type="number" id="reg-age" placeholder="العمر" min="10" />
           <textarea id="reg-desc" placeholder="وصف عنك..."></textarea>
-          <p class="center" style="margin: 8px 0 0;">اختر إيموجي البروفايل:</p>
-          <div class="emoji-selector" id="reg-emoji">
+          <p class="center" style="margin:8px 0 0;">اختر إيموجي البروفايل:</p>
+          <div class="emoji-selector">
             <input type="radio" name="emoji" id="e1" value="🤡"><label for="e1">🤡</label>
             <input type="radio" name="emoji" id="e2" value="♥"><label for="e2">♥</label>
             <input type="radio" name="emoji" id="e3" value="😢"><label for="e3">😢</label>
@@ -249,10 +273,11 @@
       <div class="header-inner">
         <div class="header-right">
           <div class="brand-title">mixtaja</div>
-          <div class="mini-chip" id="header-coins-chip">🪙 0</div>
-          <div class="mini-chip" id="header-emoji-chip">🌚</div>
+          <div class="mini-chip">🪙 <span id="coins-header">0</span></div>
+          <button class="tiny-btn money-btn" onclick="openRechargeModal()">+</button>
+          <button class="tiny-btn vip-btn" onclick="openVipModal()">VIP</button>
         </div>
-        <div class="header-left"><button class="pill-btn vip-btn" onclick="openVipModal()">VIP</button>
+        <div class="header-left">
           <button class="icon-btn" id="user-emoji-btn" onclick="openSettings()" title="الإعدادات">🌚</button>
         </div>
       </div>
@@ -266,40 +291,40 @@
             <span class="badge" id="sections-count">0</span>
           </div>
           <div id="sections-list" class="section-list"></div>
-          <div class="footer-note">اختر قسمًا من القائمة</div>
+          <div class="footer-note">اختر قسمًا ثم اكتب منشورك</div>
         </div>
 
         <div class="stack">
           <div class="card panel">
             <div class="section-title">
-              <h3>المنصة</h3>
-              <div class="feed-sort">
-                <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="setFeedMode('new')">الأحدث</button>
-                <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="setFeedMode('trending')">الرائج</button>
-                <button type="button" class="pill-btn tiny-btn" onclick="toggleComposer()">+ إضافة بوست</button>
-              </div>
+              <h3 id="current-section-title">اختر قسمًا</h3>
+              <span class="status-pill" id="current-section-badge">نشط</span>
             </div>
-            <div id="new-user-banner" class="status-pill pending hidden" style="margin-bottom:10px;">حساب جديد — يظهر الرائج أولًا</div>
-            <div id="trending-box" class="hidden" style="margin-bottom:12px;"></div>
-            <div id="composer-box" class="composer hidden" style="margin-bottom:12px;">
-              <div class="composer-head">
+            <div class="split-row">
+              <button type="button" class="pill-btn tiny-btn ghost-btn" onclick="setFeedMode('new')">الأحدث</button>
+              <button type="button" class="pill-btn tiny-btn ghost-btn" onclick="setFeedMode('trending')">الرائج</button>
+              <button type="button" class="pill-btn tiny-btn" onclick="toggleComposer()">+ إضافة بوست</button>
+            </div>
+            <div id="composer-box" class="composer hidden" style="margin-top:12px;">
+              <div class="split-row">
                 <strong>كتابة بوست جديد</strong>
-                <button type="button" class="icon-btn" onclick="toggleComposer()" title="إغلاق">✕</button>
+                <button type="button" class="icon-btn" onclick="toggleComposer()">✕</button>
               </div>
               <div class="stack" style="margin-top:10px;">
-                <textarea id="new-post-text" placeholder="اكتب منشورك هنا... (حد أقصى 170 كلمة)"></textarea>
+                <textarea id="new-post-text" placeholder="اكتب منشورك هنا... (حد أقصى 170 كلمة)" oninput="checkWordCount(this)"></textarea>
                 <div class="split-row">
                   <div class="hint" id="word-count-info">0 / 170 كلمة</div>
-                  <div class="hint" id="post-approval-note">سيُرسل للموافقة قبل الظهور</div>
+                  <div class="hint">سيُرسل للموافقة قبل الظهور</div>
                 </div>
                 <button type="button" class="pill-btn" onclick="submitPost()">إرسال للموافقة</button>
               </div>
             </div>
+            <div id="trending-box" class="hidden" style="margin-top:12px;"></div>
           </div>
 
           <div class="card panel">
             <div class="section-title">
-              <h3>المنشورات</h3>
+              <h3>منشوراتي/المنشورات</h3>
               <span class="badge" id="posts-count">0</span>
             </div>
             <div id="posts-list" class="list-stack"></div>
@@ -310,14 +335,13 @@
       <div id="admin-dashboard" class="page-grid hidden">
         <div class="card panel">
           <h3 style="color:var(--danger);">لوحة الكونسول</h3>
-          <div class="stack">
-            <button type="button" class="pill-btn" onclick="showAdminView('sections')">إدارة الأقسام</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('users')">عرض المستخدمين والكوينز</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('posts')">كل البوستات</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('comments')">كل التعليقات</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('views')">مشاهدات البوستات</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('requests')">طلبات الشحن</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('reports')">الإبلاغات</button>
+          <div class="admin-toolbar">
+            <button type="button" class="pill-btn tiny-btn" onclick="showAdminView('sections')">الأقسام</button>
+            <button type="button" class="pill-btn tiny-btn" onclick="showAdminView('users')">المستخدمون</button>
+            <button type="button" class="pill-btn tiny-btn" onclick="showAdminView('posts')">كل المنشورات</button>
+            <button type="button" class="pill-btn tiny-btn" onclick="showAdminView('comments')">كل التعليقات</button>
+            <button type="button" class="pill-btn tiny-btn" onclick="showAdminView('reports')">الإبلاغات</button>
+            <button type="button" class="pill-btn tiny-btn" onclick="showAdminView('vip')">VIP</button>
           </div>
         </div>
 
@@ -327,7 +351,6 @@
               <h3>إدارة الأقسام</h3>
               <button type="button" class="pill-btn tiny-btn" onclick="openSectionEditor()">+ قسم جديد</button>
             </div>
-            <div class="hint" style="margin-bottom:8px;">يمكنك تحديد مكسب الكوينز للقسم حسب التفاعلات والتعليقات.</div>
             <div id="admin-sections-list" class="list-stack"></div>
           </div>
 
@@ -336,13 +359,13 @@
               <h3>المستخدمون</h3>
               <span class="badge" id="users-count">0</span>
             </div>
-            <div id="admin-users-list" class="table-like"></div>
+            <div id="admin-users-list" class="list-stack"></div>
           </div>
 
           <div id="admin-view-posts" class="card panel admin-view hidden">
             <div class="section-title">
-              <h3>كل البوستات</h3>
-              <span class="badge" id="posts-count-admin">0</span>
+              <h3>كل المنشورات</h3>
+              <span class="badge" id="all-posts-count">0</span>
             </div>
             <div id="admin-posts-list" class="list-stack"></div>
           </div>
@@ -350,25 +373,9 @@
           <div id="admin-view-comments" class="card panel admin-view hidden">
             <div class="section-title">
               <h3>كل التعليقات</h3>
-              <span class="badge" id="admin-comments-count">0</span>
+              <span class="badge" id="all-comments-count">0</span>
             </div>
             <div id="admin-comments-list" class="list-stack"></div>
-          </div>
-
-          <div id="admin-view-views" class="card panel admin-view hidden">
-            <div class="section-title">
-              <h3>مشاهدات البوستات</h3>
-              <span class="badge" id="post-views-count">0</span>
-            </div>
-            <div id="admin-views-list" class="list-stack"></div>
-          </div>
-
-          <div id="admin-view-requests" class="card panel admin-view hidden">
-            <div class="section-title">
-              <h3>طلبات الشحن</h3>
-              <span class="badge" id="coin-requests-count">0</span>
-            </div>
-            <div id="admin-requests-list" class="list-stack"></div>
           </div>
 
           <div id="admin-view-reports" class="card panel admin-view hidden">
@@ -377,6 +384,14 @@
               <span class="badge" id="reports-count">0</span>
             </div>
             <div id="admin-reports-list" class="list-stack"></div>
+          </div>
+
+          <div id="admin-view-vip" class="card panel admin-view hidden">
+            <div class="section-title">
+              <h3>إدارة VIP</h3>
+              <span class="badge">100 كوينز</span>
+            </div>
+            <div id="vip-users-list" class="list-stack"></div>
           </div>
         </div>
       </div>
@@ -394,12 +409,15 @@
         <input type="number" id="set-age" placeholder="العمر" />
         <textarea id="set-desc" placeholder="الوصف"></textarea>
         <input type="password" id="set-pass" placeholder="كلمة سر جديدة (اختياري)" />
-        <p class="hint">الإيميل ورقم الهاتف لا يمكن تغييرهما.</p>
+        <input type="text" id="set-instagram" placeholder="حساب انستا أو رابط" />
+        <input type="text" id="set-tiktok" placeholder="حساب تيكتوك أو رابط" />
+        <textarea id="set-extra-links" placeholder="روابط أخرى مفصولة بسطر جديد"></textarea>
+        <p class="muted">الإيميل ورقم الهاتف لا يمكن تغييرهما.</p>
         <input type="email" disabled id="set-email-display" />
         <input type="tel" disabled id="set-phone-display" />
         <div class="grid-2">
-          <button type="button" class="pill-btn" onclick="saveSettings()">حفظ التغييرات</button>
-          <button type="button" class="pill-btn secondary-btn" onclick="closeSettings()">إغلاق</button>
+          <button type="button" class="pill-btn" onclick="saveSettings()">حفظ</button>
+          <button type="button" class="pill-btn ghost-btn" onclick="closeSettings()">إغلاق</button>
         </div>
         <button type="button" class="pill-btn danger-btn" onclick="logout()">تسجيل الخروج</button>
       </div>
@@ -424,7 +442,7 @@
         </div>
         <div class="grid-2">
           <button type="button" class="pill-btn" onclick="saveSection()">حفظ القسم</button>
-          <button type="button" class="pill-btn secondary-btn" onclick="closeSectionModal()">إلغاء</button>
+          <button type="button" class="pill-btn ghost-btn" onclick="closeSectionModal()">إلغاء</button>
         </div>
       </div>
     </div>
@@ -433,15 +451,15 @@
   <div id="post-modal" class="modal hidden">
     <div class="modal-box card large">
       <div class="section-title">
-        <h2 style="margin:0;">إدارة البوست</h2>
+        <h2 style="margin:0;">إدارة المنشور</h2>
         <button type="button" class="icon-btn" onclick="closePostModal()">✕</button>
       </div>
       <div class="stack">
         <input type="hidden" id="post-edit-id" />
-        <textarea id="post-edit-text" placeholder="نص البوست"></textarea>
+        <textarea id="post-edit-text" placeholder="نص المنشور"></textarea>
         <div class="grid-2">
           <button type="button" class="pill-btn" onclick="savePostEdit()">حفظ</button>
-          <button type="button" class="pill-btn secondary-btn" onclick="closePostModal()">إلغاء</button>
+          <button type="button" class="pill-btn ghost-btn" onclick="closePostModal()">إلغاء</button>
         </div>
       </div>
     </div>
@@ -458,7 +476,7 @@
         <textarea id="comment-edit-text" placeholder="نص التعليق"></textarea>
         <div class="grid-2">
           <button type="button" class="pill-btn" onclick="saveCommentEdit()">حفظ</button>
-          <button type="button" class="pill-btn secondary-btn" onclick="closeCommentModal()">إلغاء</button>
+          <button type="button" class="pill-btn ghost-btn" onclick="closeCommentModal()">إلغاء</button>
         </div>
       </div>
     </div>
@@ -486,50 +504,64 @@
       <div id="dialog-body" class="stack"></div>
       <div class="grid-2" style="margin-top:14px;">
         <button type="button" class="pill-btn" id="dialog-confirm">موافق</button>
-        <button type="button" class="pill-btn secondary-btn" id="dialog-cancel">إلغاء</button>
+        <button type="button" class="pill-btn ghost-btn" id="dialog-cancel">إلغاء</button>
       </div>
     </div>
   </div>
 
-  
-<div id="vip-modal" class="modal hidden">
+  <div id="vip-modal" class="modal hidden">
     <div class="modal-box card">
       <div class="section-title">
-        <h2 style="margin:0;">عضوية VIP</h2>
+        <h2 style="margin:0;">VIP</h2>
         <button type="button" class="icon-btn" onclick="closeVipModal()">✕</button>
       </div>
-      <div class="vip-panel">
-        <div class="admin-subcard">
-          <div class="muted">رصيدك الحالي</div>
-          <div class="vip-price" id="vipCoinsInfo">0 كوينز</div>
-          <div class="hint">الاشتراك الشهري يتطلب 100 كوينز، ويتم الخصم مباشرة بعد الاشتراك.</div>
-          <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()">اشترك VIP لمدة شهر - 100 كوينز</button>
-        </div>
-
-        <div class="admin-subcard">
-          <div class="section-title" style="margin-bottom:8px;">
-            <h3 style="margin:0;">شحن الكوينز</h3>
-            <button type="button" class="pill-btn tiny-btn" onclick="showCoinTopup()">+</button>
-          </div>
-          <div>الكوينز الحالية: <span id="coinBalanceVip">0</span></div>
-          <div id="coinTopupBox" class="hidden stack" style="margin-top:10px;">
-            <div class="hint">حوّل المبلغ كاش لهذا الرقم: <strong>01124680211</strong></div>
-            <div class="hint">سعر 10 كوينز = 1 جنيه مصري</div>
-            <input type="text" id="transfer-from-number" placeholder="رقم الهاتف الذي تم التحويل منه" />
-            <input type="email" id="transfer-account-email" placeholder="البريد الخاص بالحساب" />
-            <button type="button" class="pill-btn" onclick="coinSent()">تم الإرسال</button>
-            <div class="hint">بعد الإرسال سيتم إضافة الكوينز إلى حسابك في أقل من ساعة.</div>
-          </div>
-        </div>
-      </div>
+      <div id="vip-body" class="stack"></div>
     </div>
   </div>
+
+  <div id="recharge-modal" class="modal hidden">
+    <div class="modal-box card">
+      <div class="section-title">
+        <h2 style="margin:0;">شحن كوينز</h2>
+        <button type="button" class="icon-btn" onclick="closeRechargeModal()">✕</button>
+      </div>
+      <div id="recharge-body" class="stack"></div>
+    </div>
+  </div>
+
+  <div id="profile-modal" class="modal hidden">
+    <div class="modal-box card large">
+      <div class="section-title">
+        <h2 style="margin:0;">الملف الشخصي</h2>
+        <button type="button" class="icon-btn" onclick="closeProfileModal()">✕</button>
+      </div>
+      <div id="profile-modal-body" class="stack"></div>
+    </div>
+  </div>
+
+  <div id="visitor-modal" class="modal hidden">
+    <div class="modal-box card large">
+      <div class="section-title">
+        <h2 style="margin:0;">زوار البوست / الملف</h2>
+        <button type="button" class="icon-btn" onclick="closeVisitorModal()">✕</button>
+      </div>
+      <div id="visitor-modal-body" class="stack"></div>
+    </div>
+  </div>
+
   <div id="toast-host" class="toast-host"></div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, collection, addDoc, getDocs, onSnapshot, query, orderBy, serverTimestamp, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import {
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      signOut, onAuthStateChanged, updatePassword
+    } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import {
+      getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc,
+      collection, addDoc, getDocs, onSnapshot, query, orderBy,
+      serverTimestamp, increment, arrayUnion
+    } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
 
     const firebaseConfig = {
@@ -545,711 +577,1601 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    try { if (location.protocol !== 'file:') getAnalytics(app); } catch (e) { console.warn('Analytics disabled', e); }
+    try { if (location.protocol !== "file:") getAnalytics(app); } catch (e) { console.warn(e); }
 
-    const adminEmail = '0@gmail.com';
-    const allowedProfileEmojis = ['🤡','♥','😢','😒','😏','❤️‍🔥','🙈','⚽','🌚'];
-    const reactionOptions = ['😂','♥','😢','👍🏻','😍'];
+    const ADMIN_EMAIL = "0@gmail.com";
+    const SUPPORT_PHONE = "201124680211";
+    const SUPPORT_EMAIL = "mixtaja.help@gmail.com";
+    const VIP_COST = 100;
+    const VIP_DAYS = 30;
+    const RATE_COINS = 10; // 10 coins = 1 EGP
+    const ALLOWED_PROFILE_EMOJIS = ["🤡","♥","😢","😒","😏","❤️‍🔥","🙈","⚽","🌚"];
+    const REACTIONS = ["😂","♥","😢","👍🏻","😍"];
+
     const $ = (id) => document.getElementById(id);
-
     const state = {
-      currentUser: null,
-      currentUserData: null,
-      currentSectionId: null,
-      currentSection: null,
+      user: null,
+      userData: null,
       sections: [],
       posts: [],
-      commentsMap: new Map(),
-      users: [],
+      comments: [],
       reports: [],
-      coinRequests: [],
-      postViews: [],
-      viewedPostsCache: new Set(JSON.parse(localStorage.getItem('mixtajaViewedPosts') || '[]')),
-      feedMode: 'new',
+      currentSectionId: null,
+      feedMode: "new",
       composerOpen: false,
-      pendingDialog: null
+      postViewLog: new Set()
     };
 
-    function toast(message, type = 'info', timeout = 2600) {
-      const host = $('toast-host');
-      const el = document.createElement('div');
+    function toast(message, type = "info", timeout = 2600) {
+      const host = $("toast-host");
+      const el = document.createElement("div");
       el.className = `toast ${type}`;
       el.textContent = message;
       host.appendChild(el);
       setTimeout(() => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(8px)';
+        el.style.opacity = "0";
+        el.style.transform = "translateY(8px)";
         setTimeout(() => el.remove(), 250);
       }, timeout);
     }
 
-    function openSupportModal(){ $('support-modal').classList.remove('hidden'); }
-    function closeSupportModal(){ $('support-modal').classList.add('hidden'); }
-    function closeDialog(){ $('dialog-modal').classList.add('hidden'); state.pendingDialog = null; }
+    function openDialog({ title, bodyHTML, confirmText = "موافق", cancelText = "إلغاء", onConfirm }) {
+      $("dialog-title").textContent = title;
+      $("dialog-body").innerHTML = bodyHTML;
+      $("dialog-confirm").textContent = confirmText;
+      $("dialog-cancel").textContent = cancelText;
+      $("dialog-modal").classList.remove("hidden");
+      $("dialog-confirm").onclick = async () => {
+        try { if (onConfirm) await onConfirm(); }
+        finally { closeDialog(); }
+      };
+      $("dialog-cancel").onclick = closeDialog;
+    }
+
+    function closeDialog(){ $("dialog-modal").classList.add("hidden"); }
+
+    function escapeHTML(str) {
+      return String(str ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
+
+    function fmtTime(ts) {
+      if (!ts) return "";
+      try {
+        const d = ts?.toDate ? ts.toDate() : new Date(ts);
+        return new Intl.DateTimeFormat("ar-EG", { dateStyle:"medium", timeStyle:"short" }).format(d);
+      } catch { return ""; }
+    }
+
+    function countWords(text) {
+      const t = String(text || "").trim();
+      return t ? t.split(/\s+/).filter(Boolean).length : 0;
+    }
+
+    function limitWords(text, n = 170) {
+      return String(text || "").trim().split(/\s+/).filter(Boolean).slice(0,n).join(" ");
+    }
+
+    function isVip(user) {
+      if (!user) return false;
+      const until = user.vipUntil ? new Date(user.vipUntil) : null;
+      return !!user.vip && (!until || !isNaN(until.getTime()) ? until.getTime() > Date.now() : true);
+    }
+
+    function vipExpiresText(user) {
+      if (!user?.vipUntil) return "غير محدد";
+      try {
+        return new Intl.DateTimeFormat("ar-EG", { dateStyle: "medium" }).format(new Date(user.vipUntil));
+      } catch { return "غير محدد"; }
+    }
+
+    function normalizeLinkValue(v) {
+      const s = String(v || "").trim();
+      if (!s) return "";
+      if (s.startsWith("http://") || s.startsWith("https://")) return s;
+      if (s.startsWith("@")) return `https://instagram.com/${s.slice(1)}`;
+      return s;
+    }
+
+    function supportText() {
+      return `
+        <div class="help-line">📱 واتساب: <strong>${SUPPORT_PHONE}</strong></div>
+        <div class="help-line">📧 البريد: <strong>${SUPPORT_EMAIL}</strong></div>
+      `;
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
+    window.toggleTheme = toggleTheme;
+
+    function openSupportModal() {
+      $("support-modal").classList.remove("hidden");
+    }
+    function closeSupportModal() {
+      $("support-modal").classList.add("hidden");
+    }
+    window.openSupportModal = openSupportModal;
+    window.closeSupportModal = closeSupportModal;
+
+    function openSettings() {
+      $("settings-modal").classList.remove("hidden");
+    }
+    function closeSettings() {
+      $("settings-modal").classList.add("hidden");
+    }
+    window.openSettings = openSettings;
+    window.closeSettings = closeSettings;
 
     function openVipModal() {
-      const user = state.currentUserData;
-      $('vipCoinsInfo').textContent = `${Number(user?.coins || 0)} كوينز`;
-      $('coinBalanceVip').textContent = String(Number(user?.coins || 0));
-      $('transfer-from-number').value = '';
-      $('transfer-account-email').value = user?.email || state.currentUser?.email || '';
-      $('coinTopupBox').classList.add('hidden');
-      $('vip-modal').classList.remove('hidden');
+      renderVipModal();
+      $("vip-modal").classList.remove("hidden");
     }
-    function closeVipModal() { $('vip-modal').classList.add('hidden'); }
-    function showCoinTopup() { $('coinTopupBox').classList.toggle('hidden'); }
-    function openDialog({title='رسالة', bodyHTML='', confirmText='موافق', cancelText='إلغاء', onConfirm=null}) {
-      $('dialog-title').textContent = title;
-      $('dialog-body').innerHTML = bodyHTML;
-      $('dialog-confirm').textContent = confirmText;
-      $('dialog-cancel').textContent = cancelText;
-      $('dialog-modal').classList.remove('hidden');
-      state.pendingDialog = onConfirm;
-      $('dialog-confirm').onclick = async () => {
-        try {
-          if (typeof state.pendingDialog === 'function') await state.pendingDialog();
-        } finally {
-          closeDialog();
-        }
-      };
-      $('dialog-cancel').onclick = () => closeDialog();
+    function closeVipModal() {
+      $("vip-modal").classList.add("hidden");
+    }
+    window.openVipModal = openVipModal;
+    window.closeVipModal = closeVipModal;
+
+    function openRechargeModal() {
+      renderRechargeModal();
+      $("recharge-modal").classList.remove("hidden");
+    }
+    function closeRechargeModal() {
+      $("recharge-modal").classList.add("hidden");
+    }
+    window.openRechargeModal = openRechargeModal;
+    window.closeRechargeModal = closeRechargeModal;
+
+    function openProfileModal() {
+      if (!state.userData) return;
+      renderProfileModal(state.userData.id);
+      $("profile-modal").classList.remove("hidden");
+    }
+    function closeProfileModal() {
+      $("profile-modal").classList.add("hidden");
+    }
+    window.openProfileModal = openProfileModal;
+    window.closeProfileModal = closeProfileModal;
+
+    function openVisitorModal() {
+      $("visitor-modal").classList.remove("hidden");
+    }
+    function closeVisitorModal() {
+      $("visitor-modal").classList.add("hidden");
+    }
+    window.openVisitorModal = openVisitorModal;
+    window.closeVisitorModal = closeVisitorModal;
+
+    function currentUserIsAdmin() {
+      return auth.currentUser?.email === ADMIN_EMAIL;
+    }
+
+    async function loadUserDoc(uid) {
+      const snap = await getDoc(doc(db, "users", uid));
+      return snap.exists() ? { id: uid, ...snap.data() } : null;
+    }
+
+    async function saveUserDoc(uid, data) {
+      await updateDoc(doc(db, "users", uid), data);
     }
 
     function getSelectedEmoji() {
       const selected = document.querySelector('input[name="emoji"]:checked');
-      return selected ? selected.value : '🌚';
-    }
-    function countWords(text) {
-      const t = (text || '').trim();
-      if (!t) return 0;
-      return t.split(/\s+/).filter(Boolean).length;
-    }
-    function sanitizeWordsLimit(text, limitWords = 170) {
-      return (text || '').trim().split(/\s+/).filter(Boolean).slice(0, limitWords).join(' ');
-    }
-    function fmtTime(ts) {
-      try {
-        if (!ts) return '';
-        const d = ts?.toDate ? ts.toDate() : new Date(ts);
-        return new Intl.DateTimeFormat('ar-EG', { dateStyle: 'medium', timeStyle: 'short' }).format(d);
-      } catch { return ''; }
-    }
-    function escapeHTML(str) {
-      return String(str ?? '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
-    }
-    function canEditDelete(item) {
-      const user = auth.currentUser;
-      if (!user) return false;
-      if (user.email === adminEmail) return true;
-      return item?.uid === user.uid;
-    }
-    function findCommentById(id) {
-      for (const arr of state.commentsMap.values()) {
-        const found = arr.find(c => c.id === id);
-        if (found) return found;
-      }
-      return null;
-    }
-    function calculateSectionCoins(section, post) {
-      const reactions = post?.reactions || {};
-      const reactionCount = Object.values(reactions).reduce((a, b) => a + Number(b || 0), 0);
-      const commentCount = Number(post?.commentsCount || 0);
-      const base = Number(section?.coinBase || 0);
-      const perReact = Number(section?.coinPerReaction || 0);
-      const perComment = Number(section?.coinPerComment || 0);
-      const bonus = Number(section?.coinBonus || 0);
-      return base + (reactionCount * perReact) + (commentCount * perComment) + bonus;
-    }
-    function getAccountAgeDays(userDoc) {
-      const createdAt = userDoc?.createdAt?.toDate ? userDoc.createdAt.toDate() : (userDoc?.createdAt ? new Date(userDoc.createdAt) : null);
-      if (!createdAt || isNaN(createdAt.getTime())) return 9999;
-      return Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+      return selected ? selected.value : "🌚";
     }
 
-    function saveViewedPostsCache() {
-      localStorage.setItem('mixtajaViewedPosts', JSON.stringify(Array.from(state.viewedPostsCache)));
+    function setFeedMode(mode) {
+      state.feedMode = mode;
+      renderPosts();
     }
+    window.setFeedMode = setFeedMode;
 
-    async function recordPostView(post) {
-      const user = auth.currentUser;
-      if (!user || !post?.id) return;
-      const key = `${user.uid}:${post.id}`;
-      if (state.viewedPostsCache.has(key)) return;
-      state.viewedPostsCache.add(key);
-      saveViewedPostsCache();
-      try {
-        await addDoc(collection(db, 'postViews'), {
-          postId: post.id,
-          postText: post.text || '',
-          sectionId: post.sectionId || '',
-          uid: user.uid,
-          viewerName: state.currentUserData?.name || user.email || 'مستخدم',
-          viewerEmoji: state.currentUserData?.emoji || '🌚',
-          viewerEmail: user.email || '',
-          viewedAt: serverTimestamp()
-        });
-        await updateDoc(doc(db, 'posts', post.id), { viewsCount: increment(1), lastViewedAt: serverTimestamp() });
-      } catch (err) {
-        console.warn('recordPostView failed', err);
-      }
-    }
-
-    window.toggleTheme = () => document.body.classList.toggle('dark-mode');
-    window.openSupportModal = openSupportModal;
-    window.closeSupportModal = closeSupportModal;
-    window.closeDialog = closeDialog;
-    window.openVipModal = openVipModal;
-    window.closeVipModal = closeVipModal;
-    window.showCoinTopup = showCoinTopup;
-    window.openVipModal = openVipModal;
-    window.closeVipModal = closeVipModal;
-    window.showCoinTopup = showCoinTopup;
-    window.toggleAuth = () => { $('login-form').classList.toggle('hidden'); $('signup-form').classList.toggle('hidden'); };
-    window.openSettings = () => $('settings-modal').classList.remove('hidden');
-    window.closeSettings = () => $('settings-modal').classList.add('hidden');
-    window.checkWordCount = (textarea) => {
-      const info = $('word-count-info');
-      const current = countWords(textarea.value);
-      if (current > 170) textarea.value = sanitizeWordsLimit(textarea.value, 170);
-      info.textContent = `${countWords(textarea.value)} / 170 كلمة`;
-    };
-    window.setFeedMode = (mode) => { state.feedMode = mode; renderPosts(); };
-    window.toggleComposer = () => {
+    function toggleComposer() {
       state.composerOpen = !state.composerOpen;
-      $('composer-box').classList.toggle('hidden', !state.composerOpen);
-      if (state.composerOpen) $('new-post-text').focus();
-    };
+      $("composer-box").classList.toggle("hidden", !state.composerOpen);
+      if (state.composerOpen) $("new-post-text").focus();
+    }
+    window.toggleComposer = toggleComposer;
 
-    window.signup = async () => {
-      const email = $('reg-email').value.trim();
-      const pass = $('reg-pass').value;
-      const name = $('reg-name').value.trim();
-      const phone = $('reg-phone').value.trim();
-      const country = $('reg-country').value;
-      const age = $('reg-age').value.trim();
-      const desc = $('reg-desc').value.trim();
+    function checkWordCount(textarea) {
+      const info = $("word-count-info");
+      if (countWords(textarea.value) > 170) textarea.value = limitWords(textarea.value, 170);
+      info.textContent = `${countWords(textarea.value)} / 170 كلمة`;
+    }
+    window.checkWordCount = checkWordCount;
+
+    function profileCardHTML(user, { showButtons = true } = {}) {
+      const vip = isVip(user);
+      const links = [];
+      if (user?.instagram) links.push({ label: "Instagram", href: user.instagram });
+      if (user?.tiktok) links.push({ label: "TikTok", href: user.tiktok });
+      if (Array.isArray(user?.links)) {
+        user.links.filter(Boolean).forEach((l, i) => links.push({ label: `رابط ${i+1}`, href: l }));
+      }
+      const linksHTML = links.length ? links.map(l => `<a class="profile-link-btn" href="${escapeHTML(l.href)}" target="_blank" rel="noopener noreferrer">${escapeHTML(l.label)}: ${escapeHTML(l.href)}</a>`).join("") : `<div class="muted">لا توجد روابط إضافية.</div>`;
+      return `
+        <div class="profile-header ${vip ? "gold-panel" : ""}">
+          <div class="split-row">
+            <div>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <span class="${vip ? "gold-name" : ""}" style="font-size:1.3rem;font-weight:900">${escapeHTML(user?.name || "")}</span>
+                ${vip ? '<span class="vip-tag">👑 VIP</span>' : ""}
+              </div>
+              <div class="muted">${escapeHTML(user?.emoji || "🌚")} • ${escapeHTML(user?.country || "")} • ${escapeHTML(String(user?.age || ""))}</div>
+            </div>
+            <div style="display:grid;gap:6px;justify-items:end">
+              <span class="status-pill ${vip ? "vip" : ""}">${vip ? "VIP نشط" : "حساب عادي"}</span>
+              <span class="mini-chip">🪙 ${Number(user?.coins || 0)}</span>
+            </div>
+          </div>
+          <div style="white-space:pre-wrap;line-height:1.7">${escapeHTML(user?.description || "")}</div>
+          <div class="profile-links">${linksHTML}</div>
+          <div class="grid-3">
+            <button type="button" class="pill-btn tiny-btn ghost-btn" onclick="openVipModal()">VIP</button>
+            <button type="button" class="pill-btn tiny-btn ghost-btn" onclick="openRechargeModal()">شحن</button>
+            <button type="button" class="pill-btn tiny-btn ghost-btn" onclick="openSupportModal()">الدعم</button>
+          </div>
+          ${showButtons ? '<div id="profile-extra"></div>' : ""}
+        </div>
+      `;
+    }
+
+    function renderProfileModal(uid) {
+      const user = state.userData && state.userData.id === uid ? state.userData : state.users.find(u => u.id === uid);
+      if (!user) return;
+      $("profile-modal-body").innerHTML = profileCardHTML(user, { showButtons: false }) + `
+        <div class="grid-2">
+          <button type="button" class="pill-btn" onclick="openVipModal()">VIP</button>
+          <button type="button" class="pill-btn ghost-btn" onclick="openVisitorModal()">زوار هذا الملف</button>
+        </div>
+      `;
+      renderVisitorsInto("profile-modal-body", uid);
+    }
+
+    async function renderVisitorsInto(containerId, uid) {
+      const box = $(containerId).querySelector("#visitor-list-target") || null;
+      const post = state.posts.find(p => p.uid === uid);
+      const userDoc = await loadUserDoc(uid);
+      const visitors = (userDoc && Array.isArray(userDoc.visitors)) ? userDoc.visitors : [];
+      const root = document.createElement("div");
+      root.id = "visitor-list-target";
+      root.className = "visitor-list";
+      if (!visitors.length) {
+        root.innerHTML = '<div class="muted">لا يوجد زوار بعد.</div>';
+      } else {
+        root.innerHTML = visitors.map(v => `<div class="visitor-pill">👤 ${escapeHTML(v.name || v.email || "زائر")} ${v.emoji ? escapeHTML(v.emoji) : ""}</div>`).join("");
+      }
+      const container = $(containerId);
+      container.appendChild(root);
+    }
+
+    async function logProfileVisitor(profileUserId) {
+      const me = auth.currentUser;
+      if (!me || !profileUserId || me.uid === profileUserId) return;
+      const meData = state.userData;
+      if (!meData) return;
+      const ref = doc(db, "users", profileUserId);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) return;
+      const data = snap.data();
+      const visitors = Array.isArray(data.visitors) ? data.visitors : [];
+      if (visitors.some(v => v.uid === me.uid)) return;
+      visitors.unshift({
+        uid: me.uid,
+        name: meData.name || me.email,
+        emoji: meData.emoji || "🌚",
+        email: me.email,
+        at: new Date().toISOString()
+      });
+      await updateDoc(ref, { visitors });
+    }
+
+    async function logPostView(post) {
+      const me = auth.currentUser;
+      if (!me || !post?.id) return;
+      const key = `${post.id}:${me.uid}`;
+      if (state.postViewLog.has(key)) return;
+      state.postViewLog.add(key);
+      const meData = state.userData;
+      if (!meData) return;
+      const ref = doc(db, "posts", post.id);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) return;
+      const data = snap.data();
+      const viewerMap = data.viewerMap || {};
+      viewerMap[me.uid] = {
+        uid: me.uid,
+        name: meData.name || me.email,
+        emoji: meData.emoji || "🌚",
+        email: me.email,
+        at: new Date().toISOString()
+      };
+      await updateDoc(ref, { viewerMap, viewerCount: Object.keys(viewerMap).length });
+    }
+
+    async function openPostViewers(postId) {
+      const snap = await getDoc(doc(db, "posts", postId));
+      if (!snap.exists()) return;
+      const post = snap.data();
+      const viewerMap = post.viewerMap || {};
+      const viewers = Object.values(viewerMap);
+      $("visitor-modal-body").innerHTML = viewers.length
+        ? viewers.map(v => `<div class="visitor-pill">👤 ${escapeHTML(v.name || v.email || "زائر")} ${escapeHTML(v.emoji || "")}</div>`).join("")
+        : `<div class="muted">لا يوجد مشاهِدون مسجلون بعد.</div>`;
+      $("visitor-modal").classList.remove("hidden");
+    }
+    window.openPostViewers = openPostViewers;
+
+    function renderVipModal() {
+      const me = state.userData;
+      const vipActive = isVip(me);
+      const canSubscribe = Number(me?.coins || 0) >= VIP_COST;
+      $("vip-body").innerHTML = `
+        <div class="stack">
+          <div class="status-pill vip">VIP لمدة شهر</div>
+          <div class="muted">السعر: <strong>${VIP_COST}</strong> كوينز. سيتم الخصم بعد التأكيد.</div>
+          <div class="help-line">الرصيد الحالي: <strong>🪙 ${Number(me?.coins || 0)}</strong></div>
+          <div class="help-line">الاشتراك الحالي: <strong>${vipActive ? "نشط" : "غير نشط"}</strong> ${vipActive ? `حتى ${vipExpiresText(me)}` : ""}</div>
+          <div class="list-stack">
+            <div class="feature-pill">1) دعم سريع عبر واتساب أو البريد الإلكتروني</div>
+            <div class="feature-pill">2) تاج VIP بجانب الاسم</div>
+            <div class="feature-pill">3) اسم ذهبي لامع ومميز</div>
+            <div class="feature-pill">4) إضافة Instagram أو TikTok أو روابط للملف</div>
+            <div class="feature-pill">5) عرض زوار الملف الشخصي</div>
+            <div class="feature-pill">6) بطاقة ملف مميزة وإطار ذهبي</div>
+            <div class="feature-pill">7) أولوية ظهور في الواجهة الجديدة/الرائجة</div>
+            <div class="feature-pill">8) دعم أوضح في لوحة الإدارة</div>
+            <div class="feature-pill">9) سهولة الوصول للروابط الشخصية</div>
+            <div class="feature-pill">10) شارة حساب مميز داخل البوستات</div>
+          </div>
+          <div class="grid-2">
+            <button type="button" class="pill-btn ${canSubscribe ? "" : "ghost-btn"}" onclick="subscribeVip()" ${canSubscribe ? "" : "disabled"}>${vipActive ? "تجديد VIP" : "اشترك الآن"}</button>
+            <button type="button" class="pill-btn ghost-btn" onclick="closeVipModal()">إغلاق</button>
+          </div>
+          ${!canSubscribe ? '<div class="muted center">أنت تحتاج 100 كوينز على الأقل للاشتراك.</div>' : ""}
+        </div>
+      `;
+    }
+
+    async function subscribeVip() {
+      const me = state.userData;
+      if (!me) return;
+      if (Number(me.coins || 0) < VIP_COST) {
+        toast("لا يوجد رصيد كافٍ للاشتراك.", "warning");
+        return;
+      }
+      openDialog({
+        title: "تأكيد اشتراك VIP",
+        bodyHTML: `
+          <div class="stack">
+            <div class="help-line">سيتم خصم <strong>${VIP_COST}</strong> كوينز وتفعيل VIP لمدة <strong>${VIP_DAYS}</strong> يوم.</div>
+            <div class="help-line">سيصبح اسمك مميزًا وتظهر كل مميزات VIP فورًا.</div>
+          </div>
+        `,
+        confirmText: "تأكيد الاشتراك",
+        cancelText: "إلغاء",
+        onConfirm: async () => {
+          const oldUntil = me.vipUntil ? new Date(me.vipUntil) : null;
+          const base = oldUntil && !isNaN(oldUntil.getTime()) && oldUntil.getTime() > Date.now()
+            ? oldUntil.getTime()
+            : Date.now();
+          const newUntil = new Date(base + VIP_DAYS * 24 * 60 * 60 * 1000).toISOString();
+          await updateDoc(doc(db, "users", me.id), {
+            coins: increment(-VIP_COST),
+            vip: true,
+            vipUntil: newUntil
+          });
+          toast("تم تفعيل VIP بنجاح.", "success");
+          closeVipModal();
+        }
+      });
+    }
+    window.subscribeVip = subscribeVip;
+
+    function renderRechargeModal() {
+      const me = state.userData;
+      const amountCoins = Number($("recharge-amount")?.value || 0) || 10;
+      const price = (amountCoins / RATE_COINS).toFixed(0);
+      $("recharge-body").innerHTML = `
+        <div class="pay-box">
+          <div class="help-line">رصيدك الحالي: <strong>🪙 ${Number(me?.coins || 0)}</strong></div>
+          <div class="help-line">سعر الشحن: <strong>10 كوينز = 1 جنيه مصري</strong></div>
+          <div class="help-line">حوّل المبلغ كاش لهذا الرقم: <strong>${SUPPORT_PHONE}</strong></div>
+          <div class="help-line">أضف المبلغ الذي تريد شحنه (بالكوينز):</div>
+          <div class="grid-2">
+            <input id="recharge-amount" type="number" min="10" value="10" placeholder="عدد الكوينز" oninput="updateRechargePreview()" />
+            <div class="help-line">المطلوب دفعه: <strong id="price-preview">${price}</strong> جنيه مصري</div>
+          </div>
+          <div class="help-line">بعد التحويل اضغط تم الإرسال، وسيتم إضافة الكوينز إلى حسابك في أقل من ساعة.</div>
+          <div class="grid-2">
+            <button type="button" class="pill-btn" onclick="submitRechargeRequest()">تم الإرسال</button>
+            <button type="button" class="pill-btn ghost-btn" onclick="closeRechargeModal()">إغلاق</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateRechargePreview() {
+      const amount = Number($("recharge-amount").value || 0);
+      $("price-preview").textContent = String((amount / RATE_COINS).toFixed(0));
+    }
+    window.updateRechargePreview = updateRechargePreview;
+
+    function submitRechargeRequest() {
+      const amount = Number($("recharge-amount").value || 0);
+      if (!amount || amount < 10) {
+        toast("اكتب عدد كوينز صحيح لا يقل عن 10.", "warning");
+        return;
+      }
+      toast("تم استلام طلب الشحن. سيتم إضافة الكوينز إلى حسابك في أقل من ساعة.", "success", 3800);
+      closeRechargeModal();
+    }
+    window.submitRechargeRequest = submitRechargeRequest;
+
+    function renderProfilePreview() {
+      if (!state.userData) return;
+      $("my-profile-preview")?.remove?.();
+    }
+
+    function renderMyProfilePanel() {
+      const box = $("profile-panel-wrap");
+      if (!box || !state.userData) return;
+      const me = state.userData;
+      if (document.getElementById("my-profile-preview")) document.getElementById("my-profile-preview").remove();
+      const preview = document.createElement("div");
+      preview.id = "my-profile-preview";
+      preview.innerHTML = profileCardHTML(me);
+      box.appendChild(preview);
+      const vipBtn = document.createElement("button");
+      vipBtn.type = "button";
+      vipBtn.className = "pill-btn tiny-btn";
+      vipBtn.style.marginTop = "10px";
+      vipBtn.textContent = isVip(me) ? "VIP مفعّل" : "VIP";
+      vipBtn.onclick = openVipModal;
+      preview.appendChild(vipBtn);
+      const supportBtn = document.createElement("button");
+      supportBtn.type = "button";
+      supportBtn.className = "pill-btn tiny-btn ghost-btn";
+      supportBtn.style.marginTop = "8px";
+      supportBtn.textContent = "الدعم";
+      supportBtn.onclick = openSupportModal;
+      preview.appendChild(supportBtn);
+    }
+
+    window.openSupport = openSupportModal;
+    window.closeDialog = closeDialog;
+    window.closeRechargeModal = closeRechargeModal;
+
+    async function signup() {
+      const email = $("reg-email").value.trim();
+      const pass = $("reg-pass").value;
+      const name = $("reg-name").value.trim();
+      const phone = $("reg-phone").value.trim();
+      const country = $("reg-country").value;
+      const age = $("reg-age").value.trim();
+      const desc = $("reg-desc").value.trim();
       const emoji = getSelectedEmoji();
-      if (!email || !pass || !name || !phone || !country || !age || !desc) { toast('يرجى إكمال جميع البيانات أولًا.', 'warning'); return; }
-      if (!allowedProfileEmojis.includes(emoji)) { toast('اختر إيموجي بروفايل صحيح.', 'warning'); return; }
+
+      if (!email || !pass || !name || !phone || !country || !age || !desc) {
+        toast("يرجى إكمال جميع البيانات أولًا.", "warning");
+        return;
+      }
+      if (!ALLOWED_PROFILE_EMOJIS.includes(emoji)) {
+        toast("اختر إيموجي بروفايل صحيح.", "warning");
+        return;
+      }
+
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        await setDoc(doc(db, 'users', cred.user.uid), {
+        await setDoc(doc(db, "users", cred.user.uid), {
           name, phone, email, country, age: Number(age), description: desc,
-          emoji, role: 'user', blocked: false, coins: 0,
-          createdAt: serverTimestamp(), coinLog: []
+          emoji, role: "user", blocked: false, coins: 0, vip: false, vipUntil: "",
+          instagram: "", tiktok: "", links: [], visitors: [], createdAt: serverTimestamp()
         });
-        toast('تم التسجيل بنجاح.', 'success');
-      } catch (error) {
-        console.error('Signup error:', error);
-        toast(error?.message || 'حدث خطأ أثناء التسجيل.', 'error', 3200);
+        toast("تم التسجيل بنجاح.", "success");
+      } catch (e) {
+        console.error(e);
+        toast(e?.message || "حدث خطأ أثناء التسجيل.", "error", 3600);
       }
-    };
+    }
+    window.signup = signup;
 
-    window.login = async () => {
-      const email = $('login-email').value.trim();
-      const pass = $('login-pass').value;
-      if (!email || !pass) { toast('اكتب البريد الإلكتروني وكلمة السر.', 'warning'); return; }
-      try { await signInWithEmailAndPassword(auth, email, pass); toast('تم تسجيل الدخول.', 'success'); }
-      catch (error) { console.error('Login error:', error); toast('تعذر تسجيل الدخول. تأكد من البيانات.', 'error'); }
-    };
-    window.logout = async () => { try { await signOut(auth); toast('تم تسجيل الخروج.', 'info'); } catch (e) { console.error(e); } };
-
-    window.subscribeVip = async () => {
-      const user = auth.currentUser;
-      if (!user || !state.currentUserData) return;
-      const coins = Number(state.currentUserData.coins || 0);
-      if (coins < 100) {
-        toast('لا توجد 100 كوينز كافية للاشتراك.', 'warning');
+    async function login() {
+      const email = $("login-email").value.trim();
+      const pass = $("login-pass").value;
+      if (!email || !pass) {
+        toast("اكتب البريد الإلكتروني وكلمة السر.", "warning");
         return;
       }
       try {
-        await updateDoc(doc(db, 'users', user.uid), {
-          coins: increment(-100),
-          vipUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-          vipActive: true,
-          vipPurchasedAt: serverTimestamp()
-        });
-        await addDoc(collection(db, 'vipSubscriptions'), {
-          uid: user.uid,
-          email: user.email || '',
-          name: state.currentUserData?.name || '',
-          amount: 100,
-          status: 'active',
-          createdAt: serverTimestamp(),
-          expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-        });
-        state.currentUserData.coins = coins - 100;
-        $('header-coins-chip').textContent = `🪙 ${coins - 100}`;
-        $('vipCoinsInfo').textContent = `${coins - 100} كوينز`;
-        $('coinBalanceVip').textContent = String(coins - 100);
-        toast('تم الاشتراك في VIP لمدة شهر.', 'success');
-      } catch (err) {
-        console.error(err);
-        toast('تعذر الاشتراك في VIP.', 'error');
+        await signInWithEmailAndPassword(auth, email, pass);
+        toast("تم تسجيل الدخول.", "success");
+      } catch (e) {
+        console.error(e);
+        toast("تعذر تسجيل الدخول. تأكد من البيانات.", "error");
       }
-    };
+    }
+    window.login = login;
 
-    window.coinSent = async () => {
+    async function logout() {
+      await signOut(auth);
+      toast("تم تسجيل الخروج.", "info");
+    }
+    window.logout = logout;
+
+    async function saveSettings() {
       const user = auth.currentUser;
-      if (!user || !state.currentUserData) return;
-      const transferFromNumber = $('transfer-from-number').value.trim();
-      const accountEmail = $('transfer-account-email').value.trim();
-      if (!transferFromNumber || !accountEmail) {
-        toast('اكتب رقم التحويل والبريد الخاص بالحساب.', 'warning');
+      if (!user) return;
+      const name = $("set-name").value.trim();
+      const age = $("set-age").value.trim();
+      const desc = $("set-desc").value.trim();
+      const pass = $("set-pass").value;
+      const instagram = normalizeLinkValue($("set-instagram").value);
+      const tiktok = normalizeLinkValue($("set-tiktok").value);
+      const links = String($("set-extra-links").value || "")
+        .split(/\n+/)
+        .map(normalizeLinkValue)
+        .filter(Boolean);
+
+      if (!name || !age || !desc) {
+        toast("الاسم والعمر والوصف مطلوبون.", "warning");
         return;
       }
+
       try {
-        await addDoc(collection(db, 'coinRequests'), {
-          uid: user.uid,
-          userName: state.currentUserData?.name || user.email || '',
-          userEmail: accountEmail,
-          transferFromNumber,
-          requestedByEmail: user.email || '',
-          coinsRate: '10 كوينز = 1 جنيه مصري',
-          status: 'pending',
-          createdAt: serverTimestamp()
+        await updateDoc(doc(db, "users", user.uid), {
+          name, age: Number(age), description: desc, instagram, tiktok, links
         });
-        $('coinTopupBox').classList.add('hidden');
-        toast('تم إرسال الطلب. سيتم إضافة الكوينز إلى حسابك في أقل من ساعة.', 'success', 3600);
-      } catch (err) {
-        console.error(err);
-        toast('تعذر إرسال الطلب.', 'error');
-      }
-    };
-
-
-    window.saveSettings = async () => {
-      const user = auth.currentUser; if (!user) return;
-      const newName = $('set-name').value.trim();
-      const newAge = $('set-age').value.trim();
-      const newDesc = $('set-desc').value.trim();
-      const newPass = $('set-pass').value;
-      if (!newName || !newAge || !newDesc) { toast('الاسم والعمر والوصف مطلوبون.', 'warning'); return; }
-      try {
-        await updateDoc(doc(db, 'users', user.uid), { name: newName, age: Number(newAge), description: newDesc });
-        if (newPass) await updatePassword(user, newPass);
-        $('set-pass').value = '';
-        toast('تم حفظ الإعدادات.', 'success');
+        if (pass) await updatePassword(user, pass);
+        toast("تم حفظ الإعدادات.", "success");
         closeSettings();
-      } catch (error) { console.error(error); toast(error?.message || 'تعذر حفظ الإعدادات.', 'error'); }
-    };
+      } catch (e) {
+        console.error(e);
+        toast(e?.message || "تعذر حفظ الإعدادات.", "error");
+      }
+    }
+    window.saveSettings = saveSettings;
 
-    window.submitPost = async () => {
-      const user = auth.currentUser; if (!user) return;
-      if (!state.currentSectionId) { toast('اختر قسمًا أولًا.', 'warning'); return; }
-      const text = $('new-post-text').value.trim();
-      if (!text) { toast('اكتب المنشور أولًا.', 'warning'); return; }
-      const cleaned = sanitizeWordsLimit(text, 170);
+    async function submitPost() {
+      const user = auth.currentUser;
+      if (!user) return;
+      if (!state.currentSectionId) {
+        toast("اختر قسمًا أولًا.", "warning");
+        return;
+      }
+      const text = $("new-post-text").value.trim();
+      if (!text) {
+        toast("اكتب المنشور أولًا.", "warning");
+        return;
+      }
+      const cleaned = limitWords(text, 170);
       try {
-        await addDoc(collection(db, 'posts'), {
+        await addDoc(collection(db, "posts"), {
           sectionId: state.currentSectionId,
-          sectionName: state.currentSection?.name || '',
+          sectionName: state.sections.find(s => s.id === state.currentSectionId)?.name || "",
           uid: user.uid,
-          authorName: state.currentUserData?.name || user.email,
-          authorEmoji: state.currentUserData?.emoji || '🌚',
+          authorName: state.userData?.name || user.email,
+          authorEmoji: state.userData?.emoji || "🌚",
           text: cleaned,
-          approved: user.email === adminEmail,
-          rejected: false,
-          reactions: { '😂': 0, '♥': 0, '😢': 0, '👍🏻': 0, '😍': 0 },
-          reactionUsers: {},
+          approved: user.email === ADMIN_EMAIL,
+          deleted: false,
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
+          reactions: { "😂":0, "♥":0, "😢":0, "👍🏻":0, "😍":0 },
+          reactionUsers: {},
           commentsCount: 0,
           reportsCount: 0,
-          deleted: false,
-          coinsAwarded: 0
+          viewerMap: {},
+          viewerCount: 0
         });
-        $('new-post-text').value = '';
-        $('word-count-info').textContent = '0 / 170 كلمة';
-        toast(user.email === adminEmail ? 'تم نشر البوست مباشرة.' : 'تم إرسال البوست للموافقة.', 'success');
-        toggleComposer();
-      } catch (error) { console.error(error); toast(error?.message || 'تعذر إنشاء البوست.', 'error'); }
-    };
+        $("new-post-text").value = "";
+        $("word-count-info").textContent = "0 / 170 كلمة";
+        toast(user.email === ADMIN_EMAIL ? "تم نشر المنشور." : "تم إرسال المنشور للموافقة.", "success");
+        if (state.composerOpen) toggleComposer();
+      } catch (e) {
+        console.error(e);
+        toast("تعذر إنشاء المنشور.", "error");
+      }
+    }
+    window.submitPost = submitPost;
 
-    window.react = async (element, postId, emoji) => {
-      const user = auth.currentUser; if (!user) return;
-      const ref = doc(db, 'posts', postId);
+    async function react(button, postId, emoji) {
+      const user = auth.currentUser;
+      if (!user) return;
+      const ref = doc(db, "posts", postId);
       try {
-        const snap = await getDoc(ref); if (!snap.exists()) return;
+        const snap = await getDoc(ref);
+        if (!snap.exists()) return;
         const data = snap.data();
         const reactionUsers = data.reactionUsers || {};
-        const reactions = data.reactions || { '😂': 0, '♥': 0, '😢': 0, '👍🏻': 0, '😍': 0 };
+        const reactions = data.reactions || { "😂":0, "♥":0, "😢":0, "👍🏻":0, "😍":0 };
         const current = reactionUsers[user.uid];
-        if (current === emoji) { reactions[emoji] = Math.max(0, Number(reactions[emoji] || 0) - 1); delete reactionUsers[user.uid]; }
-        else { if (current && reactions[current] > 0) reactions[current] -= 1; reactions[emoji] = Number(reactions[emoji] || 0) + 1; reactionUsers[user.uid] = emoji; }
+        if (current === emoji) {
+          reactions[emoji] = Math.max(0, Number(reactions[emoji] || 0) - 1);
+          delete reactionUsers[user.uid];
+        } else {
+          if (current && reactions[current] > 0) reactions[current] -= 1;
+          reactions[emoji] = Number(reactions[emoji] || 0) + 1;
+          reactionUsers[user.uid] = emoji;
+        }
         await updateDoc(ref, { reactions, reactionUsers, updatedAt: serverTimestamp() });
-      } catch (e) { console.error(e); }
-    };
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    window.react = react;
 
-    window.reportPost = async (postId) => {
-      const user = auth.currentUser; if (!user) return;
-      openDialog({ title: 'الإبلاغ عن بوست', bodyHTML: '<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ..."></textarea>', confirmText: 'إرسال البلاغ', cancelText: 'إلغاء', onConfirm: async () => {
-        const reason = $('report-reason').value.trim(); if (!reason) { toast('اكتب سبب البلاغ.', 'warning'); return; }
-        await addDoc(collection(db, 'reports'), { type: 'post', targetId: postId, reporterId: user.uid, reporterEmail: user.email, reason, createdAt: serverTimestamp(), resolved: false });
-        await updateDoc(doc(db, 'posts', postId), { reportsCount: increment(1) });
-        toast('تم إرسال البلاغ.', 'success');
-      }});
-    };
-    window.reportComment = async (commentId) => {
-      const user = auth.currentUser; if (!user) return;
-      openDialog({ title: 'الإبلاغ عن تعليق', bodyHTML: '<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ..."></textarea>', confirmText: 'إرسال البلاغ', cancelText: 'إلغاء', onConfirm: async () => {
-        const reason = $('report-reason').value.trim(); if (!reason) { toast('اكتب سبب البلاغ.', 'warning'); return; }
-        await addDoc(collection(db, 'reports'), { type: 'comment', targetId: commentId, reporterId: user.uid, reporterEmail: user.email, reason, createdAt: serverTimestamp(), resolved: false });
-        await updateDoc(doc(db, 'comments', commentId), { reportsCount: increment(1) });
-        toast('تم إرسال البلاغ.', 'success');
-      }});
-    };
+    async function reportPost(postId) {
+      const user = auth.currentUser;
+      if (!user) return;
+      openDialog({
+        title: "الإبلاغ عن بوست",
+        bodyHTML: `<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ..."></textarea>`,
+        confirmText: "إرسال البلاغ",
+        cancelText: "إلغاء",
+        onConfirm: async () => {
+          const reason = $("report-reason").value.trim();
+          if (!reason) return toast("اكتب سبب البلاغ.", "warning");
+          await addDoc(collection(db, "reports"), {
+            type: "post", targetId: postId, reporterId: user.uid, reporterEmail: user.email,
+            reason, createdAt: serverTimestamp(), resolved: false
+          });
+          await updateDoc(doc(db, "posts", postId), { reportsCount: increment(1) });
+          toast("تم إرسال البلاغ.", "success");
+        }
+      });
+    }
+    window.reportPost = reportPost;
 
-    window.editOwnPost = async (postId) => { const post = state.posts.find(p => p.id === postId); if (!post || !canEditDelete(post)) return; $('post-edit-id').value = postId; $('post-edit-text').value = post.text || ''; $('post-modal').classList.remove('hidden'); };
-    window.deletePost = async (postId) => { const post = state.posts.find(p => p.id === postId); if (!post || !canEditDelete(post)) return; openDialog({ title: 'حذف البوست', bodyHTML: '<p class="muted">هل تريد حذف هذا البوست؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await updateDoc(doc(db, 'posts', postId), { deleted: true, deletedAt: serverTimestamp() }); toast('تم حذف البوست.', 'success'); } }); };
-    window.savePostEdit = async () => { const postId = $('post-edit-id').value; const newText = $('post-edit-text').value.trim(); if (!postId || !newText) return; await updateDoc(doc(db, 'posts', postId), { text: sanitizeWordsLimit(newText, 170), updatedAt: serverTimestamp() }); closePostModal(); toast('تم تحديث البوست.', 'success'); };
-    window.closePostModal = () => $('post-modal').classList.add('hidden');
-
-    window.editOwnComment = async (commentId) => { const comment = findCommentById(commentId); if (!comment || !canEditDelete(comment)) return; $('comment-edit-id').value = commentId; $('comment-edit-text').value = comment.text || ''; $('comment-modal').classList.remove('hidden'); };
-    window.deleteComment = async (commentId) => { const comment = findCommentById(commentId); if (!comment || !canEditDelete(comment)) return; openDialog({ title: 'حذف التعليق', bodyHTML: '<p class="muted">هل تريد حذف هذا التعليق؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await updateDoc(doc(db, 'comments', commentId), { deleted: true, deletedAt: serverTimestamp() }); toast('تم حذف التعليق.', 'success'); } }); };
-    window.saveCommentEdit = async () => { const id = $('comment-edit-id').value; const newText = $('comment-edit-text').value.trim(); if (!id || !newText) return; await updateDoc(doc(db, 'comments', id), { text: newText, updatedAt: serverTimestamp() }); closeCommentModal(); toast('تم تحديث التعليق.', 'success'); };
-    window.closeCommentModal = () => $('comment-modal').classList.add('hidden');
+    async function reportComment(commentId) {
+      const user = auth.currentUser;
+      if (!user) return;
+      openDialog({
+        title: "الإبلاغ عن تعليق",
+        bodyHTML: `<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ..."></textarea>`,
+        confirmText: "إرسال البلاغ",
+        cancelText: "إلغاء",
+        onConfirm: async () => {
+          const reason = $("report-reason").value.trim();
+          if (!reason) return toast("اكتب سبب البلاغ.", "warning");
+          await addDoc(collection(db, "reports"), {
+            type: "comment", targetId: commentId, reporterId: user.uid, reporterEmail: user.email,
+            reason, createdAt: serverTimestamp(), resolved: false
+          });
+          await updateDoc(doc(db, "comments", commentId), { reportsCount: increment(1) });
+          toast("تم إرسال البلاغ.", "success");
+        }
+      });
+    }
+    window.reportComment = reportComment;
 
     async function addComment(postId) {
-      const user = auth.currentUser; if (!user) return;
-      openDialog({ title: 'إضافة تعليق', bodyHTML: '<textarea id="new-comment-text" class="small-input" placeholder="اكتب تعليقك..."></textarea>', confirmText: 'نشر التعليق', cancelText: 'إلغاء', onConfirm: async () => {
-        const text = $('new-comment-text').value.trim(); if (!text) { toast('اكتب التعليق أولًا.', 'warning'); return; }
-        await addDoc(collection(db, 'comments'), { postId, uid: user.uid, authorName: state.currentUserData?.name || user.email, authorEmoji: state.currentUserData?.emoji || '🌚', text, approved: true, deleted: false, reportsCount: 0, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
-        await updateDoc(doc(db, 'posts', postId), { commentsCount: increment(1) });
-        toast('تم نشر التعليق.', 'success');
-      }});
+      const user = auth.currentUser;
+      if (!user) return;
+      const text = prompt("اكتب تعليقك:");
+      if (!text) return;
+      try {
+        await addDoc(collection(db, "comments"), {
+          postId,
+          uid: user.uid,
+          authorName: state.userData?.name || user.email,
+          authorEmoji: state.userData?.emoji || "🌚",
+          text: text.trim(),
+          approved: true,
+          deleted: false,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+          reportsCount: 0
+        });
+        await updateDoc(doc(db, "posts", postId), { commentsCount: increment(1) });
+        toast("تم نشر التعليق.", "success");
+      } catch (e) { console.error(e); toast("تعذر إضافة التعليق.", "error"); }
     }
     window.addComment = addComment;
 
+    async function openAuthorProfile(uid) {
+      const user = await loadUserDoc(uid);
+      if (!user) return;
+      await logProfileVisitor(uid);
+      $("profile-modal-body").innerHTML = profileCardHTML(user) + `
+        <div class="grid-2">
+          <button type="button" class="pill-btn" onclick="openVipModal()">VIP</button>
+          <button type="button" class="pill-btn ghost-btn" onclick="openVisitorModal(); openUserVisitors('${uid}')">زوار الملف</button>
+        </div>
+        <div class="stack" id="profile-visitors-box"></div>
+      `;
+      $("profile-modal").classList.remove("hidden");
+    }
+    window.openAuthorProfile = openAuthorProfile;
+
+    async function openUserVisitors(uid) {
+      const user = await loadUserDoc(uid);
+      const visitors = Array.isArray(user?.visitors) ? user.visitors : [];
+      const box = document.getElementById("profile-visitors-box");
+      if (!box) return;
+      box.innerHTML = visitors.length
+        ? visitors.map(v => `<div class="visitor-pill">👤 ${escapeHTML(v.name || v.email || "زائر")} ${v.emoji ? escapeHTML(v.emoji) : ""}</div>`).join("")
+        : `<div class="muted">لا يوجد زوار بعد.</div>`;
+    }
+    window.openUserVisitors = openUserVisitors;
+
+    async function deletePost(postId) {
+      if (!confirm("حذف المنشور؟")) return;
+      await updateDoc(doc(db, "posts", postId), { deleted: true, deletedAt: serverTimestamp() });
+      toast("تم حذف المنشور.", "success");
+    }
+    window.deletePost = deletePost;
+
+    async function editPost(postId) {
+      const post = state.posts.find(p => p.id === postId);
+      if (!post) return;
+      $("post-edit-id").value = postId;
+      $("post-edit-text").value = post.text || "";
+      $("post-modal").classList.remove("hidden");
+    }
+    window.editPost = editPost;
+
+    async function savePostEdit() {
+      const id = $("post-edit-id").value;
+      const text = $("post-edit-text").value.trim();
+      if (!id || !text) return;
+      await updateDoc(doc(db, "posts", id), { text: limitWords(text, 170), updatedAt: serverTimestamp() });
+      toast("تم تعديل المنشور.", "success");
+      closePostModal();
+    }
+    window.savePostEdit = savePostEdit;
+    function closePostModal() { $("post-modal").classList.add("hidden"); }
+    window.closePostModal = closePostModal;
+
+    async function editComment(commentId) {
+      const c = state.comments.find(x => x.id === commentId);
+      if (!c) return;
+      $("comment-edit-id").value = commentId;
+      $("comment-edit-text").value = c.text || "";
+      $("comment-modal").classList.remove("hidden");
+    }
+    window.editComment = editComment;
+
+    async function saveCommentEdit() {
+      const id = $("comment-edit-id").value;
+      const text = $("comment-edit-text").value.trim();
+      if (!id || !text) return;
+      await updateDoc(doc(db, "comments", id), { text, updatedAt: serverTimestamp() });
+      toast("تم تعديل التعليق.", "success");
+      closeCommentModal();
+    }
+    window.saveCommentEdit = saveCommentEdit;
+    function closeCommentModal() { $("comment-modal").classList.add("hidden"); }
+    window.closeCommentModal = closeCommentModal;
+
+    async function deleteComment(commentId) {
+      if (!confirm("حذف التعليق؟")) return;
+      await updateDoc(doc(db, "comments", commentId), { deleted: true, deletedAt: serverTimestamp() });
+      toast("تم حذف التعليق.", "success");
+    }
+    window.deleteComment = deleteComment;
+
     async function approvePost(postId, approved) {
-      const post = state.posts.find(p => p.id === postId); if (!post) return;
-      await updateDoc(doc(db, 'posts', postId), { approved, rejected: !approved, updatedAt: serverTimestamp() });
+      const post = state.posts.find(p => p.id === postId);
+      if (!post) return;
+      await updateDoc(doc(db, "posts", postId), { approved, updatedAt: serverTimestamp() });
       if (approved) {
-        const section = state.sections.find(s => s.id === post.sectionId);
-        const coins = calculateSectionCoins(section, post);
+        const sec = state.sections.find(s => s.id === post.sectionId);
+        const reactionsCount = Object.values(post.reactions || {}).reduce((a,b) => a + Number(b || 0), 0);
+        const coins = Number(sec?.coinBase || 0) + reactionsCount * Number(sec?.coinPerReaction || 0) + Number(post.commentsCount || 0) * Number(sec?.coinPerComment || 0) + Number(sec?.coinBonus || 0);
         if (coins > 0) {
-          await updateDoc(doc(db, 'users', post.uid), { coins: increment(coins), coinLog: arrayUnion({ type: 'earn', amount: coins, reason: `مكسب من قسم ${section?.name || ''}`, at: new Date().toISOString() }) });
+          await updateDoc(doc(db, "users", post.uid), {
+            coins: increment(coins),
+            coinLog: arrayUnion({ type:"earn", amount:coins, reason:`مكسب من قسم ${sec?.name || ""}`, at:new Date().toISOString() })
+          });
         }
       }
-      toast(approved ? 'تمت الموافقة على البوست.' : 'تم رفض البوست.', 'success');
+      toast(approved ? "تمت الموافقة على المنشور." : "تم رفض المنشور.", "success");
     }
     window.approvePost = approvePost;
 
-    async function adjustCoins(userId, amount) {
-      const n = Number(amount);
-      if (!Number.isFinite(n) || n === 0) return;
-      await updateDoc(doc(db, 'users', userId), {
-        coins: increment(n),
-        coinLog: arrayUnion({ type: n > 0 ? 'add' : 'subtract', amount: n, reason: 'إدارة الأدمن', at: new Date().toISOString() })
-      });
-      toast(n > 0 ? `تمت إضافة ${n} كوينز.` : `تم سحب ${Math.abs(n)} كوينز.`, 'success');
-    }
-    window.adjustCoins = adjustCoins;
-
     async function blockUser(userId, blocked) {
-      await updateDoc(doc(db, 'users', userId), { blocked });
-      if (auth.currentUser?.uid === userId && blocked) { toast('تم حظرك من المنصة.', 'error', 3500); await signOut(auth); }
-      else toast(blocked ? 'تم حظر المستخدم.' : 'تم إلغاء الحظر.', 'success');
+      await updateDoc(doc(db, "users", userId), { blocked });
+      toast(blocked ? "تم حظر المستخدم." : "تم إلغاء الحظر.", "success");
+      if (auth.currentUser?.uid === userId && blocked) await signOut(auth);
     }
     window.blockUser = blockUser;
 
+    async function adjustCoins(userId, amount) {
+      await updateDoc(doc(db, "users", userId), { coins: increment(amount) });
+    }
+    window.adjustCoins = adjustCoins;
+
     function openSectionEditor(section = null) {
-      $('section-edit-id').value = section?.id || '';
-      $('section-name').value = section?.name || '';
-      $('section-desc').value = section?.description || '';
-      $('section-coin-base').value = section?.coinBase || 0;
-      $('section-coin-react').value = section?.coinPerReaction || 0;
-      $('section-coin-comment').value = section?.coinPerComment || 0;
-      $('section-coin-bonus').value = section?.coinBonus || 0;
-      $('section-modal').classList.remove('hidden');
-    }
-    function closeSectionModal(){ $('section-modal').classList.add('hidden'); }
-    async function saveSection() {
-      const id = $('section-edit-id').value.trim();
-      const name = $('section-name').value.trim();
-      const description = $('section-desc').value.trim();
-      const coinBase = Number($('section-coin-base').value || 0);
-      const coinPerReaction = Number($('section-coin-react').value || 0);
-      const coinPerComment = Number($('section-coin-comment').value || 0);
-      const coinBonus = Number($('section-coin-bonus').value || 0);
-      if (!name) { toast('اكتب اسم القسم.', 'warning'); return; }
-      if (id) await updateDoc(doc(db, 'sections', id), { name, description, coinBase, coinPerReaction, coinPerComment, coinBonus, updatedAt: serverTimestamp() });
-      else await addDoc(collection(db, 'sections'), { name, description, coinBase, coinPerReaction, coinPerComment, coinBonus, createdAt: serverTimestamp(), updatedAt: serverTimestamp(), active: true, postsCount: 0 });
-      closeSectionModal(); toast('تم حفظ القسم.', 'success');
-    }
-    async function deleteSection(sectionId) {
-      openDialog({ title: 'حذف القسم', bodyHTML: '<p class="muted">هل تريد حذف القسم نهائيًا؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await deleteDoc(doc(db, 'sections', sectionId)); toast('تم حذف القسم.', 'success'); } });
+      $("section-edit-id").value = section?.id || "";
+      $("section-name").value = section?.name || "";
+      $("section-desc").value = section?.description || "";
+      $("section-coin-base").value = section?.coinBase || 0;
+      $("section-coin-react").value = section?.coinPerReaction || 0;
+      $("section-coin-comment").value = section?.coinPerComment || 0;
+      $("section-coin-bonus").value = section?.coinBonus || 0;
+      $("section-modal").classList.remove("hidden");
     }
     window.openSectionEditor = openSectionEditor;
+    function closeSectionModal() { $("section-modal").classList.add("hidden"); }
     window.closeSectionModal = closeSectionModal;
+
+    async function saveSection() {
+      const id = $("section-edit-id").value.trim();
+      const name = $("section-name").value.trim();
+      const description = $("section-desc").value.trim();
+      const coinBase = Number($("section-coin-base").value || 0);
+      const coinPerReaction = Number($("section-coin-react").value || 0);
+      const coinPerComment = Number($("section-coin-comment").value || 0);
+      const coinBonus = Number($("section-coin-bonus").value || 0);
+      if (!name) return toast("اكتب اسم القسم.", "warning");
+      if (id) {
+        await updateDoc(doc(db, "sections", id), { name, description, coinBase, coinPerReaction, coinPerComment, coinBonus, updatedAt: serverTimestamp() });
+      } else {
+        await addDoc(collection(db, "sections"), { name, description, coinBase, coinPerReaction, coinPerComment, coinBonus, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+      }
+      toast("تم حفظ القسم.", "success");
+      closeSectionModal();
+    }
     window.saveSection = saveSection;
+
+    async function deleteSection(sectionId) {
+      if (!confirm("حذف القسم؟")) return;
+      await deleteDoc(doc(db, "sections", sectionId));
+      toast("تم حذف القسم.", "success");
+    }
     window.deleteSection = deleteSection;
-    window.showAdminView = (name) => { document.querySelectorAll('.admin-view').forEach(el => el.classList.add('hidden')); const target = $('admin-view-' + name); if (target) target.classList.remove('hidden'); };
+
+    function showAdminView(view) {
+      document.querySelectorAll(".admin-view").forEach(el => el.classList.add("hidden"));
+      const target = document.getElementById(`admin-view-${view}`);
+      if (target) target.classList.remove("hidden");
+      if (view === "posts") renderAdminPosts();
+      if (view === "comments") renderAdminComments();
+      if (view === "vip") renderVipUsers();
+    }
+    window.showAdminView = showAdminView;
 
     function renderSections() {
-      const list = $('sections-list');
-      const adminList = $('admin-sections-list');
-      const items = state.sections || [];
-      $('sections-count').textContent = String(items.length);
-      list.innerHTML = items.length ? '' : '<p class="muted center">لا توجد أقسام بعد.</p>';
-      adminList.innerHTML = items.length ? '' : '<p class="muted center">لا توجد أقسام.</p>';
-      items.forEach(sec => {
-        const chip = document.createElement('div');
-        chip.className = 'section-chip' + (state.currentSectionId === sec.id ? ' active' : '');
-        chip.innerHTML = `<div><div style="font-weight:800;">${escapeHTML(sec.name || '')}</div><div class="muted" style="font-size:12px;">${escapeHTML(sec.description || '')}</div></div><div style="display:flex;gap:6px;align-items:center;"><span class="badge">${escapeHTML(String(sec.postsCount || 0))}</span></div>`;
-        chip.onclick = () => selectSection(sec.id);
+      const list = $("sections-list");
+      const adminList = $("admin-sections-list");
+      list.innerHTML = "";
+      adminList.innerHTML = "";
+      $("sections-count").textContent = String(state.sections.length);
+
+      if (!state.sections.length) {
+        list.innerHTML = '<p class="muted center">لا توجد أقسام بعد.</p>';
+        adminList.innerHTML = '<p class="muted center">لا توجد أقسام.</p>';
+        return;
+      }
+
+      state.sections.forEach(sec => {
+        const chip = document.createElement("div");
+        chip.className = "section-chip" + (state.currentSectionId === sec.id ? " active" : "");
+        chip.innerHTML = `
+          <div>
+            <div style="font-weight:800">${escapeHTML(sec.name || "")}</div>
+            <div class="muted" style="font-size:12px">${escapeHTML(sec.description || "")}</div>
+          </div>
+          <span class="badge">${escapeHTML(String(sec.postsCount || 0))}</span>
+        `;
+        chip.onclick = () => { state.currentSectionId = sec.id; state.currentSection = sec; renderPosts(); renderSections(); };
         list.appendChild(chip);
-        const row = document.createElement('div');
-        row.className = 'user-row';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(sec.name || '')}</div><div class="muted">${escapeHTML(sec.description || '')}</div><div class="muted">مكافأة القسم: ${Number(sec.coinBase || 0)} + ${Number(sec.coinPerReaction || 0)} / تفاعل + ${Number(sec.coinPerComment || 0)} / تعليق + ${Number(sec.coinBonus || 0)} ثابت</div><div class="split-row"><span class="status-pill">${escapeHTML(String(sec.postsCount || 0))} بوست</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div></div>`;
-        row.querySelector('[data-edit]').onclick = () => openSectionEditor(sec);
-        row.querySelector('[data-del]').onclick = () => deleteSection(sec.id);
+
+        const row = document.createElement("div");
+        row.className = "user-row";
+        row.innerHTML = `
+          <div style="font-weight:800">${escapeHTML(sec.name || "")}</div>
+          <div class="muted">${escapeHTML(sec.description || "")}</div>
+          <div class="muted">مكافآت: ${Number(sec.coinBase || 0)} + ${Number(sec.coinPerReaction || 0)}/تفاعل + ${Number(sec.coinPerComment || 0)}/تعليق + ${Number(sec.coinBonus || 0)} ثابت</div>
+          <div class="split-row">
+            <span class="status-pill">${escapeHTML(String(sec.postsCount || 0))} بوست</span>
+            <div class="split-row" style="justify-content:flex-end">
+              <button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>
+              <button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>
+            </div>
+          </div>
+        `;
+        row.querySelector("[data-edit]").onclick = () => openSectionEditor(sec);
+        row.querySelector("[data-del]").onclick = () => deleteSection(sec.id);
         adminList.appendChild(row);
       });
     }
-    async function selectSection(sectionId) { state.currentSectionId = sectionId; state.currentSection = state.sections.find(s => s.id === sectionId) || null; renderSections(); renderPosts(); }
-    function rankScore(post) { const r = post.reactions || {}; const react = Object.values(r).reduce((a, b) => a + Number(b || 0), 0); return react + Number(post.commentsCount || 0) * 1.5 + Number(post.reportsCount || 0) * -2; }
-    function renderTrendingBox(posts) {
-      const box = $('trending-box');
+
+    function trendingScore(post) {
+      const react = Object.values(post.reactions || {}).reduce((a,b) => a + Number(b || 0), 0);
+      return react + Number(post.commentsCount || 0) * 1.5 - Number(post.reportsCount || 0) * 2;
+    }
+
+    async function renderTrendingBox(posts) {
+      const box = $("trending-box");
       if (!box) return;
-      if (!posts.length) { box.innerHTML = ''; return; }
-      const top = [...posts].sort((a,b) => rankScore(b) - rankScore(a)).slice(0, 3);
-      box.className = '';
-      box.innerHTML = `<div class="section-title" style="margin-bottom:8px;"><h3>الأكثر رواجًا</h3><span class="badge">${top.length}</span></div><div class="list-stack">${top.map(p => `<div class="post-card" style="padding:12px;"><strong>${escapeHTML(p.authorName || '')} ${escapeHTML(p.authorEmoji || '🌚')}</strong><div class="muted" style="font-size:12px;margin-top:4px;">${escapeHTML(fmtTime(p.createdAt))}</div><div style="white-space:pre-wrap;line-height:1.7;margin-top:8px;">${escapeHTML((p.text || '').slice(0,120))}${(p.text || '').length>120 ? '…' : ''}</div></div>`).join('')}</div>`;
-    }
-    function renderPosts() {
-      const list = $('posts-list');
-      const visible = state.posts.filter(p => !p.deleted && p.sectionId === state.currentSectionId && (p.approved || auth.currentUser?.email === adminEmail));
-      const posts = [...visible].sort((a, b) => {
-        const ad = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
-        const bd = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
-        return bd - ad;
-      });
-      if (state.feedMode === 'trending') posts.sort((a,b) => rankScore(b) - rankScore(a));
-      $('posts-count').textContent = String(posts.length);
-      list.innerHTML = posts.length ? '' : '<p class="muted center">لا توجد منشورات في هذا القسم.</p>';
-      const ageDays = getAccountAgeDays(state.currentUserData);
-      const newAccount = ageDays <= 7;
-      $('new-user-banner').classList.toggle('hidden', !newAccount);
-      renderTrendingBox(newAccount ? posts : []);
-      $('trending-box').classList.toggle('hidden', !newAccount && state.feedMode !== 'trending');
-      posts.forEach(post => {
-        void recordPostView(post);
-        const card = document.createElement('div');
-        card.className = 'post-card';
-        const isOwnerOrAdmin = canEditDelete(post);
-        const reactions = post.reactions || { '😂':0,'♥':0,'😢':0,'👍🏻':0,'😍':0 };
-        card.innerHTML = `<div class="post-meta"><div><strong>${escapeHTML(post.authorName || '')} ${escapeHTML(post.authorEmoji || '🌚')}</strong><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.8;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">👁️ المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="reaction-row"></div><div class="post-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>' : ''}${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>' : ''}${auth.currentUser?.email === adminEmail && !post.approved ? '<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>' : ''}${auth.currentUser?.email === adminEmail ? '<button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>' : ''}</div><div class="comments-area" style="margin-top:12px;"></div>`;
-        const reactionRow = card.querySelector('.reaction-row');
-        reactionOptions.forEach(r => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'reaction';
-          btn.innerHTML = `${r} <span style="font-size:12px;opacity:.85;margin-inline-start:4px;">${Number(reactions[r] || 0)}</span>`;
-          btn.onclick = () => react(btn, post.id, r);
-          reactionRow.appendChild(btn);
-        });
-        card.querySelector('[data-comment]').onclick = () => addComment(post.id);
-        card.querySelector('[data-report]').onclick = () => reportPost(post.id);
-        const editBtn = card.querySelector('[data-edit]'); if (editBtn) editBtn.onclick = () => editOwnPost(post.id);
-        const delBtn = card.querySelector('[data-del]'); if (delBtn) delBtn.onclick = () => deletePost(post.id);
-        const approveBtn = card.querySelector('[data-approve]'); if (approveBtn) approveBtn.onclick = () => approvePost(post.id, true);
-        const rejectBtn = card.querySelector('[data-reject]'); if (rejectBtn) rejectBtn.onclick = () => approvePost(post.id, false);
-        const commentsArea = card.querySelector('.comments-area');
-        const comments = state.commentsMap.get(post.id) || [];
-        comments.filter(c => !c.deleted).forEach(c => {
-          const row = document.createElement('div');
-          row.className = 'comment-card';
-          row.style.marginTop = '10px';
-          const canManage = canEditDelete(c);
-          row.innerHTML = `<div class="comment-meta"><div><strong>${escapeHTML(c.authorName || '')} ${escapeHTML(c.authorEmoji || '🌚')}</strong></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(c.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(c.text || '')}</div><div class="comment-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-report-comment>إبلاغ</button>${canManage ? '<button type="button" class="pill-btn tiny-btn" data-edit-comment>تعديل</button>' : ''}${canManage ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del-comment>حذف</button>' : ''}</div>`;
-          row.querySelector('[data-report-comment]').onclick = () => reportComment(c.id);
-          const ec = row.querySelector('[data-edit-comment]'); if (ec) ec.onclick = () => editOwnComment(c.id);
-          const dc = row.querySelector('[data-del-comment]'); if (dc) dc.onclick = () => deleteComment(c.id);
-          commentsArea.appendChild(row);
-        });
-        list.appendChild(card);
-      });
-      $('posts-count-admin').textContent = String(state.posts.filter(p => !p.deleted).length);
-      const allPosts = state.posts.filter(p => !p.deleted);
-      $('admin-posts-list').innerHTML = allPosts.length ? '' : '<p class="muted center">لا توجد منشورات.</p>';
-      allPosts.forEach(post => {
-        const row = document.createElement('div');
-        row.className = 'post-card';
-        row.innerHTML = `<div class="post-meta"><div><strong>${escapeHTML(post.authorName || '')} ${escapeHTML(post.authorEmoji || '🌚')}</strong><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">الحالة: ${post.approved ? 'موافق عليه' : 'معلّق'} — المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="post-actions"><button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div>`;
-        row.querySelector('[data-approve]').onclick = () => approvePost(post.id, true);
-        row.querySelector('[data-reject]').onclick = () => approvePost(post.id, false);
-        row.querySelector('[data-edit]').onclick = () => editOwnPost(post.id);
-        row.querySelector('[data-del]').onclick = () => deletePost(post.id);
-        $('admin-posts-list').appendChild(row);
-      });
+      const top = [...posts].sort((a,b) => trendingScore(b) - trendingScore(a)).slice(0,3);
+      if (!top.length) { box.innerHTML = ""; box.classList.add("hidden"); return; }
+      box.classList.remove("hidden");
+      box.innerHTML = `
+        <div class="section-title">
+          <h3>الأكثر رواجًا</h3>
+          <span class="badge">Top ${top.length}</span>
+        </div>
+        <div class="list-stack">
+          ${top.map(p => `
+            <div class="post-card" style="padding:12px">
+              <strong>${escapeHTML(p.authorName || "")} ${escapeHTML(p.authorEmoji || "🌚")}</strong>
+              <div class="muted" style="font-size:12px;margin-top:4px">${escapeHTML(fmtTime(p.createdAt))}</div>
+              <div style="margin-top:8px;white-space:pre-wrap;line-height:1.7">${escapeHTML((p.text || "").slice(0,120))}${(p.text || "").length > 120 ? "…" : ""}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
     }
 
-function renderUsers() {
-      const list = $('admin-users-list');
-      $('users-count').textContent = String(state.users.length);
-      list.innerHTML = state.users.length ? '' : '<p class="muted center">لا يوجد مستخدمون.</p>';
-      state.users.forEach(u => {
-        const row = document.createElement('div');
-        row.className = 'user-row';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(u.name || '')} ${escapeHTML(u.emoji || '🌚')}</div><div class="muted">${escapeHTML(u.email || '')}</div><div class="muted">${escapeHTML(u.phone || '')} — ${escapeHTML(u.country || '')} — ${escapeHTML(String(u.age || ''))}</div><div class="muted">${escapeHTML(u.description || '')}</div><div class="muted">🪙 الكوينز: <strong>${Number(u.coins || 0)}</strong></div><div class="split-row"><span class="status-pill ${u.blocked ? 'blocked' : ''}">${u.blocked ? 'محظور' : 'نشط'}</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn secondary-btn" data-add>+ كوينز</button><button type="button" class="pill-btn tiny-btn warning-btn" data-sub>- كوينز</button><button type="button" class="pill-btn tiny-btn ${u.blocked ? 'secondary-btn' : 'danger-btn'}" data-block>${u.blocked ? 'إلغاء الحظر' : 'حظر'}</button></div></div>`;
-        row.querySelector('[data-add]').onclick = () => openCoinDialog(u.id, u.name || u.email, 1);
-        row.querySelector('[data-sub]').onclick = () => openCoinDialog(u.id, u.name || u.email, -1);
-        row.querySelector('[data-block]').onclick = () => blockUser(u.id, !u.blocked);
-        list.appendChild(row);
-      });
-    }
+    function renderPostCard(post, { adminMode = false } = {}) {
+      const card = document.createElement("div");
+      card.className = "post-card";
+      const owner = state.users.find(u => u.id === post.uid);
+      const isOwnerOrAdmin = currentUserIsAdmin() || state.userData?.id === post.uid;
+      const reactions = post.reactions || { "😂":0, "♥":0, "😢":0, "👍🏻":0, "😍":0 };
 
-    function renderComments() {
-      const list = $('admin-comments-list');
-      const comments = [];
-      state.commentsMap.forEach(arr => arr.forEach(c => comments.push(c)));
-      comments.sort((a, b) => {
-        const ad = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
-        const bd = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
-        return bd - ad;
+      card.innerHTML = `
+        <div class="post-meta">
+          <div>
+            <strong>${escapeHTML(post.authorName || "")} ${escapeHTML(post.authorEmoji || "🌚")}</strong>
+            ${isVip(owner) ? '<span class="vip-tag">👑 VIP</span>' : ""}
+            <div class="muted" style="font-size:12px">${escapeHTML(post.sectionName || "")}</div>
+          </div>
+          <div class="muted" style="font-size:12px">${escapeHTML(fmtTime(post.createdAt))}</div>
+        </div>
+        <div class="split-row" style="margin:8px 0">
+          <button type="button" class="pill-btn tiny-btn ghost-btn" data-open-profile>👤 الملف</button>
+          <button type="button" class="pill-btn tiny-btn ghost-btn" data-open-viewers>👁 ${Number(post.viewerCount || 0)}</button>
+          ${isVip(owner) ? '<span class="vip-tag">VIP</span>' : ""}
+        </div>
+        <div style="white-space:pre-wrap;line-height:1.8">${escapeHTML(post.text || "")}</div>
+        <div class="reaction-row"></div>
+        <div class="post-actions">
+          <button type="button" class="pill-btn tiny-btn ghost-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button>
+          <button type="button" class="pill-btn tiny-btn ghost-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>
+          ${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>' : ""}
+          ${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>' : ""}
+          ${currentUserIsAdmin() && !post.approved ? '<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>' : ""}
+          ${currentUserIsAdmin() ? '<button type="button" class="pill-btn tiny-btn ghost-btn" data-reject>رفض</button>' : ""}
+        </div>
+        <div class="comments-area" style="margin-top:12px"></div>
+      `;
+
+      const rr = card.querySelector(".reaction-row");
+      REACTIONS.forEach(r => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "reaction";
+        b.innerHTML = `${r} <span style="font-size:12px;opacity:.85;margin-inline-start:4px">${Number(reactions[r] || 0)}</span>`;
+        b.onclick = () => react(b, post.id, r);
+        rr.appendChild(b);
       });
-      $('admin-comments-count').textContent = String(comments.length);
-      list.innerHTML = comments.length ? '' : '<p class="muted center">لا توجد تعليقات.</p>';
+
+      card.querySelector("[data-open-profile]").onclick = async () => {
+        await openAuthorProfile(post.uid);
+      };
+      card.querySelector("[data-open-viewers]").onclick = () => openPostViewers(post.id);
+      card.querySelector("[data-comment]").onclick = () => addComment(post.id);
+      card.querySelector("[data-report]").onclick = () => reportPost(post.id);
+      const editBtn = card.querySelector("[data-edit]");
+      if (editBtn) editBtn.onclick = () => editPost(post.id);
+      const delBtn = card.querySelector("[data-del]");
+      if (delBtn) delBtn.onclick = () => deletePost(post.id);
+      const approveBtn = card.querySelector("[data-approve]");
+      if (approveBtn) approveBtn.onclick = () => approvePost(post.id, true);
+      const rejectBtn = card.querySelector("[data-reject]");
+      if (rejectBtn) rejectBtn.onclick = () => approvePost(post.id, false);
+
+      const commentsArea = card.querySelector(".comments-area");
+      const comments = state.comments.filter(c => c.postId === post.id && !c.deleted);
       comments.forEach(c => {
-        const post = state.posts.find(p => p.id === c.postId);
-        const row = document.createElement('div');
-        row.className = 'admin-subcard';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(c.authorName || '')} ${escapeHTML(c.authorEmoji || '🌚')}</div><div class="muted">${escapeHTML(c.text || '')}</div><div class="muted">على بوست: ${escapeHTML(post?.text ? post.text.slice(0,80) : c.postId || '')}</div><div class="muted">${escapeHTML(fmtTime(c.createdAt))}</div>`;
+        const cm = document.createElement("div");
+        cm.className = "comment-card";
+        cm.style.marginTop = "10px";
+        const canManage = currentUserIsAdmin() || c.uid === state.userData?.id;
+        cm.innerHTML = `
+          <div class="comment-meta">
+            <div><strong>${escapeHTML(c.authorName || "")} ${escapeHTML(c.authorEmoji || "🌚")}</strong></div>
+            <div class="muted" style="font-size:12px">${escapeHTML(fmtTime(c.createdAt))}</div>
+          </div>
+          <div style="white-space:pre-wrap;line-height:1.7">${escapeHTML(c.text || "")}</div>
+          <div class="comment-actions">
+            <button type="button" class="pill-btn tiny-btn ghost-btn" data-report-c>إبلاغ</button>
+            ${canManage ? '<button type="button" class="pill-btn tiny-btn" data-edit-c>تعديل</button>' : ""}
+            ${canManage ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del-c>حذف</button>' : ""}
+          </div>
+        `;
+        cm.querySelector("[data-report-c]").onclick = () => reportComment(c.id);
+        const ec = cm.querySelector("[data-edit-c]");
+        if (ec) ec.onclick = () => editComment(c.id);
+        const dc = cm.querySelector("[data-del-c]");
+        if (dc) dc.onclick = () => deleteComment(c.id);
+        commentsArea.appendChild(cm);
+      });
+
+      if (!adminMode) {
+        logPostView(post).catch(()=>{});
+      }
+
+      return card;
+    }
+
+    function renderPosts() {
+      const list = $("posts-list");
+      const posts = state.posts.filter(p => !p.deleted && p.sectionId === state.currentSectionId && (p.approved || currentUserIsAdmin()));
+      const sorted = [...posts].sort((a,b) => {
+        const ad = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+        const bd = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+        return state.feedMode === "trending" ? trendingScore(b) - trendingScore(a) : bd - ad;
+      });
+      $("posts-count").textContent = String(sorted.length);
+      list.innerHTML = sorted.length ? "" : '<p class="muted center">لا توجد منشورات في هذا القسم.</p>';
+      renderTrendingBox(sorted);
+
+      sorted.forEach(post => list.appendChild(renderPostCard(post)));
+    }
+
+    function renderUsers() {
+      const list = $("admin-users-list");
+      list.innerHTML = "";
+      $("users-count").textContent = String(state.users.length);
+      if (!state.users.length) {
+        list.innerHTML = '<p class="muted center">لا يوجد مستخدمون.</p>';
+        return;
+      }
+      state.users.forEach(u => {
+        const row = document.createElement("div");
+        row.className = "user-row";
+        row.innerHTML = `
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <strong class="${isVip(u) ? "gold-name" : ""}">${escapeHTML(u.name || "")}</strong>
+            <span>${escapeHTML(u.emoji || "🌚")}</span>
+            ${isVip(u) ? '<span class="vip-tag">👑 VIP</span>' : ""}
+          </div>
+          <div class="muted">${escapeHTML(u.email || "")}</div>
+          <div class="muted">${escapeHTML(u.phone || "")} — ${escapeHTML(u.country || "")} — ${escapeHTML(String(u.age || ""))}</div>
+          <div class="muted">${escapeHTML(u.description || "")}</div>
+          <div class="split-row">
+            <span class="status-pill ${u.blocked ? "blocked" : ""}">${u.blocked ? "محظور" : "نشط"}</span>
+            <span class="mini-chip">🪙 ${Number(u.coins || 0)}</span>
+          </div>
+          <div class="split-row">
+            <button type="button" class="pill-btn tiny-btn ghost-btn" data-vip>VIP</button>
+            <div class="split-row" style="justify-content:flex-end">
+              <button type="button" class="pill-btn tiny-btn ghost-btn" data-add>+ كوينز</button>
+              <button type="button" class="pill-btn tiny-btn warning-btn" data-sub>- كوينز</button>
+              <button type="button" class="pill-btn tiny-btn ${u.blocked ? "ghost-btn" : "danger-btn"}" data-block>${u.blocked ? "إلغاء الحظر" : "حظر"}</button>
+            </div>
+          </div>
+        `;
+        row.querySelector("[data-add]").onclick = () => coinDialog(u.id, 1);
+        row.querySelector("[data-sub]").onclick = () => coinDialog(u.id, -1);
+        row.querySelector("[data-block]").onclick = () => blockUser(u.id, !u.blocked);
+        row.querySelector("[data-vip]").onclick = () => userVipDialog(u.id);
         list.appendChild(row);
       });
     }
 
-    function renderPostViews() {
-      const list = $('admin-views-list');
-      const grouped = new Map();
-      state.postViews.forEach(v => {
-        if (!grouped.has(v.postId)) grouped.set(v.postId, []);
-        grouped.get(v.postId).push(v);
-      });
-      const groups = Array.from(grouped.entries()).map(([postId, views]) => {
-        const post = state.posts.find(p => p.id === postId);
-        return { post, views };
-      }).sort((a, b) => (b.views.length - a.views.length));
-      $('post-views-count').textContent = String(state.postViews.length);
-      list.innerHTML = groups.length ? '' : '<p class="muted center">لا توجد مشاهدات بعد.</p>';
-      groups.forEach(({post, views}) => {
-        const row = document.createElement('div');
-        row.className = 'admin-subcard';
-        const viewers = views.slice(0, 8).map(v => `<span class="view-pill">${escapeHTML(v.viewerName || '')} ${escapeHTML(v.viewerEmoji || '🌚')}</span>`).join('');
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(post?.text ? post.text.slice(0,110) : 'بوست بدون نص')}</div><div class="muted">عدد المشاهدات: ${views.length}</div><div class="viewers-list">${viewers || '<span class="muted">لا يوجد أسماء ظاهرة</span>'}</div>`;
+    function renderReports() {
+      const list = $("admin-reports-list");
+      list.innerHTML = "";
+      $("reports-count").textContent = String(state.reports.length);
+      if (!state.reports.length) {
+        list.innerHTML = '<p class="muted center">لا توجد بلاغات.</p>';
+        return;
+      }
+      state.reports.forEach(r => {
+        const row = document.createElement("div");
+        row.className = "user-row";
+        row.innerHTML = `
+          <div style="font-weight:800">نوع البلاغ: ${escapeHTML(r.type || "")}</div>
+          <div class="muted">السبب: ${escapeHTML(r.reason || "")}</div>
+          <div class="muted">من: ${escapeHTML(r.reporterEmail || "")}</div>
+          <div class="muted">الحالة: ${r.resolved ? "تمت المعالجة" : "مفتوح"}</div>
+        `;
         list.appendChild(row);
       });
     }
 
-    function renderCoinRequests() {
-      const list = $('admin-requests-list');
-      $('coin-requests-count').textContent = String(state.coinRequests.length);
-      list.innerHTML = state.coinRequests.length ? '' : '<p class="muted center">لا توجد طلبات شحن.</p>';
-      state.coinRequests.forEach(req => {
-        const row = document.createElement('div');
-        row.className = 'admin-subcard';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(req.userName || '')}</div><div class="request-meta"><div class="muted">البريد: ${escapeHTML(req.userEmail || req.requestedByEmail || '')}</div><div class="muted">رقم التحويل: ${escapeHTML(req.transferFromNumber || '')}</div><div class="muted">التسعير: ${escapeHTML(req.coinsRate || '')}</div><div class="muted">الحالة: ${escapeHTML(req.status || 'pending')}</div><div class="muted">${escapeHTML(fmtTime(req.createdAt))}</div></div><div class="split-row"><div></div><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn" data-done>تمت الإضافة</button><button type="button" class="pill-btn tiny-btn danger-btn" data-reject>رفض</button></div></div>`;
-        row.querySelector('[data-done]').onclick = async () => {
-          await updateDoc(doc(db, 'coinRequests', req.id), { status: 'done', reviewedAt: serverTimestamp() });
-          toast('تم تحديث الطلب.', 'success');
-        };
-        row.querySelector('[data-reject]').onclick = async () => {
-          await updateDoc(doc(db, 'coinRequests', req.id), { status: 'rejected', reviewedAt: serverTimestamp() });
-          toast('تم رفض الطلب.', 'info');
-        };
+    function renderAdminPosts() {
+      const list = $("admin-posts-list");
+      list.innerHTML = "";
+      const posts = [...state.posts].filter(p => !p.deleted).sort((a,b) => {
+        const ad = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+        const bd = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+        return bd - ad;
+      });
+      $("all-posts-count").textContent = String(posts.length);
+      if (!posts.length) {
+        list.innerHTML = '<p class="muted center">لا توجد منشورات.</p>';
+        return;
+      }
+      posts.forEach(post => {
+        const row = renderPostCard(post, { adminMode: true });
         list.appendChild(row);
       });
     }
 
-function openCoinDialog(userId, userName, sign) {
-      const label = sign > 0 ? 'إضافة' : 'سحب';
-      openDialog({ title: `${label} كوينز`, bodyHTML: `<div class="stack"><p class="muted">${label} كوينز لحساب: <strong>${escapeHTML(userName)}</strong></p><input type="number" id="coin-amount" class="small-input" min="1" placeholder="اكتب العدد"></div>`, confirmText: label, cancelText: 'إلغاء', onConfirm: async () => { const amount = Number($('coin-amount').value || 0); if (!amount || amount <= 0) { toast('اكتب رقم صحيح.', 'warning'); return; } await adjustCoins(userId, sign * amount); } });
-    }
-    async function loadCurrentUserData(user) { const snap = await getDoc(doc(db, 'users', user.uid)); return snap.exists() ? { id: user.uid, ...snap.data() } : null; }
-    function attachRealtimeListeners() {
-      onSnapshot(query(collection(db, 'sections'), orderBy('createdAt', 'asc')), (snap) => {
-        state.sections = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        if (!state.currentSectionId && state.sections[0]) { state.currentSectionId = state.sections[0].id; state.currentSection = state.sections[0]; }
-        else state.currentSection = state.sections.find(s => s.id === state.currentSectionId) || state.currentSection;
-        renderSections();
+    function renderAdminComments() {
+      const list = $("admin-comments-list");
+      list.innerHTML = "";
+      $("all-comments-count").textContent = String(state.comments.filter(c => !c.deleted).length);
+      const comments = [...state.comments].filter(c => !c.deleted).sort((a,b) => {
+        const ad = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+        const bd = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+        return bd - ad;
       });
-      onSnapshot(query(collection(db, 'users'), orderBy('createdAt', 'desc')), (snap) => {
-        state.users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        renderUsers();
-        const user = auth.currentUser;
-        if (user) {
-          const me = state.users.find(x => x.id === user.uid);
-          if (me) $('header-coins-chip').textContent = `🪙 ${Number(me.coins || 0)}`;
+      if (!comments.length) {
+        list.innerHTML = '<p class="muted center">لا توجد تعليقات.</p>';
+        return;
+      }
+      comments.forEach(c => {
+        const owner = state.users.find(u => u.id === c.uid);
+        const row = document.createElement("div");
+        row.className = "comment-card";
+        row.innerHTML = `
+          <div class="comment-meta">
+            <div>
+              <strong class="${isVip(owner) ? "gold-name" : ""}">${escapeHTML(c.authorName || "")} ${escapeHTML(c.authorEmoji || "🌚")}</strong>
+              ${isVip(owner) ? '<span class="vip-tag">👑 VIP</span>' : ""}
+              <div class="muted" style="font-size:12px">${escapeHTML(fmtTime(c.createdAt))}</div>
+            </div>
+            <div class="mini-chip">بوست: ${escapeHTML(String(c.postId || ""))}</div>
+          </div>
+          <div style="white-space:pre-wrap;line-height:1.7">${escapeHTML(c.text || "")}</div>
+          <div class="comment-actions">
+            <button type="button" class="pill-btn tiny-btn ghost-btn" data-edit>تعديل</button>
+            <button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>
+          </div>
+        `;
+        row.querySelector("[data-edit]").onclick = () => editComment(c.id);
+        row.querySelector("[data-del]").onclick = () => deleteComment(c.id);
+        list.appendChild(row);
+      });
+    }
+
+    function renderVipUsers() {
+      const list = $("vip-users-list");
+      list.innerHTML = "";
+      const users = state.users.filter(u => isVip(u));
+      if (!users.length) {
+        list.innerHTML = '<p class="muted center">لا يوجد مستخدمون VIP بعد.</p>';
+        return;
+      }
+      users.forEach(u => {
+        const row = document.createElement("div");
+        row.className = "user-row";
+        row.innerHTML = `
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <strong class="gold-name">${escapeHTML(u.name || "")}</strong>
+            <span class="vip-tag">👑 VIP</span>
+          </div>
+          <div class="muted">${escapeHTML(u.email || "")}</div>
+          <div class="muted">ينتهي: ${escapeHTML(vipExpiresText(u))}</div>
+          <div class="split-row">
+            <button type="button" class="pill-btn tiny-btn ghost-btn" onclick="userVipDialog('${u.id}')">فتح VIP</button>
+            <button type="button" class="pill-btn tiny-btn danger-btn" onclick="blockUser('${u.id}', true)">حظر</button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    async function coinDialog(uid, sign) {
+      const user = state.users.find(u => u.id === uid);
+      if (!user) return;
+      openDialog({
+        title: sign > 0 ? "إضافة كوينز" : "سحب كوينز",
+        bodyHTML: `<input id="coin-amount" type="number" min="1" class="small-input" placeholder="اكتب العدد">`,
+        confirmText: sign > 0 ? "إضافة" : "سحب",
+        cancelText: "إلغاء",
+        onConfirm: async () => {
+          const amount = Number($("coin-amount").value || 0);
+          if (!amount || amount <= 0) return toast("اكتب رقم صحيح.", "warning");
+          await updateDoc(doc(db, "users", uid), {
+            coins: increment(sign * amount)
+          });
+          toast(sign > 0 ? `تمت إضافة ${amount} كوينز.` : `تم سحب ${amount} كوينز.`, "success");
         }
       });
-      onSnapshot(query(collection(db, 'reports'), orderBy('createdAt', 'desc')), (snap) => { state.reports = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderReports(); });
-      onSnapshot(query(collection(db, 'coinRequests'), orderBy('createdAt', 'desc')), (snap) => { state.coinRequests = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderCoinRequests(); });
-      onSnapshot(query(collection(db, 'postViews'), orderBy('viewedAt', 'desc')), (snap) => { state.postViews = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderPostViews(); });
-      onSnapshot(query(collection(db, 'posts'), orderBy('createdAt', 'desc')), async (snap) => {
-        state.posts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        state.commentsMap.clear();
-        const commentsSnap = await getDocs(query(collection(db, 'comments'), orderBy('createdAt', 'asc')));
-        commentsSnap.docs.forEach(d => {
-          const c = { id: d.id, ...d.data() };
-          if (!state.commentsMap.has(c.postId)) state.commentsMap.set(c.postId, []);
-          state.commentsMap.get(c.postId).push(c);
-        });
-        renderPosts();
-        renderComments();
+    }
+    window.coinDialog = coinDialog;
+
+    async function userVipDialog(uid) {
+      const user = state.users.find(u => u.id === uid);
+      if (!user) return;
+      $("vip-body").innerHTML = `
+        <div class="stack">
+          <div class="status-pill vip">VIP لمدة شهر</div>
+          <div class="help-line">الحساب: <strong>${escapeHTML(user.name || "")}</strong></div>
+          <div class="help-line">الرصيد: <strong>🪙 ${Number(user.coins || 0)}</strong></div>
+          <div class="help-line">الاشتراك الحالي: <strong>${isVip(user) ? "نشط" : "غير نشط"}</strong></div>
+          <div class="grid-2">
+            <button type="button" class="pill-btn" onclick="openVipModal()">فتح VIP</button>
+            <button type="button" class="pill-btn ghost-btn" onclick="closeVipModal()">إغلاق</button>
+          </div>
+        </div>
+      `;
+      $("vip-modal").classList.remove("hidden");
+    }
+    window.userVipDialog = userVipDialog;
+
+    function renderRechargeModal() {
+      const coins = Number(state.userData?.coins || 0);
+      $("recharge-body").innerHTML = `
+        <div class="pay-box">
+          <div class="help-line">رصيدك الحالي: <strong>🪙 <span id="recharge-coins">${coins}</span></strong></div>
+          <div class="help-line">سعر 10 كوينز = 1 جنيه مصري</div>
+          <div class="help-line">حوّل المبلغ كاش لهذا الرقم: <strong>${SUPPORT_PHONE}</strong></div>
+          <div class="grid-2">
+            <input id="recharge-amount" type="number" min="10" value="10" placeholder="عدد الكوينز" oninput="updateRechargePreview()" />
+            <div class="help-line">المبلغ المطلوب: <strong id="recharge-price">1</strong> جنيه</div>
+          </div>
+          <div class="help-line">بعد التحويل اضغط تم الإرسال، وسيتم إضافة الكوينز إلى حسابك في أقل من ساعة.</div>
+          <div class="grid-2">
+            <button type="button" class="pill-btn" onclick="submitRechargeRequest()">تم الإرسال</button>
+            <button type="button" class="pill-btn ghost-btn" onclick="closeRechargeModal()">إغلاق</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateRechargePreview() {
+      const amount = Number($("recharge-amount").value || 0);
+      $("recharge-price").textContent = String(Math.max(1, Math.ceil(amount / RATE_COINS)));
+    }
+    window.updateRechargePreview = updateRechargePreview;
+
+    function submitRechargeRequest() {
+      const amount = Number($("recharge-amount").value || 0);
+      if (!amount || amount < 10) return toast("اكتب عدد كوينز صحيح لا يقل عن 10.", "warning");
+      toast("تم استلام طلب الشحن. سيتم إضافة الكوينز إلى حسابك في أقل من ساعة.", "success", 3800);
+      closeRechargeModal();
+    }
+    window.submitRechargeRequest = submitRechargeRequest;
+
+    function renderVipModal() {
+      const me = state.userData;
+      const vipActive = isVip(me);
+      const canSubscribe = Number(me?.coins || 0) >= VIP_COST;
+      $("vip-body").innerHTML = `
+        <div class="stack">
+          <div class="status-pill vip">VIP لمدة شهر</div>
+          <div class="help-line">السعر: <strong>${VIP_COST}</strong> كوينز</div>
+          <div class="help-line">رصيدك الحالي: <strong>🪙 ${Number(me?.coins || 0)}</strong></div>
+          <div class="help-line">الحالة: <strong>${vipActive ? "نشط" : "غير نشط"}</strong> ${vipActive ? `حتى ${vipExpiresText(me)}` : ""}</div>
+          <div class="list-stack">
+            <div class="feature-pill">1) دعم سريع عبر واتساب أو البريد الإلكتروني</div>
+            <div class="feature-pill">2) تاج VIP بجانب الاسم</div>
+            <div class="feature-pill">3) اسم ذهبي لامع</div>
+            <div class="feature-pill">4) إضافة Instagram أو TikTok أو روابط للملف</div>
+            <div class="feature-pill">5) عرض زوار الملف الشخصي</div>
+            <div class="feature-pill">6) بطاقة ملف بإطار ذهبي</div>
+            <div class="feature-pill">7) أولوية ظهور في بعض القوائم</div>
+            <div class="feature-pill">8) تمييز واضح في المنشورات والتعليقات</div>
+            <div class="feature-pill">9) ملف أكثر جاذبية ومصداقية</div>
+            <div class="feature-pill">10) وصول أسرع للدعم</div>
+          </div>
+          <div class="grid-2">
+            <button type="button" class="pill-btn ${canSubscribe ? "" : "ghost-btn"}" onclick="subscribeVip()" ${canSubscribe ? "" : "disabled"}>${vipActive ? "تجديد VIP" : "اشترك الآن"}</button>
+            <button type="button" class="pill-btn ghost-btn" onclick="closeVipModal()">إغلاق</button>
+          </div>
+          ${!canSubscribe ? '<div class="muted center">تحتاج 100 كوينز على الأقل للاشتراك.</div>' : ''}
+        </div>
+      `;
+    }
+
+    async function subscribeVip() {
+      const me = state.userData;
+      if (!me) return;
+      if (Number(me.coins || 0) < VIP_COST) return toast("لا يوجد رصيد كافٍ للاشتراك.", "warning");
+      openDialog({
+        title: "تأكيد اشتراك VIP",
+        bodyHTML: `
+          <div class="stack">
+            <div class="help-line">سيتم خصم <strong>${VIP_COST}</strong> كوينز وتفعيل VIP لمدة <strong>${VIP_DAYS}</strong> يوم.</div>
+            <div class="help-line">بعد الاشتراك سيظهر التاج والاسم الذهبي مباشرة.</div>
+          </div>
+        `,
+        confirmText: "تأكيد",
+        cancelText: "إلغاء",
+        onConfirm: async () => {
+          const base = me.vipUntil && new Date(me.vipUntil).getTime() > Date.now()
+            ? new Date(me.vipUntil).getTime()
+            : Date.now();
+          const newUntil = new Date(base + VIP_DAYS * 24 * 60 * 60 * 1000).toISOString();
+          await updateDoc(doc(db, "users", me.id), {
+            coins: increment(-VIP_COST),
+            vip: true,
+            vipUntil: newUntil
+          });
+          toast("تم تفعيل VIP بنجاح.", "success");
+          closeVipModal();
+        }
       });
     }
-    async function handleSignedInUser(user) {
-      state.currentUser = user;
-      state.currentUserData = await loadCurrentUserData(user);
-      if (state.currentUserData?.blocked) { toast('تم حظرك من المنصة.', 'error', 3500); await signOut(auth); return; }
-      $('auth-section').classList.add('hidden');
-      $('app-section').classList.remove('hidden');
-      $('user-emoji-btn').textContent = state.currentUserData?.emoji || '🌚';
-      $('header-emoji-chip').textContent = state.currentUserData?.emoji || '🌚';
-      $('header-coins-chip').textContent = `🪙 ${Number(state.currentUserData?.coins || 0)}`;
-      $('set-name').value = state.currentUserData?.name || '';
-      $('set-age').value = state.currentUserData?.age || '';
-      $('set-desc').value = state.currentUserData?.description || '';
-      $('set-email-display').value = state.currentUserData?.email || user.email || '';
-      $('set-phone-display').value = state.currentUserData?.phone || '';
-      const isAdmin = user.email === adminEmail;
-      $('admin-dashboard').classList.toggle('hidden', !isAdmin);
-      $('user-dashboard').classList.toggle('hidden', isAdmin);
-      if (isAdmin) showAdminView('sections');
-      else {
-        if (!state.currentSectionId && state.sections[0]) { state.currentSectionId = state.sections[0].id; state.currentSection = state.sections[0]; }
-        $('composer-box').classList.add('hidden'); state.composerOpen = false; renderPosts();
-      }
-      const ageDays = getAccountAgeDays(state.currentUserData);
-      $('new-user-banner').classList.toggle('hidden', ageDays > 7);
-      $('trending-box').classList.toggle('hidden', ageDays > 7 && state.feedMode !== 'trending');
+    window.subscribeVip = subscribeVip;
+
+    async function openAuthorVisitors(uid) {
+      const user = await loadUserDoc(uid);
+      if (!user) return;
+      const visitors = Array.isArray(user.visitors) ? user.visitors : [];
+      $("visitor-modal-body").innerHTML = visitors.length
+        ? visitors.map(v => `<div class="visitor-pill">👤 ${escapeHTML(v.name || v.email || "زائر")} ${escapeHTML(v.emoji || "")}</div>`).join("")
+        : '<div class="muted">لا يوجد زوار بعد.</div>';
+      $("visitor-modal").classList.remove("hidden");
     }
-    onAuthStateChanged(auth, async (user) => { if (user) await handleSignedInUser(user); else { $('auth-section').classList.remove('hidden'); $('app-section').classList.add('hidden'); closeSettings(); } });
+    window.openAuthorVisitors = openAuthorVisitors;
 
-    attachRealtimeListeners();
-    $('word-count-info').textContent = '0 / 170 كلمة';
-    window.manageSections = () => showAdminView('sections');
-    window.viewUsers = () => showAdminView('users');
-    window.approvePosts = () => showAdminView('posts');
-    window.manageAllContent = () => showAdminView('reports');
-  
-window.openVipModal=()=>{$('vip-modal').classList.remove('hidden');const c=Number(state.currentUserData?.coins||0);$('vipCoinsInfo').innerText='رصيدك: '+c+' كوينز';$('coinBalanceVip').innerText=c;}
-window.closeVipModal=()=>$('vip-modal').classList.add('hidden');
-window.showCoinTopup=()=>$('coinTopupBox').classList.toggle('hidden');
-window.coinSent=()=>toast('سيتم إضافة الكوينز إلى حسابك في أقل من ساعة','success',5000);
-window.subscribeVip=async()=>{
- const c=Number(state.currentUserData?.coins||0);
- if(c<100){toast('تحتاج 100 كوينز للاشتراك','warning');return;}
- await updateDoc(doc(db,'users',auth.currentUser.uid),{coins:increment(-100),vip:true,vipUntil:new Date(Date.now()+30*24*60*60*1000).toISOString()});
- toast('تم الاشتراك في VIP لمدة شهر','success');
-};
+    async function openAuthorProfile(uid) {
+      await logProfileVisitor(uid);
+      const user = await loadUserDoc(uid);
+      if (!user) return;
+      $("profile-modal-body").innerHTML = profileCardHTML(user) + `
+        <div class="grid-2">
+          <button type="button" class="pill-btn" onclick="openVipModal()">VIP</button>
+          <button type="button" class="pill-btn ghost-btn" onclick="openAuthorVisitors('${uid}')">زوار الملف</button>
+        </div>
+        <div id="profile-visitors-box"></div>
+      `;
+      const box = document.getElementById("profile-visitors-box");
+      const visitors = Array.isArray(user.visitors) ? user.visitors : [];
+      box.innerHTML = visitors.length
+        ? visitors.map(v => `<div class="visitor-pill">👤 ${escapeHTML(v.name || v.email || "زائر")} ${escapeHTML(v.emoji || "")}</div>`).join("")
+        : '<div class="muted">لا يوجد زوار بعد.</div>';
+      $("profile-modal").classList.remove("hidden");
+    }
+    window.openAuthorProfile = openAuthorProfile;
 
-</script>
+    async function openPostViewers(postId) {
+      const snap = await getDoc(doc(db, "posts", postId));
+      if (!snap.exists()) return;
+      const post = snap.data();
+      const viewerMap = post.viewerMap || {};
+      const viewers = Object.values(viewerMap);
+      $("visitor-modal-body").innerHTML = viewers.length
+        ? viewers.map(v => `<div class="visitor-pill">👤 ${escapeHTML(v.name || v.email || "زائر")} ${escapeHTML(v.emoji || "")}</div>`).join("")
+        : '<div class="muted">لا يوجد مشاهِدون مسجلون بعد.</div>';
+      $("visitor-modal").classList.remove("hidden");
+    }
+    window.openPostViewers = openPostViewers;
+
+    function renderMyProfilePreview() {
+      const holder = document.getElementById("my-profile-preview");
+      if (holder) holder.remove();
+      const wrap = document.getElementById("user-dashboard");
+      if (!wrap || !state.userData) return;
+      const panel = document.createElement("div");
+      panel.id = "my-profile-preview";
+      panel.className = "card panel";
+      panel.innerHTML = `
+        <div class="section-title">
+          <h3>ملفي</h3>
+          <div class="split-row" style="justify-content:flex-end">
+            <button type="button" class="tiny-btn vip-btn" onclick="openVipModal()">VIP</button>
+            <button type="button" class="tiny-btn money-btn" onclick="openRechargeModal()">+</button>
+          </div>
+        </div>
+        ${profileCardHTML(state.userData, { showButtons: false })}
+      `;
+      wrap.querySelector(".page-grid .stack")?.prepend(panel);
+    }
+
+    function renderAll() {
+      renderSections();
+      renderUsers();
+      renderReports();
+      if (currentUserIsAdmin()) {
+        renderAdminPosts();
+        renderAdminComments();
+        renderVipUsers();
+      } else {
+        renderPosts();
+      }
+      renderMyProfilePreview();
+    }
+
+    async function handleSignedIn(user) {
+      state.user = user;
+      state.userData = await loadUserDoc(user.uid);
+      if (!state.userData) {
+        toast("تعذر تحميل بيانات الحساب.", "error");
+        return;
+      }
+      if (state.userData.blocked) {
+        toast("تم حظرك من المنصة.", "error", 3800);
+        await signOut(auth);
+        return;
+      }
+
+      $("auth-section").classList.add("hidden");
+      $("app-section").classList.remove("hidden");
+      $("user-emoji-btn").textContent = state.userData.emoji || "🌚";
+      $("coins-header").textContent = String(Number(state.userData.coins || 0));
+
+      $("set-name").value = state.userData.name || "";
+      $("set-age").value = state.userData.age || "";
+      $("set-desc").value = state.userData.description || "";
+      $("set-email-display").value = state.userData.email || "";
+      $("set-phone-display").value = state.userData.phone || "";
+      $("set-instagram").value = state.userData.instagram || "";
+      $("set-tiktok").value = state.userData.tiktok || "";
+      $("set-extra-links").value = Array.isArray(state.userData.links) ? state.userData.links.join("\n") : "";
+
+      if (currentUserIsAdmin()) {
+        $("admin-dashboard").classList.remove("hidden");
+        $("user-dashboard").classList.add("hidden");
+        showAdminView("sections");
+      } else {
+        $("admin-dashboard").classList.add("hidden");
+        $("user-dashboard").classList.remove("hidden");
+        if (!state.currentSectionId && state.sections[0]) {
+          state.currentSectionId = state.sections[0].id;
+          state.currentSection = state.sections[0];
+        }
+        $("composer-box").classList.add("hidden");
+        state.composerOpen = false;
+        renderPosts();
+        renderMyProfilePreview();
+      }
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) await handleSignedIn(user);
+      else {
+        $("auth-section").classList.remove("hidden");
+        $("app-section").classList.add("hidden");
+        closeSettings();
+      }
+    });
+
+    // listeners
+    onSnapshot(query(collection(db, "sections"), orderBy("createdAt", "asc")), (snap) => {
+      state.sections = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (!state.currentSectionId && state.sections[0]) {
+        state.currentSectionId = state.sections[0].id;
+        state.currentSection = state.sections[0];
+      } else {
+        state.currentSection = state.sections.find(s => s.id === state.currentSectionId) || state.currentSection;
+      }
+      renderSections();
+      if (!currentUserIsAdmin()) renderPosts();
+    });
+
+    onSnapshot(query(collection(db, "users"), orderBy("createdAt", "desc")), (snap) => {
+      state.users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderUsers();
+      renderVipUsers();
+      const me = state.users.find(u => u.id === auth.currentUser?.uid);
+      if (me) {
+        state.userData = me;
+        $("coins-header").textContent = String(Number(me.coins || 0));
+        $("user-emoji-btn").textContent = me.emoji || "🌚";
+        renderMyProfilePreview();
+      }
+    });
+
+    onSnapshot(query(collection(db, "reports"), orderBy("createdAt", "desc")), (snap) => {
+      state.reports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderReports();
+    });
+
+    onSnapshot(query(collection(db, "posts"), orderBy("createdAt", "desc")), async (snap) => {
+      state.posts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const commentsSnap = await getDocs(query(collection(db, "comments"), orderBy("createdAt", "asc")));
+      state.comments = commentsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (currentUserIsAdmin()) {
+        renderAdminPosts();
+        renderAdminComments();
+      } else {
+        renderPosts();
+      }
+    });
+
+    function renderAdminPosts() {
+      const list = $("admin-posts-list");
+      if (!list) return;
+      const posts = [...state.posts].filter(p => !p.deleted).sort((a,b) => {
+        const ad = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+        const bd = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+        return bd - ad;
+      });
+      $("all-posts-count").textContent = String(posts.length);
+      list.innerHTML = posts.length ? "" : '<p class="muted center">لا توجد منشورات.</p>';
+      posts.forEach(p => {
+        const card = renderPostCard(p, { adminMode:true });
+        list.appendChild(card);
+      });
+    }
+
+    function renderAdminComments() {
+      const list = $("admin-comments-list");
+      if (!list) return;
+      const comments = [...state.comments].filter(c => !c.deleted).sort((a,b) => {
+        const ad = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+        const bd = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+        return bd - ad;
+      });
+      $("all-comments-count").textContent = String(comments.length);
+      list.innerHTML = comments.length ? "" : '<p class="muted center">لا توجد تعليقات.</p>';
+      comments.forEach(c => {
+        const owner = state.users.find(u => u.id === c.uid);
+        const row = document.createElement("div");
+        row.className = "comment-card";
+        row.innerHTML = `
+          <div class="comment-meta">
+            <div>
+              <strong class="${isVip(owner) ? "gold-name" : ""}">${escapeHTML(c.authorName || "")} ${escapeHTML(c.authorEmoji || "🌚")}</strong>
+              ${isVip(owner) ? '<span class="vip-tag">👑 VIP</span>' : ""}
+            </div>
+            <div class="muted" style="font-size:12px">${escapeHTML(fmtTime(c.createdAt))}</div>
+          </div>
+          <div class="muted">على بوست: ${escapeHTML(String(c.postId || ""))}</div>
+          <div style="white-space:pre-wrap;line-height:1.7">${escapeHTML(c.text || "")}</div>
+          <div class="comment-actions">
+            <button type="button" class="pill-btn tiny-btn ghost-btn" data-edit>تعديل</button>
+            <button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>
+          </div>
+        `;
+        row.querySelector("[data-edit]").onclick = () => editComment(c.id);
+        row.querySelector("[data-del]").onclick = () => deleteComment(c.id);
+        list.appendChild(row);
+      });
+    }
+
+    function renderVipUsers() {
+      const list = $("vip-users-list");
+      if (!list) return;
+      const users = state.users.filter(u => isVip(u));
+      list.innerHTML = users.length ? "" : '<p class="muted center">لا يوجد مستخدمون VIP بعد.</p>';
+      users.forEach(u => {
+        const row = document.createElement("div");
+        row.className = "user-row";
+        row.innerHTML = `
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <strong class="gold-name">${escapeHTML(u.name || "")}</strong>
+            <span class="vip-tag">👑 VIP</span>
+          </div>
+          <div class="muted">${escapeHTML(u.email || "")}</div>
+          <div class="muted">ينتهي: ${escapeHTML(vipExpiresText(u))}</div>
+          <div class="split-row">
+            <button type="button" class="pill-btn tiny-btn ghost-btn" onclick="userVipDialog('${u.id}')">فتح VIP</button>
+            <button type="button" class="pill-btn tiny-btn danger-btn" onclick="blockUser('${u.id}', true)">حظر</button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    window.manageSections = () => showAdminView("sections");
+    window.viewUsers = () => showAdminView("users");
+    window.approvePosts = () => showAdminView("posts");
+    window.manageAllContent = () => showAdminView("reports");
+    window.deleteAnyPost = deletePost;
+    window.deleteAnyComment = deleteComment;
+    window.editAnyPost = editPost;
+    window.editAnyComment = editComment;
+    window.currentUserIsAdmin = currentUserIsAdmin;
+    window.openSupportModal = openSupportModal;
+    window.closeSupportModal = closeSupportModal;
+    window.openRechargeModal = openRechargeModal;
+    window.closeRechargeModal = closeRechargeModal;
+    window.openVipModal = openVipModal;
+    window.closeVipModal = closeVipModal;
+    window.openProfileModal = openProfileModal;
+    window.closeProfileModal = closeProfileModal;
+
+    function renderMyProfilePreview() {
+      // re-rendering is handled in handleSignedIn / users snapshot
+    }
+  </script>
 </body>
 </html>
