@@ -152,28 +152,28 @@
     .support-menu{display:grid;gap:10px}
     .support-link-btn{text-decoration:none;display:block;width:100%;text-align:center;padding:12px 14px;border-radius:12px;background:var(--soft);border:1px solid var(--input-border);font-weight:800}
 
-.vip-btn{background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;font-weight:900}
-.coin-box{display:flex;align-items:center;gap:6px}
-.table-like{display:grid;gap:10px}
-.admin-subcard{padding:14px;border:1px solid var(--input-border);border-radius:14px;background:var(--soft)}
-.request-meta,.viewers-list{display:grid;gap:6px}
-.view-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px;margin:2px 6px 2px 0}
-.vip-panel{display:grid;gap:10px}
-.vip-price{font-size:18px;font-weight:900;color:#b8860b}
-.vip-header{display:flex;gap:14px;align-items:center}
-.vip-avatar{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#fff7c2,#d4af37);box-shadow:inset 0 0 0 1px rgba(184,134,11,.25),0 10px 22px rgba(184,134,11,.18)}
-.vip-name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.vip-name-btn{border:none;border-radius:999px;padding:6px 10px;cursor:pointer;font-weight:900;background:linear-gradient(45deg,#b8860b,#ffd700);color:#111;box-shadow:0 8px 20px rgba(184,134,11,.18)}
-.vip-feature-grid{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (max-width:640px){.vip-feature-grid{grid-template-columns:1fr}}
-.vip-feature{padding:12px 13px;border-radius:14px;background:color-mix(in srgb,var(--soft) 82%, #ffd700 18%);border:1px solid color-mix(in srgb,var(--input-border) 80%, #ffd700 20%);display:flex;gap:10px;align-items:flex-start}
-.vip-feature .icon{font-size:18px;line-height:1.2}
-.vip-action-grid{display:grid;gap:10px}
-.vip-preview{padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(184,134,11,.12),rgba(255,215,0,.08));border:1px solid rgba(184,134,11,.25)}
-.vip-status-active{background:color-mix(in srgb,#16a34a 18%, transparent);color:#16a34a}
-.vip-status-inactive{background:color-mix(in srgb,#b8860b 18%, transparent);color:#b8860b}
+    .vip-btn{background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;font-weight:900}
+    .coin-box{display:flex;align-items:center;gap:6px}
+    .table-like{display:grid;gap:10px}
+    .admin-subcard{padding:14px;border:1px solid var(--input-border);border-radius:14px;background:var(--soft)}
+    .request-meta,.viewers-list{display:grid;gap:6px}
+    .view-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px;margin:2px 6px 2px 0}
+    .vip-panel{display:grid;gap:10px}
+    .vip-price{font-size:18px;font-weight:900;color:#b8860b}
+    .vip-header{display:flex;gap:14px;align-items:center}
+    .vip-avatar{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#fff7c2,#d4af37);box-shadow:inset 0 0 0 1px rgba(184,134,11,.25),0 10px 22px rgba(184,134,11,.18)}
+    .vip-name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .vip-name-btn{border:none;border-radius:999px;padding:6px 10px;cursor:pointer;font-weight:900;background:linear-gradient(45deg,#b8860b,#ffd700);color:#111;box-shadow:0 8px 20px rgba(184,134,11,.18)}
+    .vip-feature-grid{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media (max-width:640px){.vip-feature-grid{grid-template-columns:1fr}}
+    .vip-feature{padding:12px 13px;border-radius:14px;background:color-mix(in srgb,var(--soft) 82%, #ffd700 18%);border:1px solid color-mix(in srgb,var(--input-border) 80%, #ffd700 20%);display:flex;gap:10px;align-items:flex-start}
+    .vip-feature .icon{font-size:18px;line-height:1.2}
+    .vip-action-grid{display:grid;gap:10px}
+    .vip-preview{padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(184,134,11,.12),rgba(255,215,0,.08));border:1px solid rgba(184,134,11,.25)}
+    .vip-status-active{background:color-mix(in srgb,#16a34a 18%, transparent);color:#16a34a}
+    .vip-status-inactive{background:color-mix(in srgb,#b8860b 18%, transparent);color:#b8860b}
 
-</style>
+  </style>
 </head>
 <body>
   <div class="top-fab">
@@ -264,7 +264,8 @@
           <div class="mini-chip" id="header-coins-chip">🪙 0</div>
           <div class="mini-chip" id="header-emoji-chip">🌚</div>
         </div>
-        <div class="header-left"><button class="pill-btn vip-btn" onclick="openVipModal()">VIP</button>
+        <div class="header-left">
+          <button class="pill-btn vip-btn" onclick="openVipModal()">VIP</button>
           <button class="icon-btn" id="user-emoji-btn" onclick="openSettings()" title="الإعدادات">🌚</button>
         </div>
       </div>
@@ -503,8 +504,6 @@
     </div>
   </div>
 
-  
-
   <div id="vip-modal" class="modal hidden">
     <div class="modal-box card large">
       <div class="section-title">
@@ -557,7 +556,6 @@
   </div>
 
   <div id="toast-host" class="toast-host"></div>
-
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -621,17 +619,18 @@
     function closeSupportModal(){ $('support-modal').classList.add('hidden'); }
     function closeDialog(){ $('dialog-modal').classList.add('hidden'); state.pendingDialog = null; }
 
-    
     function getVipExpiryDate(userData) {
       if (!userData?.vipUntil) return null;
       const d = new Date(userData.vipUntil);
       return isNaN(d.getTime()) ? null : d;
     }
+    
     function isVipUser(userData) {
       if (!userData) return false;
       const expiry = getVipExpiryDate(userData);
       return Boolean(userData.vipActive || (expiry && expiry.getTime() > Date.now()));
     }
+    
     function getVipRemainingText(userData) {
       const expiry = getVipExpiryDate(userData);
       if (!expiry) return 'لا توجد مدة اشتراك محددة بعد.';
@@ -640,6 +639,7 @@
       const days = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
       return `يتبقى ${days} يوم${days === 1 ? '' : 'ًا'} على انتهاء العضوية`;
     }
+    
     function getVipBenefits() {
       return [
         { icon: '👑', title: 'شارة ذهبية', text: 'اسمك يظهر بتمييز ذهبي واضح داخل البوستات.' },
@@ -654,11 +654,12 @@
         { icon: '🚀', title: 'دعوة للاشتراك', text: 'كل عضو يشاهد المزايا قبل الاشتراك بشكل واضح ومقنع.' }
       ];
     }
+    
     function renderVipPanel(targetUser = null) {
       const current = targetUser || state.currentUserData || {};
+      const isMe = !current.id || (state.currentUser && current.id === state.currentUser.uid);
       const active = isVipUser(current);
       const name = current?.name || current?.email || 'مستخدم';
-      const coins = Number(current?.coins || 0);
       const emoji = current?.emoji || '🌚';
       const country = current?.country || 'غير محددة';
       const age = current?.age || 'غير محدد';
@@ -666,47 +667,61 @@
       const phone = current?.phone || '';
       const desc = current?.description || 'لا يوجد وصف بعد.';
       const roleLabel = active ? 'عضو VIP' : 'عضو عادي';
+      
       $('vipProfileAvatar').textContent = emoji;
       $('vipProfileName').textContent = name;
       $('vipProfileStatus').textContent = active ? 'VIP نشط' : 'غير مشترك';
       $('vipProfileStatus').className = 'status-pill ' + (active ? 'vip-status-active' : 'vip-status-inactive');
       $('vipProfileMeta').textContent = `${roleLabel} • ${getVipRemainingText(current)}`;
-      $('vipProfileCoinLine').textContent = `البريد: ${email || 'غير متوفر'} • الهاتف: ${phone || 'غير متوفر'} • البلد: ${country} • العمر: ${age}`;
+      
+      if (isMe || auth.currentUser?.email === adminEmail) {
+         $('vipProfileCoinLine').textContent = `البريد: ${email || 'غير متوفر'} • الهاتف: ${phone || 'غير متوفر'} • البلد: ${country} • العمر: ${age}`;
+      } else {
+         $('vipProfileCoinLine').textContent = `البلد: ${country} • العمر: ${age}`;
+      }
+
       $('vipBenefitsList').innerHTML = getVipBenefits().map(item => `<div class="vip-feature"><div class="icon">${item.icon}</div><div><div style="font-weight:900;margin-bottom:4px;">${escapeHTML(item.title)}</div><div class="muted" style="font-size:13px;line-height:1.65;">${escapeHTML(item.text)}</div></div></div>`).join('');
 
       const actionArea = $('vipActionArea');
       const topupWrap = $('coinTopupBoxWrap');
-      const myUser = state.currentUserData && state.currentUser?.uid === (current?.id || state.currentUser?.uid) ? state.currentUserData : current;
-      $('vipCoinsInfo').textContent = `${coins} كوينز`;
-      $('coinBalanceVip').textContent = String(coins);
+      
+      $('coinBalanceVip').textContent = String(state.currentUserData?.coins || 0);
       $('transfer-from-number').value = '';
-      $('transfer-account-email').value = myUser?.email || state.currentUser?.email || '';
+      $('transfer-account-email').value = state.currentUserData?.email || '';
 
-      if (active) {
+      if (!isMe) {
+        $('vipActionCard').classList.add('hidden');
         topupWrap.classList.add('hidden');
-        actionArea.innerHTML = `
-          <div class="vip-preview">
-            <div style="font-weight:900;font-size:18px;margin-bottom:6px;">أنت مشترك بالفعل في VIP</div>
-            <div class="muted" style="line-height:1.8;">${escapeHTML(desc)}</div>
-          </div>
-          <div class="grid-2">
-            <div class="vip-preview"><div class="hint">نوع العضوية</div><div style="font-weight:900;">عضوية شهرية</div></div>
-            <div class="vip-preview"><div class="hint">الحالة</div><div style="font-weight:900;">${escapeHTML(getVipRemainingText(current))}</div></div>
-          </div>
-        `;
       } else {
-        topupWrap.classList.remove('hidden');
-        actionArea.innerHTML = `
-          <div class="vip-preview">
-            <div style="font-weight:900;font-size:18px;margin-bottom:6px;">اشترك الآن لمدة شهر مقابل 100 كوينز</div>
-            <div class="muted" style="line-height:1.8;">${escapeHTML(desc)}</div>
-          </div>
-          <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()">اشترك VIP لمدة شهر - 100 كوينز</button>
-          <div class="hint">بعد الاشتراك ستتحول اللوحة تلقائيًا إلى وضع VIP مع إخفاء زر الشراء.</div>
-        `;
+        $('vipActionCard').classList.remove('hidden');
+        if (active) {
+          topupWrap.classList.add('hidden');
+          actionArea.innerHTML = `
+            <div class="vip-preview">
+              <div style="font-weight:900;font-size:18px;margin-bottom:6px;">أنت مشترك بالفعل في VIP</div>
+              <div class="muted" style="line-height:1.8;">${escapeHTML(desc)}</div>
+            </div>
+            <div class="grid-2">
+              <div class="vip-preview"><div class="hint">نوع العضوية</div><div style="font-weight:900;">عضوية شهرية</div></div>
+              <div class="vip-preview"><div class="hint">الحالة</div><div style="font-weight:900;">${escapeHTML(getVipRemainingText(current))}</div></div>
+            </div>
+          `;
+        } else {
+          topupWrap.classList.remove('hidden');
+          actionArea.innerHTML = `
+            <div class="vip-preview">
+              <div style="font-weight:900;font-size:18px;margin-bottom:6px;">اشترك الآن لمدة شهر مقابل 100 كوينز</div>
+              <div class="muted" style="line-height:1.8;">${escapeHTML(desc)}</div>
+            </div>
+            <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()">اشترك VIP لمدة شهر - 100 كوينز</button>
+            <div class="hint">بعد الاشتراك ستتحول اللوحة تلقائيًا إلى وضع VIP مع إخفاء زر الشراء.</div>
+          `;
+        }
       }
     }
+    
     function openVipModal(targetUserId = null) {
+      if (targetUserId && typeof targetUserId !== 'string') targetUserId = null;
       state.vipProfileUserId = targetUserId || (state.currentUser?.uid || null);
       let targetUser = state.currentUserData || null;
       if (targetUserId) {
@@ -715,10 +730,11 @@
       renderVipPanel(targetUser);
       $('vip-modal').classList.remove('hidden');
     }
+    
     function closeVipModal() { $('vip-modal').classList.add('hidden'); }
     function showCoinTopup() { $('coinTopupBox').classList.toggle('hidden'); }
+    
     function openDialog({title='رسالة', bodyHTML='', confirmText='موافق', cancelText='إلغاء', onConfirm=null}) {
-
       $('dialog-title').textContent = title;
       $('dialog-body').innerHTML = bodyHTML;
       $('dialog-confirm').textContent = confirmText;
@@ -827,10 +843,6 @@
     window.closeVipModal = closeVipModal;
     window.showCoinTopup = showCoinTopup;
     window.openVipProfileModal = (userId) => openVipModal(userId);
-    window.openVipModal = openVipModal;
-    window.closeVipModal = closeVipModal;
-    window.showCoinTopup = showCoinTopup;
-    window.openVipProfileModal = (userId) => openVipModal(userId);
     window.toggleAuth = () => { $('login-form').classList.toggle('hidden'); $('signup-form').classList.toggle('hidden'); };
     window.openSettings = () => $('settings-modal').classList.remove('hidden');
     window.closeSettings = () => $('settings-modal').classList.add('hidden');
@@ -881,7 +893,6 @@
     };
     window.logout = async () => { try { await signOut(auth); toast('تم تسجيل الخروج.', 'info'); } catch (e) { console.error(e); } };
 
-    
     window.subscribeVip = async () => {
       const user = auth.currentUser;
       if (!user || !state.currentUserData) return;
@@ -925,7 +936,6 @@
     };
 
     window.coinSent = async () => {
-
       const user = auth.currentUser;
       if (!user || !state.currentUserData) return;
       const transferFromNumber = $('transfer-from-number').value.trim();
@@ -952,7 +962,6 @@
         toast('تعذر إرسال الطلب.', 'error');
       }
     };
-
 
     window.saveSettings = async () => {
       const user = auth.currentUser; if (!user) return;
@@ -1226,7 +1235,7 @@
       });
     }
 
-function renderUsers() {
+    function renderUsers() {
       const list = $('admin-users-list');
       $('users-count').textContent = String(state.users.length);
       list.innerHTML = state.users.length ? '' : '<p class="muted center">لا يوجد مستخدمون.</p>';
@@ -1303,11 +1312,13 @@ function renderUsers() {
       });
     }
 
-function openCoinDialog(userId, userName, sign) {
+    function openCoinDialog(userId, userName, sign) {
       const label = sign > 0 ? 'إضافة' : 'سحب';
       openDialog({ title: `${label} كوينز`, bodyHTML: `<div class="stack"><p class="muted">${label} كوينز لحساب: <strong>${escapeHTML(userName)}</strong></p><input type="number" id="coin-amount" class="small-input" min="1" placeholder="اكتب العدد"></div>`, confirmText: label, cancelText: 'إلغاء', onConfirm: async () => { const amount = Number($('coin-amount').value || 0); if (!amount || amount <= 0) { toast('اكتب رقم صحيح.', 'warning'); return; } await adjustCoins(userId, sign * amount); } });
     }
+    
     async function loadCurrentUserData(user) { const snap = await getDoc(doc(db, 'users', user.uid)); return snap.exists() ? { id: user.uid, ...snap.data() } : null; }
+    
     function attachRealtimeListeners() {
       onSnapshot(query(collection(db, 'sections'), orderBy('createdAt', 'asc')), (snap) => {
         state.sections = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -1326,7 +1337,7 @@ function openCoinDialog(userId, userName, sign) {
         renderPosts();
         if (!$('vip-modal').classList.contains('hidden')) renderVipPanel(state.currentUserData);
       });
-      onSnapshot(query(collection(db, 'reports'), orderBy('createdAt', 'desc')), (snap) => { state.reports = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderReports(); });
+      onSnapshot(query(collection(db, 'reports'), orderBy('createdAt', 'desc')), (snap) => { state.reports = snap.docs.map(d => ({ id: d.id, ...d.data() })); /* renderReports(); */ });
       onSnapshot(query(collection(db, 'coinRequests'), orderBy('createdAt', 'desc')), (snap) => { state.coinRequests = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderCoinRequests(); });
       onSnapshot(query(collection(db, 'postViews'), orderBy('viewedAt', 'desc')), (snap) => { state.postViews = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderPostViews(); });
       onSnapshot(query(collection(db, 'posts'), orderBy('createdAt', 'desc')), async (snap) => {
@@ -1342,6 +1353,7 @@ function openCoinDialog(userId, userName, sign) {
         renderComments();
       });
     }
+    
     async function handleSignedInUser(user) {
       state.currentUser = user;
       state.currentUserData = await loadCurrentUserData(user);
@@ -1369,6 +1381,7 @@ function openCoinDialog(userId, userName, sign) {
       $('trending-box').classList.toggle('hidden', ageDays > 7 && state.feedMode !== 'trending');
       renderVipPanel(state.currentUserData);
     }
+    
     onAuthStateChanged(auth, async (user) => { if (user) await handleSignedInUser(user); else { $('auth-section').classList.remove('hidden'); $('app-section').classList.add('hidden'); closeSettings(); } });
 
     attachRealtimeListeners();
@@ -1381,4 +1394,4 @@ function openCoinDialog(userId, userName, sign) {
 
   </script>
 </body>
-  </html>
+</html>
