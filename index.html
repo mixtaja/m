@@ -10,16 +10,16 @@
       --primary-2:#2f8f34;
       --danger:#e74c3c;
       --warning:#f59e0b;
-      --bg:#f4f4f9;
-      --card-bg:#ffffff;
+      --bg:#f0f2f5;
+      --card-bg: rgba(255, 255, 255, 0.98);
       --text:#232323;
       --muted:#6b7280;
       --input-bg:#fff;
       --input-border:#d1d5db;
       --soft:#eef2f7;
-      --shadow:0 10px 30px rgba(0,0,0,.08);
-      --shadow-2:0 6px 18px rgba(0,0,0,.08);
-      --radius:18px;
+      --shadow:0 8px 30px rgba(0,0,0,.06);
+      --shadow-2:0 4px 15px rgba(0,0,0,.05);
+      --radius:20px;
     }
 
     body.dark-mode{
@@ -27,15 +27,15 @@
       --primary-2:#1ea64f;
       --danger:#ff6b6b;
       --warning:#ffb020;
-      --bg:#0f1115;
-      --card-bg:#171a21;
+      --bg:#0b0d10;
+      --card-bg: rgba(23, 26, 33, 0.95);
       --text:#e8eaf0;
       --muted:#a6adbb;
       --input-bg:#11151b;
       --input-border:#2a3140;
-      --soft:#0f131a;
-      --shadow:0 12px 34px rgba(0,0,0,.35);
-      --shadow-2:0 6px 18px rgba(0,0,0,.28);
+      --soft:#12161e;
+      --shadow:0 12px 34px rgba(0,0,0,.4);
+      --shadow-2:0 6px 18px rgba(0,0,0,.3);
     }
 
     *{box-sizing:border-box}
@@ -45,131 +45,185 @@
       font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
       background:var(--bg);
       color:var(--text);
-      transition:background-color .25s ease,color .25s ease;
+      transition:background-color .3s ease,color .3s ease;
     }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes toastIn {
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
     a{color:inherit}
     .hidden{display:none !important}
     .wrap{width:min(100%,1100px);margin:0 auto;padding:16px}
+    
     .card{
       background:var(--card-bg);
-      border:1px solid var(--input-border);
+      border:1px solid rgba(128,128,128,0.1);
       border-radius:var(--radius);
-      box-shadow:var(--shadow)
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .container{width:min(100%,680px);margin:18px auto;padding:22px}
+    
+    .container{width:min(100%,680px);margin:18px auto;padding:26px}
     .top-fab{
       position:fixed;top:12px;inset-inline-start:12px;z-index:60;
       display:flex;gap:10px;align-items:center
     }
+    
     .icon-btn{
       width:44px;height:44px;border:none;border-radius:50%;
       background:var(--card-bg);color:var(--text);cursor:pointer;
       box-shadow:var(--shadow-2);display:inline-flex;align-items:center;justify-content:center;
       font-size:22px;line-height:1;overflow:hidden;
+      transition: all 0.2s ease;
     }
     .pill-btn{
-      border:none;border-radius:999px;padding:11px 16px;cursor:pointer;
-      background:var(--primary);color:#fff;font-weight:800;box-shadow:var(--shadow-2);
-      transition:transform .15s ease,opacity .15s ease,background .15s ease
+      border:none;border-radius:999px;padding:11px 18px;cursor:pointer;
+      background:linear-gradient(135deg, var(--primary), var(--primary-2));
+      color:#fff;font-weight:800;box-shadow:var(--shadow-2);
+      transition:transform .2s ease,opacity .2s ease,box-shadow .2s ease;
     }
-    .pill-btn:hover,.icon-btn:hover{transform:translateY(-1px)}
-    .pill-btn:active,.icon-btn:active{transform:translateY(0)}
-    .secondary-btn{background:var(--soft);color:var(--text);border:1px solid var(--input-border)}
-    .danger-btn{background:var(--danger)}
-    .warning-btn{background:var(--warning)}
+    .pill-btn:hover,.icon-btn:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.15);}
+    .pill-btn:active,.icon-btn:active{transform:translateY(0);}
+    
+    .secondary-btn{background:var(--soft);color:var(--text);border:1px solid var(--input-border); box-shadow:none;}
+    .danger-btn{background:linear-gradient(135deg, var(--danger), #c0392b);}
+    .warning-btn{background:linear-gradient(135deg, var(--warning), #d97706); color:#fff;}
+    
     h1,h2,h3{margin:0 0 12px;text-align:center}
     h1{color:var(--primary);font-size:2rem}
     h2{color:var(--primary);font-size:1.35rem}
     h3{color:var(--text);font-size:1.05rem}
+    
     .muted{color:var(--muted);font-size:.95rem}
     .center{text-align:center}
-    .stack{display:grid;gap:10px}
-    .grid-2{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
-    @media (max-width:700px){.grid-2{grid-template-columns:1fr}.container{padding:16px}}
+    .stack{display:grid;gap:12px}
+    .grid-2{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media (max-width:700px){.grid-2{grid-template-columns:1fr}.container{padding:18px}}
+    
     input,select,textarea{
-      width:100%;padding:12px 13px;border:1px solid var(--input-border);border-radius:12px;
-      background:var(--input-bg);color:var(--text);outline:none;font-size:15px
+      width:100%;padding:14px 16px;border:1px solid var(--input-border);border-radius:14px;
+      background:var(--input-bg);color:var(--text);outline:none;font-size:15px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
+    input:focus,select:focus,textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15); }
     textarea{min-height:110px;resize:vertical}
+    
     .emoji-selector{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
     .emoji-selector input[type="radio"]{display:none}
     .emoji-selector label{
-      display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;
-      padding:0 10px;border-radius:12px;border:1px solid var(--input-border);background:var(--input-bg);
-      font-size:24px;cursor:pointer;transition:transform .15s ease,border-color .15s ease;background .15s ease;user-select:none
+      display:inline-flex;align-items:center;justify-content:center;min-width:48px;min-height:48px;
+      padding:0 10px;border-radius:14px;border:1px solid var(--input-border);background:var(--input-bg);
+      font-size:26px;cursor:pointer;transition:all .2s ease;user-select:none;
     }
-    .emoji-selector input[type="radio"]:checked + label{border-color:var(--primary);transform:scale(1.06)}
-    .auth-card{margin-top:22px;padding:20px}
-    .auth-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:54px;height:54px;object-fit:contain;border-radius:14px;background:var(--soft);border:1px solid var(--input-border);padding:6px}
-    .brand-title{font-weight:900;font-size:1.15rem;color:var(--primary);letter-spacing:.4px}
-    .switch-link{cursor:pointer;color:var(--primary);text-align:center;font-weight:800;margin:4px 0 0}
+    .emoji-selector input[type="radio"]:checked + label{border-color:var(--primary);background:var(--soft);transform:scale(1.1);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+    
+    .auth-card{margin-top:22px;padding:24px; max-width: 480px;}
+    .auth-header{display:flex;justify-content:center;align-items:center;gap:10px;margin-bottom:20px}
+    .brand{display:flex;align-items:center;gap:12px; flex-direction:column; text-align:center;}
+    .logo{width:64px;height:64px;object-fit:contain;border-radius:16px;background:var(--soft);border:1px solid var(--input-border);padding:8px}
+    .brand-title{font-weight:900;font-size:1.4rem;color:var(--primary);letter-spacing:.5px}
+    .switch-link{cursor:pointer;color:var(--primary);text-align:center;font-weight:800;margin:12px 0 0; font-size:14px;}
+    
     .header-bar{
-      position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);
-      backdrop-filter:blur(10px);border-bottom:1px solid var(--input-border)
+      position:sticky;top:0;z-index:20;background:rgba(255,255,255,0.85);
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--input-border);
     }
-    .header-inner{width:min(100%,1100px);margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .header-left,.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    .page-grid{display:grid;grid-template-columns:290px 1fr;gap:16px;align-items:start;margin-top:16px}
+    body.dark-mode .header-bar { background:rgba(15,17,21,0.85); }
+    
+    .header-inner{width:min(100%,1100px);margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .header-left,.header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    
+    .page-grid{display:grid;grid-template-columns:290px 1fr;gap:20px;align-items:start;margin-top:20px}
     @media (max-width:900px){.page-grid{grid-template-columns:1fr}}
-    .panel{padding:16px}
-    .section-list{display:grid;gap:8px}
-    .section-chip{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 13px;border-radius:12px;background:var(--soft);border:1px solid var(--input-border);cursor:pointer;transition:transform .15s ease,border-color .15s ease}
-    .section-chip.active{border-color:var(--primary)}
-    .section-chip:hover{transform:translateY(-1px)}
-    .badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 99px;border-radius:999px;background:var(--primary);color:#fff;font-size:12px;font-weight:800;white-space:nowrap}
-    .post-card,.comment-card,.admin-card{padding:14px;border-radius:14px;background:var(--card-bg);border:1px solid var(--input-border);box-shadow:var(--shadow-2)}
-    .post-meta,.comment-meta{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
-    .post-actions,.comment-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .tiny-btn{width:auto;padding:7px 11px;font-size:12px;border-radius:10px;box-shadow:none}
-    .reaction-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .reaction{display:inline-flex;align-items:center;justify-content:center;min-width:42px;min-height:38px;padding:0 8px;border-radius:12px;border:1px solid var(--input-border);background:var(--soft);cursor:pointer;user-select:none;transition:transform .15s ease,border-color .15s ease;font-size:18px}
-    .reaction:hover{transform:translateY(-1px)}
-    .reaction.active{border-color:var(--primary)}
-    .split-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-    .split-row>*{flex:1 1 auto}
-    .list-stack{display:grid;gap:12px}
-    .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-    .footer-note{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:14px;z-index:1000}
-    .modal-box{width:min(100%,520px);max-height:92vh;overflow:auto;padding:18px}
+    .panel{padding:20px}
+    
+    .section-list{display:grid;gap:10px}
+    .section-chip{
+      display:flex;justify-content:space-between;gap:10px;align-items:center;
+      padding:14px 16px;border-radius:16px;background:var(--soft);border:1px solid var(--input-border);
+      cursor:pointer;transition:all .2s ease;
+    }
+    .section-chip.active{border-color:var(--primary); background:color-mix(in srgb, var(--primary) 8%, transparent);}
+    .section-chip:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.05);}
+    
+    .badge{display:inline-flex;align-items:center;justify-content:center;padding:4px 10px;border-radius:999px;background:var(--primary);color:#fff;font-size:13px;font-weight:800;white-space:nowrap}
+    
+    .post-card,.comment-card,.admin-card{
+      padding:18px;border-radius:18px;background:var(--card-bg);
+      border:1px solid var(--input-border);box-shadow:var(--shadow-2);
+      animation: fadeIn 0.4s ease forwards;
+    }
+    .post-meta,.comment-meta{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+    .post-actions,.comment-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .tiny-btn{width:auto;padding:8px 14px;font-size:13px;border-radius:12px;}
+    
+    .reaction-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .reaction{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-width:46px;min-height:42px;padding:0 10px;border-radius:14px;
+      border:1px solid var(--input-border);background:var(--soft);
+      cursor:pointer;user-select:none;transition:all .2s ease;font-size:18px;
+    }
+    .reaction:hover{transform:translateY(-2px); background:var(--input-bg);}
+    .reaction.active{border-color:var(--primary); background:color-mix(in srgb, var(--primary) 10%, transparent);}
+    
+    .split-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .list-stack{display:grid;gap:16px}
+    .section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px; border-bottom:1px solid var(--input-border); padding-bottom:10px;}
+    .footer-note{text-align:center;font-size:13px;color:var(--muted);margin-top:10px}
+    
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:1000; transition:opacity 0.3s ease;}
+    .modal-box{width:min(100%,520px);max-height:92vh;overflow:auto;padding:22px; animation: fadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;}
     .modal-box.large{width:min(100%,880px)}
-    .user-row{padding:12px;border:1px solid var(--input-border);border-radius:12px;background:var(--soft);display:grid;gap:6px}
-    .status-pill{display:inline-flex;align-items:center;justify-content:center;width:fit-content;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary)}
+    
+    .user-row{padding:14px;border:1px solid var(--input-border);border-radius:16px;background:var(--soft);display:grid;gap:8px}
+    .status-pill{display:inline-flex;align-items:center;justify-content:center;width:fit-content;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:900;background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary)}
     .status-pill.pending{background:color-mix(in srgb,var(--warning) 18%,transparent);color:#d97706}
     .status-pill.blocked{background:color-mix(in srgb,var(--danger) 18%,transparent);color:var(--danger)}
-    .hint{font-size:12px;color:var(--muted);margin-top:4px}
-    .small-input{padding:10px 11px;border-radius:10px}
-    .toast-host{position:fixed;bottom:14px;inset-inline-start:14px;z-index:2000;display:grid;gap:10px;pointer-events:none}
-    .toast{min-width:min(92vw,360px);max-width:360px;padding:14px 15px;border-radius:16px;color:#fff;box-shadow:0 16px 30px rgba(0,0,0,.22);pointer-events:auto;transform:translateY(8px);opacity:0;animation:toastIn .22s ease forwards;background:#334155}
-    .toast.success{background:#16a34a}.toast.error{background:#dc2626}.toast.info{background:#2563eb}.toast.warning{background:#ca8a04}
-    @keyframes toastIn{to{transform:translateY(0);opacity:1}}
-    .composer{padding:16px;border:1px solid var(--input-border);border-radius:18px;background:var(--card-bg);box-shadow:var(--shadow-2)}
-    .composer-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
-    .feed-sort{display:flex;gap:8px;flex-wrap:wrap}
-    .mini-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px;overflow:hidden;}
-    .support-menu{display:grid;gap:10px}
-    .support-link-btn{text-decoration:none;display:block;width:100%;text-align:center;padding:12px 14px;border-radius:12px;background:var(--soft);border:1px solid var(--input-border);font-weight:800}
+    
+    .hint{font-size:13px;color:var(--muted);margin-top:4px}
+    .small-input{padding:10px 14px;border-radius:12px}
+    
+    .toast-host{position:fixed;bottom:20px;inset-inline-start:20px;z-index:2000;display:grid;gap:10px;pointer-events:none}
+    .toast{min-width:min(90vw,360px);max-width:360px;padding:16px;border-radius:16px;color:#fff;box-shadow:0 16px 30px rgba(0,0,0,.25);pointer-events:auto;transform:translateY(15px);opacity:0;animation:toastIn .3s cubic-bezier(0.16, 1, 0.3, 1) forwards;background:#334155;font-weight:bold;}
+    .toast.success{background:linear-gradient(135deg, #16a34a, #15803d)}.toast.error{background:linear-gradient(135deg, #dc2626, #b91c1c)}.toast.info{background:linear-gradient(135deg, #2563eb, #1d4ed8)}.toast.warning{background:linear-gradient(135deg, #ca8a04, #a16207)}
+    
+    .composer{padding:18px;border:1px solid var(--input-border);border-radius:20px;background:var(--card-bg);box-shadow:var(--shadow-2)}
+    .composer-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--input-border);padding-bottom:10px;}
+    
+    .feed-sort{display:flex;gap:10px;flex-wrap:wrap}
+    .mini-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:14px;font-weight:bold;overflow:hidden;}
+    
+    .support-menu{display:grid;gap:12px}
+    .support-link-btn{text-decoration:none;display:block;width:100%;text-align:center;padding:14px;border-radius:14px;background:var(--soft);border:1px solid var(--input-border);font-weight:800;transition:all 0.2s ease;}
+    .support-link-btn:hover{background:var(--input-bg);transform:translateY(-2px);}
 
-    .vip-btn{background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;font-weight:900}
-    .coin-box{display:flex;align-items:center;gap:6px}
-    .table-like{display:grid;gap:10px}
-    .admin-subcard{padding:14px;border:1px solid var(--input-border);border-radius:14px;background:var(--soft);margin-bottom:12px;}
-    .request-meta,.viewers-list{display:grid;gap:6px}
-    .view-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--input-border);font-size:12px;margin:2px 6px 2px 0}
-    .vip-panel{display:grid;gap:10px}
+    .vip-btn{background:linear-gradient(135deg,#eab308,#b45309);color:#fff;font-weight:900;text-shadow:0 1px 2px rgba(0,0,0,0.2);}
+    .coin-box{display:flex;align-items:center;gap:8px}
+    .table-like{display:grid;gap:12px}
+    .admin-subcard{padding:16px;border:1px solid var(--input-border);border-radius:16px;background:var(--soft)}
+    .request-meta,.viewers-list{display:grid;gap:8px}
+    .view-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--input-bg);border:1px solid var(--input-border);font-size:13px;margin:3px 6px 3px 0;font-weight:bold;}
+    
+    .vip-panel{display:grid;gap:12px}
     .vip-price{font-size:18px;font-weight:900;color:#b8860b}
-    .vip-header{display:flex;gap:14px;align-items:center}
-    .vip-avatar{width:64px;height:64px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#fff7c2,#d4af37);box-shadow:inset 0 0 0 1px rgba(184,134,11,.25),0 10px 22px rgba(184,134,11,.18);overflow:hidden;}
+    .vip-header{display:flex;gap:16px;align-items:center;background:linear-gradient(135deg, rgba(184,134,11,0.05), rgba(255,215,0,0.05)); border:1px solid rgba(184,134,11,0.2);}
+    .vip-avatar{width:70px;height:70px;border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:32px;background:linear-gradient(135deg,#fef08a,#ca8a04);box-shadow:inset 0 0 0 1px rgba(184,134,11,.3),0 10px 25px rgba(184,134,11,.2);overflow:hidden;}
     .vip-name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .vip-name-btn{border:none;border-radius:999px;padding:6px 10px;cursor:pointer;font-weight:900;background:linear-gradient(45deg,#b8860b,#ffd700);color:#111;box-shadow:0 8px 20px rgba(184,134,11,.18)}
-    .vip-action-grid{display:grid;gap:10px}
-    .vip-preview{padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(184,134,11,.12),rgba(255,215,0,.08));border:1px solid rgba(184,134,11,.25)}
+    .vip-name-btn{border:none;border-radius:999px;padding:6px 12px;cursor:pointer;font-weight:900;background:linear-gradient(135deg,#facc15,#a16207);color:#fff;box-shadow:0 4px 15px rgba(184,134,11,.25); text-shadow:0 1px 1px rgba(0,0,0,0.2);}
+    .vip-action-grid{display:grid;gap:12px}
+    .vip-preview{padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(184,134,11,.1),rgba(255,215,0,.05));border:1px solid rgba(184,134,11,.3)}
     .vip-status-active{background:color-mix(in srgb,#16a34a 18%, transparent);color:#16a34a}
     .vip-status-inactive{background:color-mix(in srgb,#b8860b 18%, transparent);color:#b8860b}
-    .benefit-item{display:flex;align-items:center;gap:8px;font-size:13.5px;padding:4px 0;}
-    .color-picker-box{display:flex;gap:8px;align-items:center;margin:8px 0;}
 
   </style>
 </head>
@@ -186,7 +240,7 @@
           <img src="logo1.png" alt="mixtaja" class="logo" onerror="this.style.display='none'" />
           <div>
             <div class="brand-title">mixtaja</div>
-            <div class="muted">تسجيل، أقسام، بوستات، تفاعل، كوينز، إدارة</div>
+            <div class="muted">مرحباً بك في المنصة</div>
           </div>
         </div>
       </div>
@@ -228,14 +282,10 @@
             <option value="الجزائر">الجزائر</option>
             <option value="المغرب">المغرب</option>
             <option value="السودان">السودان</option>
-            <option value="موريتانيا">موريتانيا</option>
-            <option value="الصومال">الصومال</option>
-            <option value="جيبوتي">جيبوتي</option>
-            <option value="جزر القمر">جزر القمر</option>
           </select>
           <input type="number" id="reg-age" placeholder="العمر" min="10" />
           <textarea id="reg-desc" placeholder="وصف عنك..."></textarea>
-          <p class="center" style="margin: 8px 0 0;">اختر إيموجي البروفايل:</p>
+          <p class="center" style="margin: 8px 0 0; font-weight:bold;">اختر إيموجي البروفايل:</p>
           <div class="emoji-selector" id="reg-emoji">
             <input type="radio" name="emoji" id="e1" value="🤡"><label for="e1">🤡</label>
             <input type="radio" name="emoji" id="e2" value="♥"><label for="e2">♥</label>
@@ -247,7 +297,7 @@
             <input type="radio" name="emoji" id="e8" value="⚽"><label for="e8">⚽</label>
             <input type="radio" name="emoji" id="e9" value="🌚" checked><label for="e9">🌚</label>
           </div>
-          <button type="button" class="pill-btn" onclick="signup()">تسجيل</button>
+          <button type="button" class="pill-btn" onclick="signup()" style="margin-top:10px;">تسجيل</button>
           <p class="switch-link" onclick="toggleAuth()">لديك حساب بالفعل؟ تسجيل الدخول</p>
         </div>
       </div>
@@ -260,10 +310,10 @@
         <div class="header-right">
           <div class="brand-title">mixtaja</div>
           <div class="mini-chip" id="header-coins-chip">🪙 0</div>
-          <div class="mini-chip" id="header-emoji-chip">🌚</div>
+          <div class="mini-chip" id="header-emoji-chip" style="padding:4px 8px;">🌚</div>
         </div>
         <div class="header-left">
-          <button class="pill-btn vip-btn" onclick="openVipModal()">VIP والتميز</button>
+          <button class="pill-btn vip-btn" onclick="openVipModal()">VIP</button>
           <button class="icon-btn" id="user-emoji-btn" onclick="openSettings()" title="الإعدادات">🌚</button>
         </div>
       </div>
@@ -273,17 +323,17 @@
       <div id="user-dashboard" class="page-grid hidden">
         <div class="card panel">
           <div class="section-title">
-            <h3>الأقسام</h3>
-            <span class="badge" id="sections-count">0</span>
+            <h3 style="margin:0;">الأقسام</h3>
           </div>
           <div id="sections-list" class="section-list"></div>
-          <div class="footer-note">اختر قسمًا من القائمة</div>
+          <div class="footer-note">اختر قسمًا لتصفح منشوراته</div>
         </div>
 
         <div class="stack">
+          <!-- تم دمج المنصة والمنشورات هنا -->
           <div class="card panel">
             <div class="section-title">
-              <h3 style="color: var(--primary);">المنشورات</h3>
+              <h3 style="margin:0;">المنشورات <span class="badge" id="posts-count" style="margin-inline-start:6px; vertical-align:middle;">0</span></h3>
               <div class="feed-sort">
                 <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="setFeedMode('new')">الأحدث</button>
                 <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="setFeedMode('trending')">الرائج</button>
@@ -291,40 +341,40 @@
               </div>
             </div>
             
-            <div id="new-user-banner" class="status-pill pending hidden" style="margin-bottom:10px; width: 100%;">حساب جديد — يظهر الرائج أولًا</div>
-            <div id="trending-box" class="hidden" style="margin-bottom:12px;"></div>
+            <div id="new-user-banner" class="status-pill pending hidden" style="margin-bottom:12px; width:100%;">حساب جديد — يظهر الرائج أولًا</div>
+            <div id="trending-box" class="hidden" style="margin-bottom:14px;"></div>
             
-            <div id="composer-box" class="composer hidden" style="margin-bottom:12px;">
+            <div id="composer-box" class="composer hidden" style="margin-bottom:16px;">
               <div class="composer-head">
-                <strong>كتابة بوست جديد</strong>
-                <button type="button" class="icon-btn" onclick="toggleComposer()" title="إغلاق">✕</button>
+                <strong style="font-size:16px; color:var(--primary);">كتابة بوست جديد</strong>
+                <button type="button" class="icon-btn" style="width:34px;height:34px;font-size:16px;" onclick="toggleComposer()" title="إغلاق">✕</button>
               </div>
-              <div class="stack" style="margin-top:10px;">
-                <textarea id="new-post-text" placeholder="اكتب منشورك هنا... (حد أقصى 170 كلمة)"></textarea>
+              <div class="stack" style="margin-top:14px;">
+                <textarea id="new-post-text" placeholder="اكتب منشورك هنا... (حد أقصى 170 كلمة)" oninput="checkWordCount(this)"></textarea>
                 <div class="split-row">
-                  <div class="hint" id="word-count-info">0 / 170 كلمة</div>
+                  <div class="hint" id="word-count-info" style="font-weight:bold;">0 / 170 كلمة</div>
                   <div class="hint" id="post-approval-note">سيُرسل للموافقة قبل الظهور</div>
                 </div>
-                <button type="button" class="pill-btn" onclick="submitPost()">إرسال للموافقة</button>
+                <button type="button" class="pill-btn" onclick="submitPost()">إرسال المنشور</button>
               </div>
             </div>
 
-            <div id="posts-list" class="list-stack" style="margin-top: 10px;"></div>
+            <div id="posts-list" class="list-stack"></div>
           </div>
         </div>
       </div>
 
       <div id="admin-dashboard" class="page-grid hidden">
         <div class="card panel">
-          <h3 style="color:var(--danger);">لوحة الكونسول</h3>
+          <h3 style="color:var(--danger); margin:0 0 16px;">لوحة الكونسول</h3>
           <div class="stack">
-            <button type="button" class="pill-btn" onclick="showAdminView('sections')">إدارة الأقسام</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('users')">عرض المستخدمين والكوينز</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('posts')">كل البوستات</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('comments')">كل التعليقات</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('views')">مشاهدات البوستات</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('requests')">طلبات الشحن</button>
-            <button type="button" class="pill-btn" onclick="showAdminView('reports')">الإبلاغات</button>
+            <button type="button" class="pill-btn secondary-btn" onclick="showAdminView('sections')">إدارة الأقسام</button>
+            <button type="button" class="pill-btn secondary-btn" onclick="showAdminView('users')">عرض المستخدمين والكوينز</button>
+            <button type="button" class="pill-btn secondary-btn" onclick="showAdminView('posts')">كل البوستات</button>
+            <button type="button" class="pill-btn secondary-btn" onclick="showAdminView('comments')">كل التعليقات</button>
+            <button type="button" class="pill-btn secondary-btn" onclick="showAdminView('views')">مشاهدات البوستات</button>
+            <button type="button" class="pill-btn secondary-btn" onclick="showAdminView('requests')">طلبات الشحن</button>
+            <button type="button" class="pill-btn secondary-btn" onclick="showAdminView('reports')">الإبلاغات</button>
           </div>
         </div>
 
@@ -334,7 +384,7 @@
               <h3>إدارة الأقسام</h3>
               <button type="button" class="pill-btn tiny-btn" onclick="openSectionEditor()">+ قسم جديد</button>
             </div>
-            <div class="hint" style="margin-bottom:8px;">يمكنك تحديد مكسب الكوينز للقسم حسب التفاعلات والتعليقات.</div>
+            <div class="hint" style="margin-bottom:12px;">يمكنك تحديد مكسب الكوينز للقسم حسب التفاعلات والتعليقات.</div>
             <div id="admin-sections-list" class="list-stack"></div>
           </div>
 
@@ -394,7 +444,7 @@
     <div class="modal-box card">
       <div class="section-title">
         <h2 style="margin:0;">الإعدادات</h2>
-        <button type="button" class="icon-btn" onclick="closeSettings()">✕</button>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;font-size:16px;" onclick="closeSettings()">✕</button>
       </div>
       <div class="stack">
         <input type="text" id="set-name" placeholder="الاسم" />
@@ -417,7 +467,7 @@
     <div class="modal-box card">
       <div class="section-title">
         <h2 style="margin:0;">إدارة قسم</h2>
-        <button type="button" class="icon-btn" onclick="closeSectionModal()">✕</button>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;font-size:16px;" onclick="closeSectionModal()">✕</button>
       </div>
       <div class="stack">
         <input type="hidden" id="section-edit-id" />
@@ -440,8 +490,8 @@
   <div id="post-modal" class="modal hidden">
     <div class="modal-box card large">
       <div class="section-title">
-        <h2 style="margin:0;">إدارة البوست</h2>
-        <button type="button" class="icon-btn" onclick="closePostModal()">✕</button>
+        <h2 style="margin:0;">تعديل البوست</h2>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;font-size:16px;" onclick="closePostModal()">✕</button>
       </div>
       <div class="stack">
         <input type="hidden" id="post-edit-id" />
@@ -457,8 +507,8 @@
   <div id="comment-modal" class="modal hidden">
     <div class="modal-box card large">
       <div class="section-title">
-        <h2 style="margin:0;">إدارة التعليق</h2>
-        <button type="button" class="icon-btn" onclick="closeCommentModal()">✕</button>
+        <h2 style="margin:0;">تعديل التعليق</h2>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;font-size:16px;" onclick="closeCommentModal()">✕</button>
       </div>
       <div class="stack">
         <input type="hidden" id="comment-edit-id" />
@@ -475,11 +525,11 @@
     <div class="modal-box card">
       <div class="section-title">
         <h2 style="margin:0;">تواصل مع الدعم</h2>
-        <button type="button" class="icon-btn" onclick="closeSupportModal()">✕</button>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;font-size:16px;" onclick="closeSupportModal()">✕</button>
       </div>
       <div class="support-menu">
-        <a class="support-link-btn" href="https://wa.me/201124680211" target="_blank" rel="noopener noreferrer">واتساب الدعم</a>
-        <a class="support-link-btn" href="mailto:mixtaja.help@gmail.com">البريد الإلكتروني: mixtaja.help@gmail.com</a>
+        <a class="support-link-btn" href="https://wa.me/201124680211" target="_blank" rel="noopener noreferrer">📱 واتساب الدعم</a>
+        <a class="support-link-btn" href="mailto:mixtaja.help@gmail.com">✉️ البريد: mixtaja.help@gmail.com</a>
       </div>
     </div>
   </div>
@@ -488,10 +538,10 @@
     <div class="modal-box card">
       <div class="section-title">
         <h2 id="dialog-title" style="margin:0;">رسالة</h2>
-        <button type="button" class="icon-btn" onclick="closeDialog()">✕</button>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;font-size:16px;" onclick="closeDialog()">✕</button>
       </div>
-      <div id="dialog-body" class="stack"></div>
-      <div class="grid-2" style="margin-top:14px;">
+      <div id="dialog-body" class="stack" style="font-size:15px;line-height:1.6;"></div>
+      <div class="grid-2" style="margin-top:18px;">
         <button type="button" class="pill-btn" id="dialog-confirm">موافق</button>
         <button type="button" class="pill-btn secondary-btn" id="dialog-cancel">إلغاء</button>
       </div>
@@ -501,106 +551,49 @@
   <div id="vip-modal" class="modal hidden">
     <div class="modal-box card large">
       <div class="section-title">
-        <h2 style="margin:0;">VIP ومتجر التميز المطور</h2>
-        <button type="button" class="icon-btn" onclick="closeVipModal()">✕</button>
+        <h2 style="margin:0;">لوحة VIP الملكية 👑</h2>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;font-size:16px;" onclick="closeVipModal()">✕</button>
       </div>
 
       <div class="vip-panel">
         <div class="admin-subcard vip-header">
           <div class="vip-avatar" id="vipProfileAvatar">👑</div>
-          <div class="stack" style="gap:6px;">
+          <div class="stack" style="gap:8px;">
             <div class="vip-name-row">
-              <strong id="vipProfileName">اسم المستخدم</strong>
+              <strong id="vipProfileName" style="font-size:18px;">اسم المستخدم</strong>
               <span class="status-pill" id="vipProfileStatus">غير مشترك</span>
             </div>
             <div class="muted" id="vipProfileMeta"></div>
             <div class="hint" id="vipProfilePhone" style="font-weight:900;">رقم الهاتف: </div>
-            <div class="hint" id="vipProfileDesc" style="white-space:pre-wrap;">الوصف: </div>
-          </div>
-        </div>
-
-        <div id="vipBenefitsShowcase" class="admin-subcard">
-          <h3 style="text-align: right; color:#b8860b;">👑 مميزات عضوية الـ VIP الفاخرة</h3>
-          <div class="stack" style="gap:4px;">
-            <div class="benefit-item">⭐ شارة VIP ذهبية بجانب الاسم تلفت الأنظار في كافة الأقسام والمنشورات.</div>
-            <div class="benefit-item">📅 صلاحية كاملة لتغيير الصورة الشخصية بشكل دوري طوال فترة الاشتراك.</div>
-            <div class="benefit-item">🔗 إمكانية إدراج روابط خارجية مباشرة في البروفايل لزيادة زوارك وتفاعلك.</div>
-            <div class="benefit-item">🎨 فتح الصلاحية لتخصيص وشراء ألوان الاسم والنصوص بأسعار رمزية ومخفضة!</div>
+            <div class="hint" id="vipProfileDesc" style="white-space:pre-wrap; line-height:1.5;">الوصف: </div>
           </div>
         </div>
 
         <div class="admin-subcard" id="vipLinksCard">
-           <div class="section-title">
-              <h3 style="margin:0;">الروابط المضافة</h3>
+           <div class="section-title" style="margin-bottom:10px; border-bottom:none; padding-bottom:0;">
+              <h3 style="margin:0; color:var(--primary);">الروابط المرفقة</h3>
               <button type="button" id="addVipLinkBtn" class="pill-btn tiny-btn hidden" onclick="addVipLinkPrompt()">+ إضافة رابط</button>
            </div>
-           <div id="vipLinksList" class="list-stack" style="margin-top:10px;"></div>
+           <div id="vipLinksList" class="list-stack"></div>
         </div>
 
-        <div class="admin-subcard" id="vipActionCard">
+        <div class="admin-subcard" id="vipActionCard" style="padding:0; border:none; background:transparent;">
           <div class="vip-action-grid" id="vipActionArea"></div>
         </div>
 
-        <div class="admin-subcard" id="customizationStoreCard">
-          <h3 style="text-align: right; color: var(--primary); margin-bottom: 12px;">🎨 متجر تخصيص المظهر المطور (متاح للجميع)</h3>
-          <div class="stack" style="gap: 14px;">
-            <div style="padding: 12px; border: 1px solid var(--input-border); border-radius: 12px; background: var(--card-bg);">
-              <strong>🖼️ رفع صورة بروفايل مخصصة للأبد</strong>
-              <p class="hint">ارفع صورتك الخاصة لتظهر للجميع كرمز لحسابك بشكل دائم للأبد وبدون الحاجة لـ VIP.</p>
-              <button type="button" class="pill-btn tiny-btn warning-btn" style="margin-top:6px;" onclick="triggerPermanentPicUpload()">شراء وتعيين للأبد (80 كوينز)</button>
-            </div>
-
-            <div style="padding: 12px; border: 1px solid var(--input-border); border-radius: 12px; background: var(--card-bg);">
-              <strong>📝 تلوين نص منشوراتك (البوست)</strong>
-              <p class="hint">اختر لوناً مميزاً لنصوص منشوراتك المستقبلية لتجعل كلامك يبرق ويجذب القراء.</p>
-              <div class="color-picker-box">
-                <select id="store-post-color">
-                  <option value="#e74c3c">🔴 أحمر ناري</option>
-                  <option value="#25D366">🟢 أخضر رقمي</option>
-                  <option value="#3498db">🔵 أزرق كلاسيكي</option>
-                  <option value="#9b59b6">🟣 بنفسجي ملكي</option>
-                  <option value="#f1c40f">🟡 ذهبي مشع</option>
-                </select>
-              </div>
-              <div class="grid-2">
-                <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="buyColor('post', false)">شراء مؤقت (5 كوينز - يزول بانتهاء الـ VIP)</button>
-                <button type="button" class="pill-btn tiny-btn warning-btn" onclick="buyColor('post', true)">شراء للأبد (15 كوينز)</button>
-              </div>
-            </div>
-
-            <div style="padding: 12px; border: 1px solid var(--input-border); border-radius: 12px; background: var(--card-bg);">
-              <strong>👑 تلوين اسم الحساب</strong>
-              <p class="hint">غير لون اسمك الكامل ليظهر بشكل ملون وفخم للجميع في قائمة المنشورات والتعليقات.</p>
-              <div class="color-picker-box">
-                <select id="store-name-color">
-                  <option value="#ff4757">🔴 أحمر فاقع</option>
-                  <option value="#2ed573">🟢 أخضر زاهي</option>
-                  <option value="#1e90ff">🔵 أزرق ساطع</option>
-                  <option value="#ffa502">🟠 برتقالي متوهج</option>
-                  <option value="#e056fd">💖 وردي ساحر</option>
-                </select>
-              </div>
-              <div class="grid-2">
-                <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="buyColor('name', false)">شراء مؤقت (15 كوينز - يزول بانتهاء الـ VIP)</button>
-                <button type="button" class="pill-btn tiny-btn warning-btn" onclick="buyColor('name', true)">شراء للأبد (30 كوينز)</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="admin-subcard hidden" id="coinTopupBoxWrap">
-          <div class="section-title" style="margin-bottom:8px;">
-            <h3 style="margin:0;">شحن كوينز المنصة</h3>
-            <button type="button" class="pill-btn tiny-btn" onclick="showCoinTopup()">+</button>
+          <div class="section-title" style="margin-bottom:12px;">
+            <h3 style="margin:0;">شحن الكوينز 🪙</h3>
+            <button type="button" class="pill-btn tiny-btn" onclick="showCoinTopup()">شحن الرصيد</button>
           </div>
-          <div>رصيدك الحالي من الكوينز: <span id="coinBalanceVip" style="font-weight: 900; color: var(--primary);">0</span></div>
-          <div id="coinTopupBox" class="hidden stack" style="margin-top:10px;">
-            <div class="hint">حوّل كاش مباشرة إلى هذا الرقم المعتمد: <strong>01124680211</strong></div>
-            <div class="hint">سعر الشحن الموحد: كل 10 كوينز = 1 جنيه مصري فقط</div>
-            <input type="text" id="transfer-from-number" placeholder="رقم المحفظة التي تم التحويل منها" />
-            <input type="email" id="transfer-account-email" placeholder="البريد الإلكتروني المرتبط بحسابك الحالي" />
-            <button type="button" class="pill-btn" onclick="coinSent()">تأكيد وإرسال طلب الشحن</button>
-            <div class="hint">بعد إرسال الطلب، ستتم مراجعته وإضافة الكوينز لحسابك فوراً في أقل من ساعة.</div>
+          <div style="font-size:16px; font-weight:bold;">الكوينز الحالية المتاحة: <span id="coinBalanceVip" style="color:var(--primary); font-size:18px;">0</span></div>
+          <div id="coinTopupBox" class="hidden stack" style="margin-top:14px; background:var(--card-bg); padding:16px; border-radius:14px; border:1px solid var(--input-border);">
+            <div class="hint" style="color:var(--danger); font-weight:bold;">حوّل المبلغ كاش لهذا الرقم: <strong>01124680211</strong></div>
+            <div class="hint" style="font-weight:bold; font-size:14px;">سعر 10 كوينز = 1 جنيه مصري</div>
+            <input type="text" id="transfer-from-number" placeholder="رقم الهاتف الذي تم التحويل منه" />
+            <input type="email" id="transfer-account-email" placeholder="البريد الخاص بالحساب" />
+            <button type="button" class="pill-btn" onclick="coinSent()">تأكيد عملية الإرسال</button>
+            <div class="hint" style="text-align:center;">بعد الإرسال سيتم إضافة الكوينز إلى حسابك في أقل من ساعة.</div>
           </div>
         </div>
       </div>
@@ -652,11 +645,10 @@
       feedMode: 'new',
       composerOpen: false,
       pendingDialog: null,
-      vipProfileUserId: null,
-      currentUploadType: 'vip'
+      vipProfileUserId: null
     };
 
-    function toast(message, type = 'info', timeout = 2600) {
+    function toast(message, type = 'info', timeout = 2800) {
       const host = $('toast-host');
       const el = document.createElement('div');
       el.className = `toast ${type}`;
@@ -664,8 +656,8 @@
       host.appendChild(el);
       setTimeout(() => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(8px)';
-        setTimeout(() => el.remove(), 250);
+        el.style.transform = 'translateY(15px)';
+        setTimeout(() => el.remove(), 300);
       }, timeout);
     }
 
@@ -685,10 +677,11 @@
       return Boolean(userData.vipActive || (expiry && expiry.getTime() > Date.now()));
     }
     
+    // إزالة الشرط القديم لأن الصورة أصبحت دائمة.
     function renderUserAvatar(userId, fallbackEmoji) {
        const u = state.users.find(x => x.id === userId);
-       if (u && (u.isPicturePermanent || (isVipUser(u) && u.vipPicture)) && u.vipPicture) {
-          return `<img src="${u.vipPicture}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;vertical-align:middle;display:inline-block;" alt="Pic">`;
+       if (u && u.vipPicture) {
+          return `<img src="${u.vipPicture}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;vertical-align:middle;display:inline-block;box-shadow: 0 2px 6px rgba(0,0,0,0.15);" alt="Profile">`;
        }
        return escapeHTML(fallbackEmoji || '🌚');
     }
@@ -696,9 +689,9 @@
     function updateHeaderAvatar() {
        const u = state.currentUserData;
        if (!u) return;
-       if ((u.isPicturePermanent || (isVipUser(u) && u.vipPicture)) && u.vipPicture) {
-           $('header-emoji-chip').innerHTML = `<img src="${u.vipPicture}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;vertical-align:middle;">`;
-           $('user-emoji-btn').innerHTML = `<img src="${u.vipPicture}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;vertical-align:middle;">`;
+       if (u.vipPicture) { // الصورة أبدية ولا ترتبط بالـ VIP بعد الشراء
+           $('header-emoji-chip').innerHTML = `<img src="${u.vipPicture}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;vertical-align:middle;">`;
+           $('user-emoji-btn').innerHTML = `<img src="${u.vipPicture}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;vertical-align:middle;">`;
        } else {
            $('header-emoji-chip').textContent = u.emoji || '🌚';
            $('user-emoji-btn').textContent = u.emoji || '🌚';
@@ -716,9 +709,8 @@
       const vipPicture = current?.vipPicture;
       const links = current?.vipLinks || [];
 
-      if (active && vipPicture) {
-         $('vipProfileAvatar').innerHTML = `<img src="${vipPicture}" style="width:100%;height:100%;object-fit:cover;" />`;
-      } else if (current.isPicturePermanent && vipPicture) {
+      // إظهار الصورة الأبدية إن وجدت
+      if (vipPicture) {
          $('vipProfileAvatar').innerHTML = `<img src="${vipPicture}" style="width:100%;height:100%;object-fit:cover;" />`;
       } else {
          $('vipProfileAvatar').textContent = emoji;
@@ -727,16 +719,16 @@
       $('vipProfileName').textContent = name;
       $('vipProfileStatus').textContent = active ? 'VIP نشط' : 'غير مشترك';
       $('vipProfileStatus').className = 'status-pill ' + (active ? 'vip-status-active' : 'vip-status-inactive');
-      $('vipProfileMeta').textContent = active ? 'عضو VIP مميز' : 'عضو عادي';
+      $('vipProfileMeta').textContent = active ? 'عضو VIP ملكي' : 'عضو عادي';
       
       $('vipProfilePhone').textContent = `رقم الهاتف: ${phone}`;
       $('vipProfileDesc').textContent = `الوصف:\n${desc}`;
 
       const linksList = $('vipLinksList');
       if (links.length > 0) {
-          linksList.innerHTML = links.map(l => `<a href="${escapeHTML(l)}" target="_blank" style="color:var(--primary);font-weight:bold;text-decoration:none;display:block;padding:8px;background:var(--soft);border-radius:8px;word-break:break-all;">${escapeHTML(l)}</a>`).join('');
+          linksList.innerHTML = links.map(l => `<a href="${escapeHTML(l)}" target="_blank" style="color:var(--primary);font-weight:bold;text-decoration:none;display:block;padding:12px;background:var(--input-bg);border:1px solid var(--input-border);border-radius:12px;word-break:break-all;transition:transform 0.2s;">🔗 ${escapeHTML(l)}</a>`).join('');
       } else {
-          linksList.innerHTML = `<div class="muted">لا توجد روابط مضافة.</div>`;
+          linksList.innerHTML = `<div class="muted center" style="padding:10px;">لا توجد روابط.</div>`;
       }
 
       if (isMe && active) {
@@ -754,35 +746,71 @@
 
       if (!isMe) {
         $('vipActionCard').classList.add('hidden');
-        $('customizationStoreCard').classList.add('hidden');
         topupWrap.classList.add('hidden');
-        $('vipLinksCard').classList.toggle('hidden', !active);
+        $('vipLinksCard').classList.toggle('hidden', !active); // إخفاء الروابط إذا لم يكن نشطاً
       } else {
         $('vipLinksCard').classList.toggle('hidden', !active);
         $('vipActionCard').classList.remove('hidden');
-        $('customizationStoreCard').classList.remove('hidden');
-        topupWrap.classList.remove('hidden');
         
-        if (active) {
-          actionArea.innerHTML = `
-            <div class="vip-preview vip-status-active" style="padding:10px; font-weight:bold; text-align:center;">
-               ✨ اشتراكك نشط ومميز حالياً! ينتهي بتاريخ: ${current.vipUntil ? fmtTime(current.vipUntil) : 'غير محدد'}
+        let colorStoreHtml = `
+          <div class="admin-subcard" style="margin-top:12px; background:var(--card-bg); border:2px solid var(--soft);">
+            <h4 style="margin:0 0 12px; color:var(--primary); font-weight:900;">🎨 متجر الألوان</h4>
+            <div class="stack" style="gap: 12px;">
+                <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; border-bottom:1px solid var(--input-border); padding-bottom:12px;">
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <input type="color" id="shop-text-color" value="${current.textColor || '#e74c3c'}" style="width:38px; height:38px; padding:0; border:none; border-radius:10px; cursor:pointer;">
+                        <strong style="font-size:15px;">لون نص البوست</strong>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="buyColor('text', false, 5)">مؤقت (5 كوينز)</button>
+                        <button type="button" class="pill-btn tiny-btn warning-btn" onclick="buyColor('text', true, 15)">أبدي (15 كوينز)</button>
+                    </div>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between;">
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <input type="color" id="shop-name-color" value="${current.nameColor || '#f59e0b'}" style="width:38px; height:38px; padding:0; border:none; border-radius:10px; cursor:pointer;">
+                        <strong style="font-size:15px;">لون الاسم</strong>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button type="button" class="pill-btn tiny-btn secondary-btn" onclick="buyColor('name', false, 15)">مؤقت (15 كوينز)</button>
+                        <button type="button" class="pill-btn tiny-btn warning-btn" onclick="buyColor('name', true, 30)">أبدي (30 كوينز)</button>
+                    </div>
+                </div>
             </div>
-            <button type="button" class="pill-btn tiny-btn" onclick="triggerVipPicUpload()">تغيير صورة بروفايل الـ VIP (30 كوينز)</button>
+            <div class="hint" style="margin-top:10px; text-align:center;">الألوان المؤقتة مرتبطة بمدة اشتراك الـ VIP.</div>
+          </div>
+        `;
+
+        if (active) {
+          topupWrap.classList.add('hidden');
+          actionArea.innerHTML = `
+            <div class="grid-2">
+               <button type="button" class="pill-btn tiny-btn" onclick="triggerVipPicUpload()">تغيير الصورة للأبد (80 كوينز)</button>
+            </div>
+            ${colorStoreHtml}
           `;
         } else {
+          topupWrap.classList.remove('hidden');
           actionArea.innerHTML = `
             <div class="vip-preview">
-              <div style="font-weight:900;font-size:16px;margin-bottom:6px; text-align:center;">اشترك الآن في باقة VIP المجددة والمطورة</div>
-              <p class="hint" style="text-align:center;">فترة الصلاحية المحددة هي 7 أيام فقط مقابل 100 كوينز.</p>
+              <div style="font-weight:900;font-size:18px;margin-bottom:8px;color:#b8860b;">اشترك الآن لمدة 7 أيام فقط مقابل 100 كوينز</div>
+              <ul style="margin: 0; padding-inline-start: 22px; font-size: 14.5px; line-height: 1.8; color: var(--text); font-weight:bold;">
+                 <li>إضافة روابط حساباتك في صفحتك 🔗</li>
+                 <li>تمييز حسابك بعلامة VIP الملكية ✨</li>
+                 <li>صلاحية تفعيل الألوان المؤقتة 🎨</li>
+              </ul>
             </div>
-            <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()">اشترك VIP لمدة 7 أيام - 100 كوينز</button>
+            <button type="button" class="pill-btn vip-btn" onclick="subscribeVip()" style="font-size:16px; padding:14px;">اشترك VIP لمدة 7 أيام فقط - 100 كوينز</button>
+            <div class="grid-2" style="margin-top:8px;">
+               <button type="button" class="pill-btn tiny-btn" onclick="triggerVipPicUpload()" style="font-size:14px;">إضافة صورة بروفايل للأبد (80 كوينز)</button>
+            </div>
+            ${colorStoreHtml}
           `;
         }
       }
     }
     
-    function openVipModal(targetUserId = null) {
+    window.openVipModal = (targetUserId = null) => {
       if (targetUserId && typeof targetUserId !== 'string') targetUserId = null;
       state.vipProfileUserId = targetUserId || (state.currentUser?.uid || null);
       let targetUser = state.currentUserData || null;
@@ -793,10 +821,10 @@
       $('vip-modal').classList.remove('hidden');
     }
     
-    function closeVipModal() { $('vip-modal').classList.add('hidden'); }
-    function showCoinTopup() { $('coinTopupBox').classList.toggle('hidden'); }
+    window.closeVipModal = () => { $('vip-modal').classList.add('hidden'); }
+    window.showCoinTopup = () => { $('coinTopupBox').classList.toggle('hidden'); }
     
-    function openDialog({title='رسالة', bodyHTML='', confirmText='موافق', cancelText='إلغاء', onConfirm=null}) {
+    window.openDialog = ({title='رسالة', bodyHTML='', confirmText='موافق', cancelText='إلغاء', onConfirm=null}) => {
       $('dialog-title').textContent = title;
       $('dialog-body').innerHTML = bodyHTML;
       $('dialog-confirm').textContent = confirmText;
@@ -812,6 +840,45 @@
       };
       $('dialog-cancel').onclick = () => closeDialog();
     }
+
+    // إضافة وظيفة الشراء للألوان
+    window.buyColor = (type, isPermanent, cost) => {
+      const user = state.currentUserData;
+      if (!user) return;
+      if ((user.coins || 0) < cost) {
+         toast('رصيدك غير كافٍ لإتمام عملية الشراء.', 'warning'); return;
+      }
+      
+      const colorVal = type === 'text' ? $('shop-text-color').value : $('shop-name-color').value;
+      const typeName = type === 'text' ? 'نص البوست' : 'الاسم الخاص بك';
+      
+      openDialog({
+        title: 'تأكيد عملية الشراء',
+        bodyHTML: `<div class="center"><p style="font-size:16px;">سيتم خصم <strong style="color:var(--danger);">${cost} كوينز</strong> لتغيير لون ${typeName} ${isPermanent ? 'بشكل <strong>أبدي</strong>' : 'مؤقتاً (7 أيام)'}.</p>
+                   <div style="margin-top:14px; padding:12px; border-radius:12px; background:var(--soft); color:${type === 'text' ? colorVal : 'inherit'}; border:1px solid var(--input-border);">
+                     <span style="font-weight:bold; font-size:16px; color:${type === 'name' ? colorVal : 'inherit'};">شكل العرض التجريبي للنص والاسم</span>
+                   </div>
+                   </div>`,
+        confirmText: 'تأكيد ودفع',
+        cancelText: 'إلغاء',
+        onConfirm: async () => {
+          const freshUser = state.currentUserData;
+          if ((freshUser.coins || 0) < cost) { toast('رصيد غير كافٍ', 'warning'); return; }
+          const updateData = { coins: increment(-cost) };
+          if (type === 'text') {
+              updateData.textColor = colorVal;
+              updateData.textColorIsPermanent = isPermanent;
+          } else {
+              updateData.nameColor = colorVal;
+              updateData.nameColorIsPermanent = isPermanent;
+          }
+          await updateDoc(doc(db, 'users', freshUser.id), updateData);
+          toast('تم الشراء وتحديث الألوان بنجاح!', 'success');
+          renderVipPanel(state.currentUserData);
+          renderPosts();
+        }
+      });
+    };
 
     function getSelectedEmoji() {
       const selected = document.querySelector('input[name="emoji"]:checked');
@@ -901,19 +968,18 @@
     window.openSupportModal = openSupportModal;
     window.closeSupportModal = closeSupportModal;
     window.closeDialog = closeDialog;
-    window.openVipModal = openVipModal;
-    window.closeVipModal = closeVipModal;
-    window.showCoinTopup = showCoinTopup;
     window.openVipProfileModal = (userId) => openVipModal(userId);
     window.toggleAuth = () => { $('login-form').classList.toggle('hidden'); $('signup-form').classList.toggle('hidden'); };
     window.openSettings = () => $('settings-modal').classList.remove('hidden');
     window.closeSettings = () => $('settings-modal').classList.add('hidden');
+    
     window.checkWordCount = (textarea) => {
       const info = $('word-count-info');
       const current = countWords(textarea.value);
       if (current > 170) textarea.value = sanitizeWordsLimit(textarea.value, 170);
       info.textContent = `${countWords(textarea.value)} / 170 كلمة`;
     };
+    
     window.setFeedMode = (mode) => { state.feedMode = mode; renderPosts(); };
     window.toggleComposer = () => {
       state.composerOpen = !state.composerOpen;
@@ -964,7 +1030,7 @@
         return;
       }
       if (coins < 100) {
-        toast('لا توجد 100 كوينز كافية للاشتراك.', 'warning');
+        toast('تحتاج إلى 100 كوينز للاشتراك.', 'warning');
         return;
       }
       try {
@@ -990,7 +1056,7 @@
         $('header-coins-chip').textContent = `🪙 ${coins - 100}`;
         renderVipPanel(state.currentUserData);
         renderPosts();
-        toast('تم الاشتراك في VIP لمدة 7 أيام بنجاح! 🎉', 'success');
+        toast('مرحباً بك! تم الاشتراك في VIP لمدة 7 أيام.', 'success');
       } catch (err) {
         console.error(err);
         toast('تعذر الاشتراك في VIP.', 'error');
@@ -1008,8 +1074,8 @@
       if (links.length >= maxAllowed) {
         openDialog({
           title: 'زيادة عدد الروابط',
-          bodyHTML: '<p>لقد وصلت للحد الأقصى للروابط المتاحة. هل تريد إضافة مساحة لرابط جديد مقابل 50 كوينز؟</p>',
-          confirmText: 'شراء بـ 50 كوينز',
+          bodyHTML: '<p style="font-size:15px;">لقد وصلت للحد الأقصى للروابط. هل تريد إضافة مساحة لرابط جديد مقابل <strong>50 كوينز</strong>؟</p>',
+          confirmText: 'شراء المساحة',
           cancelText: 'إلغاء',
           onConfirm: async () => {
             if ((user.coins || 0) < 50) { toast('رصيدك غير كافٍ.', 'warning'); return; }
@@ -1017,15 +1083,15 @@
               coins: increment(-50),
               vipExtraCapacity: increment(1)
             });
-            toast('تم زيادة المساحة! يمكنك الآن إضافة رابط جديد.', 'success');
+            toast('تم زيادة المساحة! يمكنك الآن إضافة رابط.', 'success');
           }
         });
         return;
       }
 
       openDialog({
-        title: 'إضافة رابط لملفك الشخصي',
-        bodyHTML: '<input type="url" id="new-vip-link" class="small-input" placeholder="https://..." style="width:100%;text-align:left;" dir="ltr">',
+        title: 'إضافة رابط',
+        bodyHTML: '<input type="url" id="new-vip-link" class="small-input" placeholder="https://..." style="width:100%;text-align:left;direction:ltr;">',
         confirmText: 'إضافة',
         cancelText: 'إلغاء',
         onConfirm: async () => {
@@ -1034,7 +1100,7 @@
           await updateDoc(doc(db, 'users', user.id), {
             vipLinks: arrayUnion(url)
           });
-          toast('تم إضافة الرابط بنجاح', 'success');
+          toast('تمت إضافة الرابط.', 'success');
         }
       });
     };
@@ -1042,65 +1108,12 @@
     window.triggerVipPicUpload = () => {
        const user = state.currentUserData;
        if (!user) return;
-       if ((user.coins || 0) < 30) {
-          toast('عذراً، يجب أن يكون لديك 30 كوينز لتغيير صورة البروفايل الـ VIP.', 'warning');
-          return;
-       }
-       state.currentUploadType = 'vip';
-       $('vip-pic-input').click();
-    };
-
-    window.triggerPermanentPicUpload = () => {
-       const user = state.currentUserData;
-       if (!user) return;
+       // السعر الآن 80 كوينز والصورة أبدية
        if ((user.coins || 0) < 80) {
-          toast('عذراً، يجب أن يكون لديك 80 كوينز لشراء وتعيين صورة دائمة للأبد.', 'warning');
+          toast('تحتاج لـ 80 كوينز لتغيير الصورة للأبد.', 'warning');
           return;
        }
-       state.currentUploadType = 'permanent';
        $('vip-pic-input').click();
-    };
-
-    window.buyColor = async (type, isPermanent) => {
-      const user = state.currentUserData;
-      if (!user) return;
-      const coins = Number(user.coins || 0);
-      const selectId = type === 'name' ? 'store-name-color' : 'store-post-color';
-      const selectedColor = $(selectId).value;
-      
-      let cost = 0;
-      if (type === 'name') {
-        cost = isPermanent ? 30 : 15;
-      } else {
-        cost = isPermanent ? 15 : 5;
-      }
-      
-      if (!isPermanent && !isVipUser(user)) {
-        toast('يجب أن تملك اشتراك VIP نشط لتفعيل وشراء الألوان المؤقتة!', 'warning');
-        return;
-      }
-      
-      if (coins < cost) {
-        toast(`رصيدك غير كافٍ. تحتاج إلى ${cost} كوينز لإتمام الشراء.`, 'warning');
-        return;
-      }
-      
-      const updates = { coins: increment(-cost) };
-      if (type === 'name') {
-        updates.nameColor = selectedColor;
-        updates.isNameColorPermanent = isPermanent;
-      } else {
-        updates.postColor = selectedColor;
-        updates.isPostColorPermanent = isPermanent;
-      }
-      
-      try {
-        await updateDoc(doc(db, 'users', user.id), updates);
-        toast(`تم شراء وتطبيق اللون بنجاح وبشكل ${isPermanent ? 'دائم للأبد' : 'مؤقت مع الـ VIP'}! 🎉`, 'success');
-      } catch (err) {
-        console.error(err);
-        toast('حدث خطأ أثناء معالجة عملية الشراء.', 'error');
-      }
     };
 
     $('vip-pic-input').onchange = async (e) => {
@@ -1124,30 +1137,21 @@
                canvas.height = height;
                const ctx = canvas.getContext('2d');
                ctx.drawImage(img, 0, 0, width, height);
-               const base64Pic = canvas.toDataURL('image/jpeg', 0.8);
-
-               const isPermanent = state.currentUploadType === 'permanent';
-               const cost = isPermanent ? 80 : 30;
+               const base64Pic = canvas.toDataURL('image/jpeg', 0.85);
 
                openDialog({
-                 title: isPermanent ? 'تأكيد شراء الصورة للأبد' : 'تأكيد تغيير صورة الـ VIP',
-                 bodyHTML: `<div class="center"><img src="${base64Pic}" style="width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:10px;"><p>سيتم خصم تفصيلي بقيمة ${cost} كوينز من حسابك.</p></div>`,
-                 confirmText: 'تأكيد ودفع الرصيد',
+                 title: 'تأكيد إضافة الصورة',
+                 bodyHTML: `<div class="center"><img src="${base64Pic}" style="width:130px;height:130px;border-radius:50%;object-fit:cover;margin-bottom:14px;box-shadow:0 4px 15px rgba(0,0,0,0.15);"><p style="font-size:15px;">سيتم خصم <strong style="color:var(--danger)">80 كوينز</strong> (الصورة ستظل معك للأبد).</p></div>`,
+                 confirmText: 'تأكيد ودفع',
                  cancelText: 'إلغاء',
                  onConfirm: async () => {
                     const user = state.currentUserData;
-                    if ((user.coins || 0) < cost) { toast('رصيدك غير كافٍ لإتمام العملية.', 'warning'); return; }
-                    
-                    const updates = {
-                       coins: increment(-cost),
+                    if ((user.coins || 0) < 80) { toast('رصيد غير كافٍ', 'warning'); return; }
+                    await updateDoc(doc(db, 'users', user.id), {
+                       coins: increment(-80),
                        vipPicture: base64Pic
-                    };
-                    if (isPermanent) {
-                       updates.isPicturePermanent = true;
-                    }
-
-                    await updateDoc(doc(db, 'users', user.id), updates);
-                    toast(`تم تحديث وتعيين صورتك الشخصية بنجاح وبشكل ${isPermanent ? 'دائم للأبد' : 'مؤقت'}!`, 'success');
+                    });
+                    toast('تم تحديث الصورة بنجاح وتثبيتها!', 'success');
                  }
                });
            };
@@ -1178,10 +1182,10 @@
           createdAt: serverTimestamp()
         });
         $('coinTopupBox').classList.add('hidden');
-        toast('تم إرسال الطلب بنجاح. سيتم إضافة الكوينز إلى حسابك في أقل من ساعة.', 'success', 3600);
+        toast('تم إرسال الطلب للمراجعة. سيصلك الرد قريباً.', 'success', 3600);
       } catch (err) {
         console.error(err);
-        toast('تعذر إرسال الطلب الحالي.', 'error');
+        toast('حدث خطأ ولم نتمكن من الإرسال.', 'error');
       }
     };
 
@@ -1196,16 +1200,16 @@
         await updateDoc(doc(db, 'users', user.uid), { name: newName, age: Number(newAge), description: newDesc });
         if (newPass) await updatePassword(user, newPass);
         $('set-pass').value = '';
-        toast('تم حفظ التعديلات بنجاح.', 'success');
+        toast('تم حفظ الإعدادات.', 'success');
         closeSettings();
-      } catch (error) { console.error(error); toast(error?.message || 'تعذر حفظ الإعدادات حالياً.', 'error'); }
+      } catch (error) { console.error(error); toast(error?.message || 'تعذر حفظ الإعدادات.', 'error'); }
     };
 
     window.submitPost = async () => {
       const user = auth.currentUser; if (!user) return;
-      if (!state.currentSectionId) { toast('اختر قسمًا أولًا لتتمكن من النشر.', 'warning'); return; }
+      if (!state.currentSectionId) { toast('اختر قسمًا أولًا من القائمة الجانبية.', 'warning'); return; }
       const text = $('new-post-text').value.trim();
-      if (!text) { toast('اكتب محتوى المنشور أولًا.', 'warning'); return; }
+      if (!text) { toast('لا يمكنك نشر منشور فارغ.', 'warning'); return; }
       const cleaned = sanitizeWordsLimit(text, 170);
       try {
         await addDoc(collection(db, 'posts'), {
@@ -1228,9 +1232,9 @@
         });
         $('new-post-text').value = '';
         $('word-count-info').textContent = '0 / 170 كلمة';
-        toast(user.email === adminEmail ? 'تم نشر البوست مباشرة.' : 'تم إرسال البوست للموافقة والمراجعة.', 'success');
+        toast(user.email === adminEmail ? 'تم نشر البوست مباشرة.' : 'تم إرسال البوست للموافقة.', 'success');
         toggleComposer();
-      } catch (error) { console.error(error); toast(error?.message || 'تعذر إنشاء البوست وتصديره.', 'error'); }
+      } catch (error) { console.error(error); toast(error?.message || 'تعذر إنشاء البوست.', 'error'); }
     };
 
     window.react = async (element, postId, emoji) => {
@@ -1250,40 +1254,40 @@
 
     window.reportPost = async (postId) => {
       const user = auth.currentUser; if (!user) return;
-      openDialog({ title: 'الإبلاغ عن منشور مخالف', bodyHTML: '<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ بالتفصيل..."></textarea>', confirmText: 'إرسال البلاغ', cancelText: 'إلغاء', onConfirm: async () => {
-        const reason = $('report-reason').value.trim(); if (!reason) { toast('يجب كتابة سبب البلاغ أولاً.', 'warning'); return; }
+      openDialog({ title: 'الإبلاغ عن بوست', bodyHTML: '<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ بوضوح..."></textarea>', confirmText: 'إرسال البلاغ', cancelText: 'إلغاء', onConfirm: async () => {
+        const reason = $('report-reason').value.trim(); if (!reason) { toast('اكتب سبب البلاغ.', 'warning'); return; }
         await addDoc(collection(db, 'reports'), { type: 'post', targetId: postId, reporterId: user.uid, reporterEmail: user.email, reason, createdAt: serverTimestamp(), resolved: false });
         await updateDoc(doc(db, 'posts', postId), { reportsCount: increment(1) });
-        toast('تم إرسال بلاغك بنجاح للأدمن.', 'success');
+        toast('تم إرسال البلاغ للإدارة.', 'success');
       }});
     };
     window.reportComment = async (commentId) => {
       const user = auth.currentUser; if (!user) return;
-      openDialog({ title: 'الإبلاغ عن تعليق مخالف', bodyHTML: '<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ..."></textarea>', confirmText: 'إرسال البلاغ', cancelText: 'إلغاء', onConfirm: async () => {
-        const reason = $('report-reason').value.trim(); if (!reason) { toast('اكتب سبب البلاغ المباشر.', 'warning'); return; }
+      openDialog({ title: 'الإبلاغ عن تعليق', bodyHTML: '<textarea id="report-reason" class="small-input" placeholder="اكتب سبب الإبلاغ بوضوح..."></textarea>', confirmText: 'إرسال البلاغ', cancelText: 'إلغاء', onConfirm: async () => {
+        const reason = $('report-reason').value.trim(); if (!reason) { toast('اكتب سبب البلاغ.', 'warning'); return; }
         await addDoc(collection(db, 'reports'), { type: 'comment', targetId: commentId, reporterId: user.uid, reporterEmail: user.email, reason, createdAt: serverTimestamp(), resolved: false });
         await updateDoc(doc(db, 'comments', commentId), { reportsCount: increment(1) });
-        toast('تم تسليم البلاغ للأدمن.', 'success');
+        toast('تم إرسال البلاغ للإدارة.', 'success');
       }});
     };
 
     window.editOwnPost = async (postId) => { const post = state.posts.find(p => p.id === postId); if (!post || !canEditDelete(post)) return; $('post-edit-id').value = postId; $('post-edit-text').value = post.text || ''; $('post-modal').classList.remove('hidden'); };
-    window.deletePost = async (postId) => { const post = state.posts.find(p => p.id === postId); if (!post || !canEditDelete(post)) return; openDialog({ title: 'حذف البوست نهائياً', bodyHTML: '<p class="muted">هل أنت متأكد من رغبتك في حذف هذا البوست؟</p>', confirmText: 'حذف الآن', cancelText: 'إلغاء', onConfirm: async () => { await updateDoc(doc(db, 'posts', postId), { deleted: true, deletedAt: serverTimestamp() }); toast('تم حذف البوست بنجاح.', 'success'); } }); };
-    window.savePostEdit = async () => { const postId = $('post-edit-id').value; const newText = $('post-edit-text').value.trim(); if (!postId || !newText) return; await updateDoc(doc(db, 'posts', postId), { text: sanitizeWordsLimit(newText, 170), updatedAt: serverTimestamp() }); closePostModal(); toast('تم تحديث وتعديل البوست.', 'success'); };
+    window.deletePost = async (postId) => { const post = state.posts.find(p => p.id === postId); if (!post || !canEditDelete(post)) return; openDialog({ title: 'حذف البوست', bodyHTML: '<p class="muted">هل أنت متأكد من حذف هذا البوست نهائياً؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await updateDoc(doc(db, 'posts', postId), { deleted: true, deletedAt: serverTimestamp() }); toast('تم مسح البوست.', 'success'); } }); };
+    window.savePostEdit = async () => { const postId = $('post-edit-id').value; const newText = $('post-edit-text').value.trim(); if (!postId || !newText) return; await updateDoc(doc(db, 'posts', postId), { text: sanitizeWordsLimit(newText, 170), updatedAt: serverTimestamp() }); closePostModal(); toast('تم تحديث محتوى البوست.', 'success'); };
     window.closePostModal = () => $('post-modal').classList.add('hidden');
 
     window.editOwnComment = async (commentId) => { const comment = findCommentById(commentId); if (!comment || !canEditDelete(comment)) return; $('comment-edit-id').value = commentId; $('comment-edit-text').value = comment.text || ''; $('comment-modal').classList.remove('hidden'); };
-    window.deleteComment = async (commentId) => { const comment = findCommentById(commentId); if (!comment || !canEditDelete(comment)) return; openDialog({ title: 'حذف التعليق', bodyHTML: '<p class="muted">هل تريد إزالة هذا التعليق؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await updateDoc(doc(db, 'comments', commentId), { deleted: true, deletedAt: serverTimestamp() }); toast('تم حذف التعليق بنجاح.', 'success'); } }); };
-    window.saveCommentEdit = async () => { const id = $('comment-edit-id').value; const newText = $('comment-edit-text').value.trim(); if (!id || !newText) return; await updateDoc(doc(db, 'comments', id), { text: newText, updatedAt: serverTimestamp() }); closeCommentModal(); toast('تم تحديث نص التعليق الحالي.', 'success'); };
+    window.deleteComment = async (commentId) => { const comment = findCommentById(commentId); if (!comment || !canEditDelete(comment)) return; openDialog({ title: 'حذف التعليق', bodyHTML: '<p class="muted">هل أنت متأكد من حذف هذا التعليق؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await updateDoc(doc(db, 'comments', commentId), { deleted: true, deletedAt: serverTimestamp() }); toast('تم حذف التعليق.', 'success'); } }); };
+    window.saveCommentEdit = async () => { const id = $('comment-edit-id').value; const newText = $('comment-edit-text').value.trim(); if (!id || !newText) return; await updateDoc(doc(db, 'comments', id), { text: newText, updatedAt: serverTimestamp() }); closeCommentModal(); toast('تم تحديث التعليق.', 'success'); };
     window.closeCommentModal = () => $('comment-modal').classList.add('hidden');
 
     async function addComment(postId) {
       const user = auth.currentUser; if (!user) return;
-      openDialog({ title: 'إضافة تعليق جديد', bodyHTML: '<textarea id="new-comment-text" class="small-input" placeholder="اكتب تعليقك اللائق هنا..."></textarea>', confirmText: 'نشر التعليق', cancelText: 'إلغاء', onConfirm: async () => {
-        const text = $('new-comment-text').value.trim(); if (!text) { toast('محتوى التعليق فارغ!', 'warning'); return; }
+      openDialog({ title: 'إضافة تعليق', bodyHTML: '<textarea id="new-comment-text" class="small-input" placeholder="اكتب تعليقك هنا..."></textarea>', confirmText: 'نشر التعليق', cancelText: 'إلغاء', onConfirm: async () => {
+        const text = $('new-comment-text').value.trim(); if (!text) { toast('يجب كتابة التعليق أولاً.', 'warning'); return; }
         await addDoc(collection(db, 'comments'), { postId, uid: user.uid, authorName: state.currentUserData?.name || user.email, authorEmoji: state.currentUserData?.emoji || '🌚', text, approved: true, deleted: false, reportsCount: 0, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
         await updateDoc(doc(db, 'posts', postId), { commentsCount: increment(1) });
-        toast('تم نشر تعليقك بنجاح.', 'success');
+        toast('تم نشر التعليق بنجاح.', 'success');
       }});
     }
     window.addComment = addComment;
@@ -1295,10 +1299,10 @@
         const section = state.sections.find(s => s.id === post.sectionId);
         const coins = calculateSectionCoins(section, post);
         if (coins > 0) {
-          await updateDoc(doc(db, 'users', post.uid), { coins: increment(coins), coinLog: arrayUnion({ type: 'earn', amount: coins, reason: `مكسب من قسم ${section?.name || ''}`, at: new Date().toISOString() }) });
+          await updateDoc(doc(db, 'users', post.uid), { coins: increment(coins), coinLog: arrayUnion({ type: 'earn', amount: coins, reason: `مكافأة نشر في قسم ${section?.name || ''}`, at: new Date().toISOString() }) });
         }
       }
-      toast(approved ? 'تمت الموافقة على اعتماد البوست.' : 'تم رفض البوست بنجاح.', 'success');
+      toast(approved ? 'تمت الموافقة على البوست وظهوره.' : 'تم رفض البوست.', 'success');
     }
     window.approvePost = approvePost;
 
@@ -1307,16 +1311,16 @@
       if (!Number.isFinite(n) || n === 0) return;
       await updateDoc(doc(db, 'users', userId), {
         coins: increment(n),
-        coinLog: arrayUnion({ type: n > 0 ? 'add' : 'subtract', amount: n, reason: 'إدارة الأدمن للمنصة', at: new Date().toISOString() })
+        coinLog: arrayUnion({ type: n > 0 ? 'add' : 'subtract', amount: n, reason: 'تعديل من قبل الإدارة', at: new Date().toISOString() })
       });
-      toast(n > 0 ? `تمت إضافة ${n} كوينز بنجاح.` : `تم سحب ${Math.abs(n)} كوينز من الحساب.`, 'success');
+      toast(n > 0 ? `تمت إضافة ${n} كوينز.` : `تم سحب ${Math.abs(n)} كوينز.`, 'success');
     }
     window.adjustCoins = adjustCoins;
 
     async function blockUser(userId, blocked) {
       await updateDoc(doc(db, 'users', userId), { blocked });
-      if (auth.currentUser?.uid === userId && blocked) { toast('تم حظرك نهائياً من المنصة.', 'error', 3500); await signOut(auth); }
-      else toast(blocked ? 'تم حظر المستخدم الحالي بنجاح.' : 'تم إلغاء حظر الحساب بنجاح.', 'success');
+      if (auth.currentUser?.uid === userId && blocked) { toast('لقد تم حظرك من الدخول للمنصة.', 'error', 3500); await signOut(auth); }
+      else toast(blocked ? 'تم حظر المستخدم.' : 'تم رفع الحظر بنجاح.', 'success');
     }
     window.blockUser = blockUser;
 
@@ -1342,10 +1346,10 @@
       if (!name) { toast('اكتب اسم القسم أولاً.', 'warning'); return; }
       if (id) await updateDoc(doc(db, 'sections', id), { name, description, coinBase, coinPerReaction, coinPerComment, coinBonus, updatedAt: serverTimestamp() });
       else await addDoc(collection(db, 'sections'), { name, description, coinBase, coinPerReaction, coinPerComment, coinBonus, createdAt: serverTimestamp(), updatedAt: serverTimestamp(), active: true, postsCount: 0 });
-      closeSectionModal(); toast('تم حفظ وإعداد القسم بنجاح.', 'success');
+      closeSectionModal(); toast('تم حفظ بيانات القسم.', 'success');
     }
     async function deleteSection(sectionId) {
-      openDialog({ title: 'حذف القسم نهائياً', bodyHTML: '<p class="muted">هل أنت متأكد تماماً من رغبتك في حذف القسم الحالي؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await deleteDoc(doc(db, 'sections', sectionId)); toast('تم حذف القسم نهائياً.', 'success'); } });
+      openDialog({ title: 'حذف القسم', bodyHTML: '<p class="muted">هل تريد بالتأكيد حذف هذا القسم نهائيًا؟</p>', confirmText: 'حذف', cancelText: 'إلغاء', onConfirm: async () => { await deleteDoc(doc(db, 'sections', sectionId)); toast('تم مسح القسم.', 'success'); } });
     }
     window.openSectionEditor = openSectionEditor;
     window.closeSectionModal = closeSectionModal;
@@ -1357,23 +1361,26 @@
       const list = $('sections-list');
       const adminList = $('admin-sections-list');
       const items = state.sections || [];
-      $('sections-count').textContent = String(items.length);
-      list.innerHTML = items.length ? '' : '<p class="muted center">لا توجد أقسام مضافة بعد.</p>';
-      adminList.innerHTML = items.length ? '' : '<p class="muted center">لا توجد أقسام حالية.</p>';
+      
+      list.innerHTML = items.length ? '' : '<p class="muted center">لا توجد أقسام بعد.</p>';
+      adminList.innerHTML = items.length ? '' : '<p class="muted center">لا توجد أقسام.</p>';
       items.forEach(sec => {
         const chip = document.createElement('div');
         chip.className = 'section-chip' + (state.currentSectionId === sec.id ? ' active' : '');
-        chip.innerHTML = `<div><div style="font-weight:800;">${escapeHTML(sec.name || '')}</div><div class="muted" style="font-size:12px;">${escapeHTML(sec.description || '')}</div></div><div style="display:flex;gap:6px;align-items:center;"><span class="badge">${escapeHTML(String(sec.postsCount || 0))}</span></div>`;
+        // إزالة بادج عدد البوستات من العرض العام
+        chip.innerHTML = `<div><div style="font-weight:900; font-size:15px; margin-bottom:2px;">${escapeHTML(sec.name || '')}</div><div class="muted" style="font-size:13px;">${escapeHTML(sec.description || '')}</div></div>`;
         chip.onclick = () => selectSection(sec.id);
         list.appendChild(chip);
+        
         const row = document.createElement('div');
         row.className = 'user-row';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(sec.name || '')}</div><div class="muted">${escapeHTML(sec.description || '')}</div><div class="muted">مكافأة القسم الإضافية: ${Number(sec.coinBase || 0)} + ${Number(sec.coinPerReaction || 0)} / تفاعل + ${Number(sec.coinPerComment || 0)} / تعليق + ${Number(sec.coinBonus || 0)} ثابتة</div><div class="split-row"><span class="status-pill">${escapeHTML(String(sec.postsCount || 0))} بوست</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div></div>`;
+        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(sec.name || '')}</div><div class="muted">${escapeHTML(sec.description || '')}</div><div class="muted">مكافأة القسم: ${Number(sec.coinBase || 0)} + ${Number(sec.coinPerReaction || 0)} / تفاعل + ${Number(sec.coinPerComment || 0)} / تعليق + ${Number(sec.coinBonus || 0)} ثابت</div><div class="split-row"><span class="status-pill">${escapeHTML(String(sec.postsCount || 0))} بوست</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div></div>`;
         row.querySelector('[data-edit]').onclick = () => openSectionEditor(sec);
         row.querySelector('[data-del]').onclick = () => deleteSection(sec.id);
         adminList.appendChild(row);
       });
     }
+    
     async function selectSection(sectionId) { state.currentSectionId = sectionId; state.currentSection = state.sections.find(s => s.id === sectionId) || null; renderSections(); renderPosts(); }
     function rankScore(post) { const r = post.reactions || {}; const react = Object.values(r).reduce((a, b) => a + Number(b || 0), 0); return react + Number(post.commentsCount || 0) * 1.5 + Number(post.reportsCount || 0) * -2; }
     
@@ -1383,7 +1390,7 @@
       if (!posts.length) { box.innerHTML = ''; return; }
       const top = [...posts].sort((a,b) => rankScore(b) - rankScore(a)).slice(0, 3);
       box.className = '';
-      box.innerHTML = `<div class="section-title" style="margin-bottom:8px;"><h3>الأكثر رواجًا حالياً 🔥</h3><span class="badge">${top.length}</span></div><div class="list-stack">${top.map(p => `<div class="post-card" style="padding:12px;"><strong>${escapeHTML(p.authorName || '')} ${renderUserAvatar(p.uid, p.authorEmoji)}</strong><div class="muted" style="font-size:12px;margin-top:4px;">${escapeHTML(fmtTime(p.createdAt))}</div><div style="white-space:pre-wrap;line-height:1.7;margin-top:8px;">${escapeHTML((p.text || '').slice(0,120))}${(p.text || '').length>120 ? '…' : ''}</div></div>`).join('')}</div>`;
+      box.innerHTML = `<div class="section-title" style="margin-bottom:10px;"><h3>الأكثر رواجًا 🔥</h3><span class="badge" style="background:var(--warning);">${top.length}</span></div><div class="list-stack">${top.map(p => `<div class="post-card" style="padding:14px; background:linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.02));"><strong>${escapeHTML(p.authorName || '')} ${renderUserAvatar(p.uid, p.authorEmoji)}</strong><div class="muted" style="font-size:12px;margin-top:4px;">${escapeHTML(fmtTime(p.createdAt))}</div><div style="white-space:pre-wrap;line-height:1.7;margin-top:10px;">${escapeHTML((p.text || '').slice(0,120))}${(p.text || '').length>120 ? '…' : ''}</div></div>`).join('')}</div>`;
     }
     
     function renderPosts() {
@@ -1396,13 +1403,12 @@
       });
       if (state.feedMode === 'trending') posts.sort((a,b) => rankScore(b) - rankScore(a));
       $('posts-count').textContent = String(posts.length);
-      list.innerHTML = posts.length ? '' : '<p class="muted center">لا توجد أي منشورات معتمدة في هذا القسم حالياً.</p>';
+      list.innerHTML = posts.length ? '' : '<p class="muted center" style="padding:20px;">لا توجد منشورات في هذا القسم.</p>';
       const ageDays = getAccountAgeDays(state.currentUserData);
       const newAccount = ageDays <= 7;
       $('new-user-banner').classList.toggle('hidden', !newAccount);
       renderTrendingBox(newAccount ? posts : []);
       $('trending-box').classList.toggle('hidden', !newAccount && state.feedMode !== 'trending');
-      
       posts.forEach(post => {
         void recordPostView(post);
         const card = document.createElement('div');
@@ -1410,40 +1416,35 @@
         const isOwnerOrAdmin = canEditDelete(post);
         const reactions = post.reactions || { '😂':0,'♥':0,'😢':0,'👍🏻':0,'😍':0 };
         
+        // استدعاء معلومات الكاتب والألوان
         const authorUser = state.users.find(u => u.id === post.uid) || null;
         const authorIsVip = isVipUser(authorUser);
         
-        let finalNameColor = 'inherit';
-        if (authorUser) {
-          if (authorUser.isNameColorPermanent || (authorIsVip && authorUser.nameColor)) {
-            finalNameColor = authorUser.nameColor || '#b8860b';
-          } else if (authorIsVip) {
-            finalNameColor = '#b8860b';
-          }
-        }
-        
-        let finalPostColor = 'inherit';
-        if (authorUser) {
-          if (authorUser.isPostColorPermanent || (authorIsVip && authorUser.postColor)) {
-            finalPostColor = authorUser.postColor || 'inherit';
-          }
+        let customNameColor = 'inherit';
+        if (authorUser?.nameColor && (authorUser.nameColorIsPermanent || authorIsVip)) {
+            customNameColor = authorUser.nameColor;
+        } else if (authorIsVip) {
+            customNameColor = '#b8860b'; // لون الـ VIP الافتراضي
         }
 
-        const authorNameHtml = `<span style="color:${finalNameColor}; font-weight:${authorIsVip ? '900' : '800'};">${escapeHTML(post.authorName || '')}</span>`;
-        const vipButtonHtml = authorIsVip ? `<button type="button" class="vip-name-btn" data-vip-profile>VIP</button>` : '';
+        let customTextColor = 'inherit';
+        if (authorUser?.textColor && (authorUser.textColorIsPermanent || authorIsVip)) {
+            customTextColor = authorUser.textColor;
+        }
+
+        const authorNameHtml = `<span style="color:${customNameColor};font-weight:${authorIsVip || authorUser?.nameColor ? '900' : '800'}; font-size:16px;">${escapeHTML(post.authorName || '')}</span>`;
+        const vipButtonHtml = authorIsVip ? `<button type="button" class="vip-name-btn" data-vip-profile>VIP الملكي 👑</button>` : '';
         
-        card.innerHTML = `<div class="post-meta"><div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">${authorNameHtml} ${renderUserAvatar(post.uid, post.authorEmoji)}${vipButtonHtml}</div><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.8; color:${finalPostColor};">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">👁️ إجمالي المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="reaction-row"></div><div class="post-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>' : ''}${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>' : ''}${auth.currentUser?.email === adminEmail && !post.approved ? '<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>' : ''}${auth.currentUser?.email === adminEmail ? '<button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>' : ''}</div><div class="comments-area" style="margin-top:12px;"></div>`;
-        
+        card.innerHTML = `<div class="post-meta" style="margin-bottom:14px;"><div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">${authorNameHtml} ${renderUserAvatar(post.uid, post.authorEmoji)}${vipButtonHtml}</div><div class="muted" style="font-size:12.5px; margin-top:2px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.8; color:${customTextColor}; font-size:15.5px; margin-bottom:12px;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:13px; font-weight:bold;">👁️ مشاهدات: ${Number(post.viewsCount || 0)}</div><div class="reaction-row"></div><div class="post-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-comment>تعليق (${Number(post.commentsCount || 0)})</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-report>إبلاغ (${Number(post.reportsCount || 0)})</button>${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button>' : ''}${isOwnerOrAdmin ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button>' : ''}${auth.currentUser?.email === adminEmail && !post.approved ? '<button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button>' : ''}${auth.currentUser?.email === adminEmail ? '<button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button>' : ''}</div><div class="comments-area" style="margin-top:14px; padding-top:10px; border-top:1px solid var(--input-border);"></div>`;
         const reactionRow = card.querySelector('.reaction-row');
         reactionOptions.forEach(r => {
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'reaction';
-          btn.innerHTML = `${r} <span style="font-size:12px;opacity:.85;margin-inline-start:4px;">${Number(reactions[r] || 0)}</span>`;
+          btn.innerHTML = `${r} <span style="font-size:13px;opacity:.9;margin-inline-start:6px;font-weight:bold;">${Number(reactions[r] || 0)}</span>`;
           btn.onclick = () => react(btn, post.id, r);
           reactionRow.appendChild(btn);
         });
-        
         card.querySelector('[data-comment]').onclick = () => addComment(post.id);
         card.querySelector('[data-report]').onclick = () => reportPost(post.id);
         const vipBtn = card.querySelector('[data-vip-profile]'); if (vipBtn) vipBtn.onclick = () => openVipModal(post.uid);
@@ -1451,41 +1452,31 @@
         const delBtn = card.querySelector('[data-del]'); if (delBtn) delBtn.onclick = () => deletePost(post.id);
         const approveBtn = card.querySelector('[data-approve]'); if (approveBtn) approveBtn.onclick = () => approvePost(post.id, true);
         const rejectBtn = card.querySelector('[data-reject]'); if (rejectBtn) rejectBtn.onclick = () => approvePost(post.id, false);
-        
         const commentsArea = card.querySelector('.comments-area');
         const comments = state.commentsMap.get(post.id) || [];
         comments.filter(c => !c.deleted).forEach(c => {
           const row = document.createElement('div');
           row.className = 'comment-card';
           row.style.marginTop = '10px';
+          row.style.padding = '14px';
+          row.style.background = 'var(--soft)';
           const canManage = canEditDelete(c);
-          
-          const commentUser = state.users.find(u => u.id === c.uid) || null;
-          let finalCNameColor = 'inherit';
-          if (commentUser) {
-            if (commentUser.isNameColorPermanent || (isVipUser(commentUser) && commentUser.nameColor)) {
-              finalCNameColor = commentUser.nameColor || '#b8860b';
-            } else if (isVipUser(commentUser)) {
-              finalCNameColor = '#b8860b';
-            }
-          }
-
-          row.innerHTML = `<div class="comment-meta"><div><strong style="color: ${finalCNameColor};">${escapeHTML(c.authorName || '')} ${renderUserAvatar(c.uid, c.authorEmoji)}</strong></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(c.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(c.text || '')}</div><div class="comment-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" data-report-comment>إبلاغ</button>${canManage ? '<button type="button" class="pill-btn tiny-btn" data-edit-comment>تعديل</button>' : ''}${canManage ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del-comment>حذف</button>' : ''}</div>`;
+          row.innerHTML = `<div class="comment-meta"><div><strong style="font-size:14.5px;">${escapeHTML(c.authorName || '')} ${renderUserAvatar(c.uid, c.authorEmoji)}</strong></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(c.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7; font-size:14.5px;">${escapeHTML(c.text || '')}</div><div class="comment-actions"><button type="button" class="pill-btn tiny-btn secondary-btn" style="background:var(--card-bg);" data-report-comment>إبلاغ</button>${canManage ? '<button type="button" class="pill-btn tiny-btn" data-edit-comment>تعديل</button>' : ''}${canManage ? '<button type="button" class="pill-btn tiny-btn danger-btn" data-del-comment>حذف</button>' : ''}</div>`;
           row.querySelector('[data-report-comment]').onclick = () => reportComment(c.id);
           const ec = row.querySelector('[data-edit-comment]'); if (ec) ec.onclick = () => editOwnComment(c.id);
           const dc = row.querySelector('[data-del-comment]'); if (dc) dc.onclick = () => deleteComment(c.id);
           commentsArea.appendChild(row);
         });
+        if (comments.length === 0) commentsArea.style.display = 'none';
         list.appendChild(card);
       });
-      
       $('posts-count-admin').textContent = String(state.posts.filter(p => !p.deleted).length);
       const allPosts = state.posts.filter(p => !p.deleted);
-      $('admin-posts-list').innerHTML = allPosts.length ? '' : '<p class="muted center">لا توجد منشورات حالية في السيرفر.</p>';
+      $('admin-posts-list').innerHTML = allPosts.length ? '' : '<p class="muted center">لا توجد منشورات.</p>';
       allPosts.forEach(post => {
         const row = document.createElement('div');
         row.className = 'post-card';
-        row.innerHTML = `<div class="post-meta"><div><strong>${escapeHTML(post.authorName || '')} ${renderUserAvatar(post.uid, post.authorEmoji)}</strong><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">الحالة: ${post.approved ? 'موافق عليه ومثبت' : 'معلّق قيد المراجعة'} — عدد المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="post-actions"><button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div>`;
+        row.innerHTML = `<div class="post-meta"><div><strong>${escapeHTML(post.authorName || '')} ${renderUserAvatar(post.uid, post.authorEmoji)}</strong><div class="muted" style="font-size:12px;">${escapeHTML(post.sectionName || '')}</div></div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(post.createdAt))}</div></div><div style="white-space:pre-wrap;line-height:1.7;">${escapeHTML(post.text || '')}</div><div class="muted" style="font-size:12px;margin-top:8px;">الحالة: ${post.approved ? 'موافق عليه' : 'معلّق'} — المشاهدات: ${Number(post.viewsCount || 0)}</div><div class="post-actions"><button type="button" class="pill-btn tiny-btn" data-approve>موافقة</button><button type="button" class="pill-btn tiny-btn secondary-btn" data-reject>رفض</button><button type="button" class="pill-btn tiny-btn" data-edit>تعديل</button><button type="button" class="pill-btn tiny-btn danger-btn" data-del>حذف</button></div>`;
         row.querySelector('[data-approve]').onclick = () => approvePost(post.id, true);
         row.querySelector('[data-reject]').onclick = () => approvePost(post.id, false);
         row.querySelector('[data-edit]').onclick = () => editOwnPost(post.id);
@@ -1497,11 +1488,11 @@
     function renderUsers() {
       const list = $('admin-users-list');
       $('users-count').textContent = String(state.users.length);
-      list.innerHTML = state.users.length ? '' : '<p class="muted center">لا يوجد أي مستخدمين حاليين.</p>';
+      list.innerHTML = state.users.length ? '' : '<p class="muted center">لا يوجد مستخدمون.</p>';
       state.users.forEach(u => {
         const row = document.createElement('div');
         row.className = 'user-row';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(u.name || '')} ${renderUserAvatar(u.id, u.emoji)}</div><div class="muted">${escapeHTML(u.email || '')}</div><div class="muted">${escapeHTML(u.phone || '')} — ${escapeHTML(u.country || '')} — ${escapeHTML(String(u.age || ''))}</div><div class="muted">${escapeHTML(u.description || '')}</div><div class="muted">🪙 رصيد الكوينز الحالي: <strong>${Number(u.coins || 0)}</strong></div><div class="split-row"><span class="status-pill ${u.blocked ? 'blocked' : ''}">${u.blocked ? 'محظور' : 'نشط'}</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn secondary-btn" data-add>+ كوينز</button><button type="button" class="pill-btn tiny-btn warning-btn" data-sub>- كوينز</button><button type="button" class="pill-btn tiny-btn ${u.blocked ? 'secondary-btn' : 'danger-btn'}" data-block>${u.blocked ? 'إلغاء الحظر' : 'حظر الحساب'}</button></div></div>`;
+        row.innerHTML = `<div style="font-weight:800;font-size:15px;">${escapeHTML(u.name || '')} ${renderUserAvatar(u.id, u.emoji)}</div><div class="muted">${escapeHTML(u.email || '')}</div><div class="muted">${escapeHTML(u.phone || '')} — ${escapeHTML(u.country || '')} — ${escapeHTML(String(u.age || ''))} عام</div><div class="muted" style="font-size:13px;">${escapeHTML(u.description || '')}</div><div class="muted" style="color:var(--primary); font-weight:bold;">🪙 الكوينز: <strong>${Number(u.coins || 0)}</strong></div><div class="split-row"><span class="status-pill ${u.blocked ? 'blocked' : ''}">${u.blocked ? 'محظور ❌' : 'نشط ✅'}</span><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn secondary-btn" data-add>+ إضافة</button><button type="button" class="pill-btn tiny-btn warning-btn" data-sub>- سحب</button><button type="button" class="pill-btn tiny-btn ${u.blocked ? 'secondary-btn' : 'danger-btn'}" data-block>${u.blocked ? 'إلغاء الحظر' : 'حظر'}</button></div></div>`;
         row.querySelector('[data-add]').onclick = () => openCoinDialog(u.id, u.name || u.email, 1);
         row.querySelector('[data-sub]').onclick = () => openCoinDialog(u.id, u.name || u.email, -1);
         row.querySelector('[data-block]').onclick = () => blockUser(u.id, !u.blocked);
@@ -1520,12 +1511,12 @@
         return bd - ad;
       });
       $('admin-comments-count').textContent = String(comments.length);
-      list.innerHTML = comments.length ? '' : '<p class="muted center">لا توجد تعليقات منشورة حالياً.</p>';
+      list.innerHTML = comments.length ? '' : '<p class="muted center">لا توجد تعليقات.</p>';
       comments.forEach(c => {
         const post = state.posts.find(p => p.id === c.postId);
         const row = document.createElement('div');
         row.className = 'admin-subcard';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(c.authorName || '')} ${renderUserAvatar(c.uid, c.authorEmoji)}</div><div class="muted">${escapeHTML(c.text || '')}</div><div class="muted">على بوست: ${escapeHTML(post?.text ? post.text.slice(0,80) : c.postId || '')}</div><div class="muted">${escapeHTML(fmtTime(c.createdAt))}</div>`;
+        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(c.authorName || '')} ${renderUserAvatar(c.uid, c.authorEmoji)}</div><div class="muted" style="margin-top:6px; color:var(--text);">${escapeHTML(c.text || '')}</div><div class="muted" style="font-size:12px; margin-top:8px;">على بوست: ${escapeHTML(post?.text ? post.text.slice(0,80) : c.postId || '')}</div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(c.createdAt))}</div>`;
         list.appendChild(row);
       });
     }
@@ -1542,12 +1533,12 @@
         return { post, views };
       }).sort((a, b) => (b.views.length - a.views.length));
       $('post-views-count').textContent = String(state.postViews.length);
-      list.innerHTML = groups.length ? '' : '<p class="muted center">لا توجد مشاهدات مسجلة بعد.</p>';
+      list.innerHTML = groups.length ? '' : '<p class="muted center">لا توجد مشاهدات بعد.</p>';
       groups.forEach(({post, views}) => {
         const row = document.createElement('div');
         row.className = 'admin-subcard';
         const viewers = views.slice(0, 8).map(v => `<span class="view-pill">${escapeHTML(v.viewerName || '')} ${renderUserAvatar(v.uid, v.viewerEmoji)}</span>`).join('');
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(post?.text ? post.text.slice(0,110) : 'منشور بدون نص')}</div><div class="muted">إجمالي المشاهدات: ${views.length}</div><div class="viewers-list">${viewers || '<span class="muted">لا يوجد زوار مسجلين بالأسماء</span>'}</div>`;
+        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(post?.text ? post.text.slice(0,110) : 'بوست بدون نص')}</div><div class="muted" style="color:var(--primary); font-weight:bold; margin-top:6px;">إجمالي المشاهدات: ${views.length}</div><div class="viewers-list" style="margin-top:8px;">${viewers || '<span class="muted">لا يوجد أسماء ظاهرة</span>'}</div>`;
         list.appendChild(row);
       });
     }
@@ -1555,18 +1546,18 @@
     function renderCoinRequests() {
       const list = $('admin-requests-list');
       $('coin-requests-count').textContent = String(state.coinRequests.length);
-      list.innerHTML = state.coinRequests.length ? '' : '<p class="muted center">لا توجد طلبات إيداع شحن كوينز حالياً.</p>';
+      list.innerHTML = state.coinRequests.length ? '' : '<p class="muted center">لا توجد طلبات شحن.</p>';
       state.coinRequests.forEach(req => {
         const row = document.createElement('div');
         row.className = 'admin-subcard';
-        row.innerHTML = `<div style="font-weight:800;">${escapeHTML(req.userName || '')}</div><div class="request-meta"><div class="muted">البريد: ${escapeHTML(req.userEmail || req.requestedByEmail || '')}</div><div class="muted">رقم التحويل المالي: ${escapeHTML(req.transferFromNumber || '')}</div><div class="muted">التسعير: ${escapeHTML(req.coinsRate || '')}</div><div class="muted">الحالة: ${escapeHTML(req.status || 'pending')}</div><div class="muted">${escapeHTML(fmtTime(req.createdAt))}</div></div><div class="split-row"><div></div><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn" data-done>تأكيد إضافة الرصيد للمستخدم</button><button type="button" class="pill-btn tiny-btn danger-btn" data-reject>رفض الطلب</button></div></div>`;
+        row.innerHTML = `<div style="font-weight:800; font-size:16px;">${escapeHTML(req.userName || '')}</div><div class="request-meta" style="margin-top:8px;"><div class="muted">البريد: ${escapeHTML(req.userEmail || req.requestedByEmail || '')}</div><div class="muted" style="font-weight:bold; color:var(--text);">رقم التحويل: ${escapeHTML(req.transferFromNumber || '')}</div><div class="muted">التسعير: ${escapeHTML(req.coinsRate || '')}</div><div class="muted">الحالة: ${escapeHTML(req.status || 'pending')}</div><div class="muted" style="font-size:12px;">${escapeHTML(fmtTime(req.createdAt))}</div></div><div class="split-row" style="margin-top:12px;"><div></div><div class="split-row" style="justify-content:flex-end;"><button type="button" class="pill-btn tiny-btn" data-done>تمت الإضافة</button><button type="button" class="pill-btn tiny-btn danger-btn" data-reject>رفض</button></div></div>`;
         row.querySelector('[data-done]').onclick = async () => {
           await updateDoc(doc(db, 'coinRequests', req.id), { status: 'done', reviewedAt: serverTimestamp() });
-          toast('تم معالجة الطلب واعتماده بنجاح.', 'success');
+          toast('تم تحديث حالة الطلب إلى مكتمل.', 'success');
         };
         row.querySelector('[data-reject]').onclick = async () => {
           await updateDoc(doc(db, 'coinRequests', req.id), { status: 'rejected', reviewedAt: serverTimestamp() });
-          toast('تم رفض وإلغاء طلب الشحن المذكور.', 'info');
+          toast('تم رفض الطلب بنجاح.', 'info');
         };
         list.appendChild(row);
       });
@@ -1574,7 +1565,7 @@
 
     function openCoinDialog(userId, userName, sign) {
       const label = sign > 0 ? 'إضافة' : 'سحب';
-      openDialog({ title: `${label} كوينز للمستخدم`, bodyHTML: `<div class="stack"><p class="muted">${label} رصيد لحساب: <strong>${escapeHTML(userName)}</strong></p><input type="number" id="coin-amount" class="small-input" min="1" placeholder="اكتب كمية الكوينز بدقة"></div>`, confirmText: label, cancelText: 'إلغاء', onConfirm: async () => { const amount = Number($('coin-amount').value || 0); if (!amount || amount <= 0) { toast('يرجى كتابة رقم صحيح ومقبول.', 'warning'); return; } await adjustCoins(userId, sign * amount); } });
+      openDialog({ title: `${label} كوينز`, bodyHTML: `<div class="stack"><p style="font-size:15px;">الرجاء تحديد عدد الكوينز لـ ${label} بحساب: <strong style="color:var(--primary);">${escapeHTML(userName)}</strong></p><input type="number" id="coin-amount" class="small-input" min="1" placeholder="اكتب العدد هنا"></div>`, confirmText: label, cancelText: 'إلغاء', onConfirm: async () => { const amount = Number($('coin-amount').value || 0); if (!amount || amount <= 0) { toast('يرجى إدخال رقم صحيح.', 'warning'); return; } await adjustCoins(userId, sign * amount); } });
     }
     
     async function loadCurrentUserData(user) { const snap = await getDoc(doc(db, 'users', user.uid)); return snap.exists() ? { id: user.uid, ...snap.data() } : null; }
@@ -1617,7 +1608,7 @@
     async function handleSignedInUser(user) {
       state.currentUser = user;
       state.currentUserData = await loadCurrentUserData(user);
-      if (state.currentUserData?.blocked) { toast('تم حظر حسابك الحالي من المنصة لمخالفة الشروط.', 'error', 3500); await signOut(auth); return; }
+      if (state.currentUserData?.blocked) { toast('لقد تم حظرك من المنصة.', 'error', 3500); await signOut(auth); return; }
       $('auth-section').classList.add('hidden');
       $('app-section').classList.remove('hidden');
       updateHeaderAvatar();
@@ -1645,12 +1636,6 @@
 
     attachRealtimeListeners();
     $('word-count-info').textContent = '0 / 170 كلمة';
-    window.manageSections = () => showAdminView('sections');
-    window.viewUsers = () => showAdminView('users');
-    window.approvePosts = () => showAdminView('posts');
-    window.manageAllContent = () => showAdminView('reports');
-    window.refreshVipPanel = () => renderVipPanel(state.currentUserData || null);
-
   </script>
 </body>
 </html>
